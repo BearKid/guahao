@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 开启组件扫描Controllers -->
+    <context:component-scan base-package="com.lwb.guahao.webapp.controller"/>
+    <!-- 完成请求和注解POJO的映射 Spring3.1+ -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <!-- annotation的方法映射适配器 Spring3.1+ -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+    <!-- 文件上传处理 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <!-- 内容协商 根据客户端的不同的请求决定不同的view进行响应, 如 /blog/1.json /blog/1.xml -->
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <!-- 设置为true以忽略对Accept Header的支持 -->
+        <property name="ignoreAcceptHeader" value="true" />
+        <!-- 在没有扩展名时即: "/user/1" 时的默认展现形式 -->
+        <property name="defaultContentType" value="text/html" />
+        <!-- 扩展名至mimeType的映射,即 /user.json => application/json -->
+        <property name="mediaTypes">
+            <map>
+                <entry key="json" value="application/json" />
+                <entry key="html" value="text/html"/>
+                <entry key="xml" value="application/xml" />
+            </map>
+        </property>
+    </bean>
+    <bean id="contentNegotiatingViewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+        <property name="viewResolvers">
+            <list>
+                <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+                <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+                    <property name="prefix" value="/WEB-INF/view/jsp/"/>
+                    <property name="suffix" value=".jsp"></property>
+                </bean>
+            </list>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" /><!-- for application/json -->
+            </list>
+        </property>
+    </bean>
+    <mvc:default-servlet-handler/>
+</beans>
