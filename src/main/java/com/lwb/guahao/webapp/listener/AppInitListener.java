@@ -21,8 +21,9 @@ public class AppInitListener implements ServletContextListener{
         sc = servletContextEvent.getServletContext();
         springAppContext = WebApplicationContextUtils.getWebApplicationContext(sc);
         WebPageComponent webPageComponent = (WebPageComponent)springAppContext.getBean("webPageComponent"); //获取网站页面信息组件
-        sc.setAttribute("imgDomain",webPageComponent.getDomain()); //缓存域名
+        sc.setAttribute("imgDomain",webPageComponent.getImgDomain()); //缓存域名
         sc.setAttribute("seoTitle", webPageComponent.getSeoTitle()); //缓存网站title
+        sc.setAttribute("jspIncPath",webPageComponent.getJspIncPath()); //jsp include 文件目录路径
         sc.setAttribute("contextPath",sc.getContextPath()); //应用上下文路径
         System.out.println("========= appliction[guahao] initialization is finished ===========");
     }

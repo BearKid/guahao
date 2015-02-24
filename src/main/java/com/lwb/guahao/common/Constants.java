@@ -8,6 +8,8 @@ package com.lwb.guahao.common;
  * 常量
  */
 public class Constants {
+    //登录信息
+    public static final String LOGIN_HOSPITAL_ID = "login:hospital:id";
     //账户状态
     public static class AccountStatus {
         public static final int NORMAL = 0; //正常

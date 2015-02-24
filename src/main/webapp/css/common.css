@@ -1,0 +1,11 @@
+@charset "utf-8";
+.popup-sidebar{
+    position: absolute;
+    left: 0;
+    z-index: 9;
+    width: 70%;
+    display: none;
+    background-color: white;
+    border: 1px solid #3377ee;
+    height: 100%;
+}

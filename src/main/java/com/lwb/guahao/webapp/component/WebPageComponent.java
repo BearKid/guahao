@@ -9,10 +9,28 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class WebPageComponent {
+    @Value("${jsp.inc.path}")
+    private String jspIncPath; //jsp include 文件目录路径
     @Value("${img.domain}")
     private String imgDomain; //域名
     @Value("${seo.title}")
-    private String seoTitle;
+    private String seoTitle; //页面标题
+
+    public String getImgDomain() {
+        return imgDomain;
+    }
+
+    public void setImgDomain(String imgDomain) {
+        this.imgDomain = imgDomain;
+    }
+
+    public String getJspIncPath() {
+        return jspIncPath;
+    }
+
+    public void setJspIncPath(String jspIncPath) {
+        this.jspIncPath = jspIncPath;
+    }
 
     public String getSeoTitle() {
         return seoTitle;
@@ -20,13 +38,5 @@ public class WebPageComponent {
 
     public void setSeoTitle(String seoTitle) {
         this.seoTitle = seoTitle;
-    }
-
-    public String getDomain() {
-        return imgDomain;
-    }
-
-    public void setDomain(String domain) {
-        this.imgDomain = domain;
     }
 }

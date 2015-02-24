@@ -28,10 +28,10 @@ public class Hospital {
     private String phone; //联系电话
 
     @Column(nullable = false, length = 50)
-    private Integer name; //医院名称
+    private String name; //医院名称
 
     @Column(nullable = false)
-    private Integer area; //医院地址-地区代码 参见ConstantsMap.areaMap
+    private Integer areaCode; //医院地址-地区代码 参见ConstantsMap.areaMap
 
     @Column(nullable = false, length = 255)
     private String address; //医院详细地址
@@ -48,9 +48,9 @@ public class Hospital {
         this.accountStatus = accountStatus;
     }
 
-    public Integer getArea() { return area; }
+    public Integer getAreaCode() { return areaCode; }
 
-    public void setArea(Integer areaCode) { this.area = area; }
+    public void setAreaCode(Integer areaCode) { this.areaCode = this.areaCode; }
 
     public String getAddress() {
         return address;
@@ -100,11 +100,11 @@ public class Hospital {
         this.linkman = linkman;
     }
 
-    public Integer getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Integer name) {
+    public void setName(String name) {
         this.name = name;
     }
 
