@@ -24,8 +24,8 @@ public class Hospital {
     @Column(nullable = false)
     private String email; //联系邮箱
 
-    @Column(nullable = false, length = 11)
-    private String phone; //联系电话
+    @Column(nullable = false, length = 13)
+    private String telPhone; //联系电话
 
     @Column(nullable = false, length = 50)
     private String name; //医院名称
@@ -42,15 +42,13 @@ public class Hospital {
     @Column(nullable = false, length = 2000)
     private String brief; //医院简介
 
-    public Integer getAccountStatus() { return accountStatus; }
+    public Integer getAccountStatus() {
+        return accountStatus;
+    }
 
     public void setAccountStatus(Integer accountStatus) {
         this.accountStatus = accountStatus;
     }
-
-    public Integer getAreaCode() { return areaCode; }
-
-    public void setAreaCode(Integer areaCode) { this.areaCode = this.areaCode; }
 
     public String getAddress() {
         return address;
@@ -58,6 +56,14 @@ public class Hospital {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Integer getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(Integer areaCode) {
+        this.areaCode = areaCode;
     }
 
     public String getBrief() {
@@ -116,11 +122,11 @@ public class Hospital {
         this.password = password;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getTelPhone() {
+        return telPhone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setTelPhone(String telPhone) {
+        this.telPhone = telPhone;
     }
 }

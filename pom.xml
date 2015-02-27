@@ -171,14 +171,19 @@
             <version>1.0.1.Final</version>
         </dependency>
         <dependency>
-            <groupId>c3p0</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.1.2</version>
-        </dependency>
-        <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>3.12.1.GA</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>mchange-commons-java</artifactId>
+            <version>0.2.9</version>
         </dependency>
         <!--
         <dependency>
@@ -236,7 +241,7 @@
               <directory>src/main/resources</directory>
               <includes>
                   <include>*.*</include>
-                  <include>properties/${build.mode}/*.*</include>
+                  <include>profiles/${build.mode}/*.*</include>
               </includes>
               <filtering>true</filtering>
           </resource>

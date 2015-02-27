@@ -8,6 +8,6 @@
     <title>${applicationScope.seoTitle}</title>
 </head>
 <body>
-hospital/index.jsp
+<!-- hospital/index.jsp-->
 </body>
 </html>

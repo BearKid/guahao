@@ -96,7 +96,7 @@ public class ConstantsMap {
         areaMap.put(441800,"清远市");
         areaMap.put(441900,"东莞市");
         areaMap.put(442000,"中山市");
-        areaMap.put(445100,"州市");
+        areaMap.put(445100,"潮州市");
         areaMap.put(445200,"揭阳市");
         areaMap.put(445300,"云浮市");
 

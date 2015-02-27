@@ -46,6 +46,7 @@
         <property name="maxStatements">
             <value>0</value>
         </property>
+        <property name="maxStatementsPerConnection" value="0"></property>
 
         <!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
         <property name="idleConnectionTestPeriod">

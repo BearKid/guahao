@@ -1,5 +1,6 @@
 package com.lwb.guahao.webapp.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lwb.guahao.common.AreaUtil;
 import com.lwb.guahao.common.Constants;
 import com.lwb.guahao.common.FieldValidationUtil;
@@ -7,6 +8,7 @@ import com.lwb.guahao.model.Hospital;
 import com.lwb.guahao.webapp.service.HospitalService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,17 +53,23 @@ public class HospitalAccountController {
                 || !StringUtils.hasText(hospital.getAddress())
                 || !StringUtils.hasText(hospital.getLinkman())
                 || !StringUtils.hasText(hospital.getBrief())
-                || !StringUtils.hasText(hospital.getPhone())
+                || !StringUtils.hasText(hospital.getTelPhone())
                 || !StringUtils.hasText(hospital.getPassword())
                 || !StringUtils.hasText(rePwd)
                 || hospital.getAreaCode() == null
                 ){
-            errMsg.put("unfinished","请将信息填写完整");
-        } else{
-            if(!FieldValidationUtil.isPhone(hospital.getPhone())){
-                errMsg.put("phone","无效号码");
+            String h;
+            try {
+                h = new ObjectMapper().writeValueAsString(hospital);
+            }catch (Exception e){
+                throw new RuntimeException(e);
             }
-            if(!rePwd.equals(hospital.getPhone())){
+            errMsg.put("unfinished","请将信息填写完整" + h);
+        } else{
+            if(!FieldValidationUtil.isTelPhone(hospital.getTelPhone())){
+                errMsg.put("telPhone","无效号码");
+            }
+            if(!rePwd.equals(hospital.getPassword())){
                 errMsg.put("rePwd","重复输入密码错误");
             }
         }

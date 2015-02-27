@@ -5,10 +5,12 @@
     left: 0;
     z-index: 10;
     width: 70%;
+    max-width: 500px;
     height: 100%;
     display: none;
     background-color: white;
     border: 1px solid #e1e1e8;
+    overflow: auto;
 }
 .screen-mask{
     width: 100%;
