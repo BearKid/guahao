@@ -1,29 +1,25 @@
 package com.lwb.guahao.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Lu Weibiao on 2015/2/16 14:07.
  */
 @Entity
-public class Hospital implements Serializable{
+public class Hospital {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 50)
-    private String password; //账户密码-密文
+    private String password; //账户密码
 
     @Column(nullable = false)
-    private Integer accountStatusCode; //账户状态 参见：Constants.AccountStatus
+    private Integer accountStatus; //账户状态 参见：Constants.AccountStatus
 
     @Column(nullable = false)
-    private Date createDate; //账户创建日期时间
-
-    @Column
-    private Date latestLoginDatetime; //最近一次登录的日期时间
+    private Date creDate; //账户创建日期时间
 
     @Column(nullable = false)
     private String email; //联系邮箱
@@ -46,32 +42,12 @@ public class Hospital implements Serializable{
     @Column(nullable = false, length = 2000)
     private String brief; //医院简介
 
-    @Column
-    private Date modifiedDate; //Hospital被修改的日期时间
-
-    public Date getModifiedDate() {
-        return modifiedDate;
+    public Integer getAccountStatus() {
+        return accountStatus;
     }
 
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-
-    public Date getLatestLoginDatetime() {
-        return latestLoginDatetime;
-    }
-
-    public void setLatestLoginDatetime(Date latestLoginDatetime) {
-        this.latestLoginDatetime = latestLoginDatetime;
-    }
-
-    public Integer getAccountStatusCode() {
-        return accountStatusCode;
-    }
-
-
-    public void setAccountStatusCode(Integer accountStatusCode) {
-        this.accountStatusCode = accountStatusCode;
+    public void setAccountStatus(Integer accountStatus) {
+        this.accountStatus = accountStatus;
     }
 
     public String getAddress() {
@@ -98,12 +74,12 @@ public class Hospital implements Serializable{
         this.brief = brief;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreDate() {
+        return creDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreDate(Date creDate) {
+        this.creDate = creDate;
     }
 
     public String getEmail() {

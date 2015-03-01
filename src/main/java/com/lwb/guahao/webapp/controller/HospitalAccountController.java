@@ -1,4 +1,4 @@
-package com.lwb.guahao.webapp.controller.hospital;
+package com.lwb.guahao.webapp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lwb.guahao.common.AreaUtil;
@@ -6,7 +6,6 @@ import com.lwb.guahao.common.Constants;
 import com.lwb.guahao.common.FieldValidationUtil;
 import com.lwb.guahao.model.Hospital;
 import com.lwb.guahao.webapp.service.HospitalService;
-import com.lwb.guahao.webapp.service.LoginService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.NumberUtils;
@@ -26,8 +25,6 @@ import java.util.Map;
  */
 @Controller
 public class HospitalAccountController {
-    @Resource
-    private LoginService loginService;
     @Resource
     private HospitalService hospitalService;
     /**
@@ -61,7 +58,13 @@ public class HospitalAccountController {
                 || !StringUtils.hasText(rePwd)
                 || hospital.getAreaCode() == null
                 ){
-            errMsg.put("unfinished","请将信息填写完整");
+            String h;
+            try {
+                h = new ObjectMapper().writeValueAsString(hospital);
+            }catch (Exception e){
+                throw new RuntimeException(e);
+            }
+            errMsg.put("unfinished","请将信息填写完整" + h);
         } else{
             if(!FieldValidationUtil.isTelPhone(hospital.getTelPhone())){
                 errMsg.put("telPhone","无效号码");
@@ -69,23 +72,14 @@ public class HospitalAccountController {
             if(!rePwd.equals(hospital.getPassword())){
                 errMsg.put("rePwd","重复输入密码错误");
             }
-            if(hospitalService.isRegistered(hospital.getEmail())){
-                errMsg.put("isRegistered","邮箱已经被注册");
-            }
         }
         if(errMsg.isEmpty()){
-            Hospital newHospital = hospitalService.register(hospital);
-            System.out.println(this.getClass() + ":" + hospital.getEmail() + " " + hospital.getPassword());
-            loginService.hospitalLogin(newHospital.getEmail(),hospital.getPassword(),request);//注意传入的密码应该为明文密码
+            Integer id = hospitalService.save(hospital);
+            HttpSession httpSession = request.getSession();
+            httpSession.setAttribute(Constants.LOGIN_HOSPITAL_ID, id);//注册成功后登录
             model.addAttribute("redirectUrl","/hospital/index");
         } else{
             model.addAttribute("errMsg",errMsg);
         }
-    }
-    @RequestMapping(value = "hospital/logout")
-    public String logout(HttpServletRequest request, Model model){
-        loginService.hospitalLogout(request);
-        model.addAttribute("redirectUrl","/");
-        return "redirect:/";
     }
 }

@@ -1,7 +1,5 @@
 package com.lwb.guahao.webapp.vo;
 
-import com.lwb.guahao.model.Doctor;
-
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +13,6 @@ public class DoctorDailyScheduleVo {
     private Integer price; //挂号费
     private Date effectiveDate; //生效日期
     private List<SourceArrangement> sourceArrangementList; //当日各时间段号源分配计划。Json <--> List<DoctorDailyScheduleVo.SourceArrangement>。
-    private Doctor doctor;
 
     /**
      * 某一时间段的号源安排
