@@ -188,11 +188,16 @@
     $("#hospitalRegisterForm").submit(function(){
         $(this).ajaxSubmit({
             success:function(data){
+                alert(data.errMsg);
                 if(data.errMsg){
-                    var errMsg;
-                    if(data.errMsg.unfinished) errMsg = data.errMsg.unfinished;
-                    else if(data.errMsg.telPhone){ errMsg = data.errMsg.telPhone}
-                    else if(data.errMsg.rePwd) {errMsg = data.errMsg.rePwd}
+                    alert(data.errMsg + "\n" + data.errMsg.unfinished + "\n" + data.errMsg.isRegistered);
+                    var errMsg ="";
+                    if(data.errMsg.unfinished) errMsg += data.errMsg.unfinished+"\n";
+                    else{
+                        if(data.errMsg.telPhone){ errMsg += data.errMsg.telPhone + "\n";}
+                        if(data.errMsg.rePwd) {errMsg += data.errMsg.rePwd +"\n";}
+                        if(data.errMsg.isRegistered) {errMsg += data.errMsg.isRegistered +"\n";}
+                    }
                     alert(errMsg);
                 } else{
                     window.location = data.redirectUrl;

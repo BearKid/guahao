@@ -11,6 +11,14 @@
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
     <!-- annotation的方法映射适配器 Spring3.1+ -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+    
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/hospital/**"/>
+            <ref bean="hospitalLoginInterceptor"/>
+            <!--<bean class="com.lwb.guahao.webapp.interceptor.HospitalLoginInterceptor" id="hospitalLoginInterceptor"/>-->
+        </mvc:interceptor>
+    </mvc:interceptors>
     <!-- 文件上传处理 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="UTF-8"/>
