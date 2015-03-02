@@ -1,7 +1,9 @@
 package com.lwb.guahao.webapp.service;
 
 import com.lwb.guahao.common.SecurityUtil;
+import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.Hospital;
+import com.lwb.guahao.model.PerUser;
 import com.lwb.guahao.webapp.dao.HospitalDao;
 import com.lwb.guahao.webapp.dao.HttpSessionDao;
 import org.springframework.stereotype.Service;
@@ -45,8 +47,28 @@ public class LoginService {
      * @return
      */
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Hospital getLoginedHospital(HttpServletRequest request){
+    public Hospital getCurHospital(HttpServletRequest request){
         return httpSessionDao.getHospital(request);
+    }
+
+    /**
+     * 读取当前已登录个人账号
+     * @param request
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public PerUser getCurPerUser(HttpServletRequest request) {
+        return httpSessionDao.getPerUser(request);
+    }
+
+    /**
+     * 读取当前已登录医生账号
+     * @param request
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Doctor getCurDoctor(HttpServletRequest request) {
+        return httpSessionDao.getDoctor(request);
     }
 
     /**
@@ -67,4 +89,5 @@ public class LoginService {
     public Hospital hospitalLogout(HttpServletRequest request) {
         return httpSessionDao.deleteHospital(request);
     }
+
 }

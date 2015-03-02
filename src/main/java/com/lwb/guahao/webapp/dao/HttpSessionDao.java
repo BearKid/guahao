@@ -5,7 +5,9 @@ package com.lwb.guahao.webapp.dao;
  * Date: 2015/2/28 21:30
  */
 
+import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.Hospital;
+import com.lwb.guahao.model.PerUser;
 import org.springframework.stereotype.Repository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,8 @@ import javax.servlet.http.HttpSession;
 @Repository
 public class HttpSessionDao {
     private final static String HOSPITAL_KEY = "hospital:key";
+    private static final String PER_USER_KEY = "perUser:key";
+    private static final String DOCTOR_KEY = "doctor:key";
 
     /**
      * 缓存医院账号登录信息
@@ -41,6 +45,24 @@ public class HttpSessionDao {
     }
 
     /**
+     * 从缓存区取出个人账号登录信息
+     * @param request
+     * @return
+     */
+    public PerUser getPerUser(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        return (PerUser) session.getAttribute(PER_USER_KEY);
+    }
+    /**
+     * 从缓存区取出医生账号登录信息
+     * @param request
+     * @return
+     */
+    public Doctor getDoctor(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        return (Doctor) session.getAttribute(DOCTOR_KEY);
+    }
+    /**
      * 从缓存区删除医院账号信息
      * @param request
      * @return
@@ -51,4 +73,5 @@ public class HttpSessionDao {
         session.removeAttribute(HOSPITAL_KEY);
         return hospital;
     }
+
 }

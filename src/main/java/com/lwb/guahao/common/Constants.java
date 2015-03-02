@@ -8,6 +8,12 @@ package com.lwb.guahao.common;
  * 常量
  */
 public class Constants {
+    public static final class AccountType {
+        public static final int PER_USER = 0;
+        public static final int HOSPITAL = 1;
+        public static final int DOCTOR = 2;
+        public static final int UNKNOWN = -1;
+    }
     //登录信息
     public static final String LOGIN_HOSPITAL_ID = "login:hospital:id";
     //账户状态

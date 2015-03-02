@@ -25,7 +25,7 @@ public class HospitalController {
 
     @RequestMapping(value = "index")
     public String index(HttpServletRequest request, Model model){
-        Hospital hospital = loginService.getLoginedHospital(request);
+        Hospital hospital = loginService.getCurHospital(request);
         HospitalVo hospitalVo = HospitalVo.parse(hospital);
         model.addAttribute("hospital",hospitalVo);
         return "/hospital/index";
