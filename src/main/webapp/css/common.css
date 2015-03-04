@@ -1,11 +1,13 @@
 @charset "utf-8";
-*{
-    font-family: "微软雅黑","宋体";
+* {
+    font-family: "微软雅黑", "宋体";
 }
-body{
+
+body {
     padding-top: 50px;
 }
-.sidebar{
+
+.sidebar {
     position: fixed;
     top: 51px;
     bottom: 0;
@@ -18,11 +20,12 @@ body{
     background-color: #f5f5f5;
     border-right: 1px solid #eee;
 }
-.popup-sidebar{
+
+.popup-sidebar {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 10;
+    z-index: 2001;
     width: 70%;
     max-width: 500px;
     height: 100%;
@@ -31,18 +34,20 @@ body{
     border: 1px solid #e1e1e8;
     overflow: auto;
 }
-.screen-mask{
+
+.screen-mask {
     width: 100%;
     height: 100%;
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9; /* 基准index为9*/
+    z-index: 2000; /* 基准index为2000*/
     background-color: #000000;
     opacity: 0.5;
     display: none;
 }
-button.btn-close{
+
+button.btn-close {
     position: absolute;
     top: 0;
     right: 0;
@@ -55,19 +60,35 @@ button.btn-close{
     border: 1px solid #e1e1e8;
     border-radius: 0 4px 0 4px;
 }
-.navbar-brand-static{
+
+.navbar-brand-static {
     float: left;
     padding: 15px 0px;
     font-size: 18px;
     line-height: 20px;
-    color:#999;
+    color: #999;
 }
+
 .nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
     color: #fff;
     background-color: #428bca;
 }
-.main{
+
+.main {
     /*padding: 5px 25px;*/
     padding-right: 40px;
     padding-left: 40px;
+}
+
+#loginFormsWrapper {
+    display: block;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 0px 0px 5px 5px;
+}
+#loginFormsWrapper form .form-control{
+    margin-top: 15px;
+}
+#loginFormsWrapper form .btn[type="submit"]{
+    margin-top: 15px;
 }

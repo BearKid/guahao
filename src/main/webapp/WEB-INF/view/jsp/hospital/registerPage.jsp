@@ -33,7 +33,6 @@
 <!-- hospital/registerPage.jsp -->
 <jsp:include page="/inc/headerBar?accountType=1"/>
 <div class="container">
-    <div id="screenMask" class="screen-mask"></div>
     <div class="container">
         <div id="areasPanel" class="popup-sidebar">
             <div style="position:relative;">
