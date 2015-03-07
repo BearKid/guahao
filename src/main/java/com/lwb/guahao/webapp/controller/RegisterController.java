@@ -73,7 +73,7 @@ public class RegisterController {
         if(errMsg.isEmpty()){
             Hospital newHospital = hospitalService.register(hospital);
             System.out.println(this.getClass() + ":" + hospital.getEmail() + " " + hospital.getPassword());
-            loginService.hospitalLogin(newHospital.getEmail(),hospital.getPassword(),request);//注意传入的密码应该为明文密码
+            loginService.hospitalLogin(request,newHospital.getEmail(),hospital.getPassword());//注意传入的密码应该为明文密码
             model.addAttribute("redirectUrl","/hospital/index");
         } else{
             model.addAttribute("errMsg",errMsg);

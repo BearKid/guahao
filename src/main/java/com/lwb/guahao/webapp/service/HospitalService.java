@@ -27,13 +27,13 @@ public class HospitalService {
      * @return
      */
     public Hospital register(Hospital hospital){
-        Hospital newHospital = new Hospital();
-        BeanUtils.copyProperties(hospital,newHospital);//防止传入的hospital被修改
-        newHospital.setPassword(SecurityUtil.password(hospital.getPassword()));
-        newHospital.setCreateDate(new Date());
-        newHospital.setAccountStatusCode(Constants.AccountStatus.UN_VERIFIED);
-        hospitalDao.save(newHospital);
-        return newHospital;
+        Hospital newUser = new Hospital();
+        BeanUtils.copyProperties(hospital,newUser);//防止传入的hospital被修改
+        newUser.setPassword(SecurityUtil.password(hospital.getPassword()));
+        newUser.setCreateDate(new Date());
+        newUser.setAccountStatusCode(Constants.AccountStatus.UN_VERIFIED);
+        hospitalDao.save(newUser);
+        return newUser;
     }
 
     /**

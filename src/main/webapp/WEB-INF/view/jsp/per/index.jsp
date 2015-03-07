@@ -12,10 +12,10 @@
     <style>
     </style>
 </head>
-<%--<!-- hospital/index.jsp-->--%>
+<%--<!-- per/index.jsp-->--%>
 <body>
 <jsp:include page="/inc/headerBar">
-    <jsp:param name="accountType" value="<%=Constants.AccountType.HOSPITAL%>"/>
+    <jsp:param name="accountType" value="<%=Constants.AccountType.PER_USER%>"/>
 </jsp:include>
 
 <div class="container-fluid">
@@ -23,50 +23,57 @@
         <div class="col-xs-4 col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="#">基本信息</a></li>
-                <li><a href="#">医生管理</a></li>
+                <li><a href="#">预约管理</a></li>
                 <li><a href="#">账号安全</a></li>
             </ul>
         </div>
         <div class="col-xs-8 col-xs-offset-4 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">基本信息</h1>
             <dl class="dl-horizontal">
-                <dt>医院名称</dt>
-                <dd>${hospital.name}</dd>
+                <dt>姓名</dt>
+                <dd>${perUser.name}</dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>性别</dt>
+                <dd>${perUser.sex}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>年龄</dt>
+                <dd>${perUser.age}</dd>
             </dl>
             <dl class="dl-horizontal">
                 <dt>所在地区</dt>
-                <dd>${hospital.areaName}</dd>
+                <dd>${perUser.areaName}</dd>
             </dl>
             <dl class="dl-horizontal">
-                <dt>医院地址</dt>
-                <dd>${hospital.address}</dd>
+                <dt>手机号</dt>
+                <dd>${perUser.mobilePhone}</dd>
             </dl>
             <dl class="dl-horizontal">
-                <dt>医院联系人</dt>
-                <dd>${hospital.linkman}</dd>
+                <dt>身份证号码</dt>
+                <dd>${perUser.idCard}</dd>
             </dl>
             <dl class="dl-horizontal">
-                <dt>联系固定电话</dt>
-                <dd>${hospital.telPhone}</dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>医院简介</dt>
-                <dd>${hospital.brief}</dd>
+                <dt>绑定邮箱</dt>
+                <dd>${perUser.email}</dd>
             </dl>
 
             <h1 class="page-header">账号信息</h1>
             <dl class="dl-horizontal">
                 <dt>账号状态</dt>
-                <dd>${hospital.accountStatusName}</dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>账号创建日期</dt>
-                <dd>${hospital.createDate}</dd>
+                <dd>${perUser.accountStatusName}</dd>
             </dl>
             <dl class="dl-horizontal">
                 <dt>最近登录时间</dt>
-                <dd>${hospital.latestLoginDate}</dd>
+                <dd>${perUser.latestLoginDate}</dd>
             </dl>
+
+            <dl class="dl-horizontal">
+                <dt>账号创建时间</dt>
+                <dd>${perUser.createDate}</dd>
+            </dl>
+
         </div>
     </div>
 </div>

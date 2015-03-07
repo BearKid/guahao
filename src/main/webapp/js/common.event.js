@@ -21,8 +21,12 @@ $(function(){
     $("#loginFormsWrapper form").submit(function () {
         $(this).ajaxSubmit({
             success: function (data) {
-                if (data.warnMsg) alert(data.warnMsg);
-                else window.location = data.redirectUrl;
+                if (data.errMsg){
+                    var msg = "";
+                    if(data.errMsg.accountName) msg += data.errMsg.accountName + "\n";
+                    if(data.errMsg.password) msg += data.errMsg.password + "\n";
+                    if(data.errMsg.login) msg += data.errMsg.login + "\n";
+                } else window.location = data.redirectUrl;
             }
         });
         return false;

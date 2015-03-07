@@ -1,10 +1,10 @@
 package com.lwb.guahao.webapp.controller.inc;
 
 import com.lwb.guahao.common.Constants;
-import com.lwb.guahao.model.Doctor;
-import com.lwb.guahao.model.Hospital;
-import com.lwb.guahao.model.PerUser;
 import com.lwb.guahao.webapp.service.LoginService;
+import com.lwb.guahao.webapp.vo.LoginedDoctor;
+import com.lwb.guahao.webapp.vo.LoginedHospital;
+import com.lwb.guahao.webapp.vo.LoginedPerUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -25,30 +25,31 @@ import java.util.Map;
 public class CommonIncController {
     @Resource
     private LoginService loginService;
+
     @RequestMapping(value = "/inc/headerBar")
-    public String headerBar(HttpServletRequest request, Model model, String accountType){
+    public String headerBar(HttpServletRequest request, Model model, String accountType) {
         Map accountInfo = null;
-        if(!StringUtils.isEmpty(accountType)){
+        if (!StringUtils.isEmpty(accountType)) {
             accountInfo = new HashMap();
             int accountTypeCode = Integer.parseInt(accountType);
-            switch (accountTypeCode){
-                case Constants.AccountType.UNKNOWN :{//未知类型，自动检测
-                    PerUser perUser = loginService.getCurPerUser(request);
-                    if(perUser != null) {
+            switch (accountTypeCode) {
+                case Constants.AccountType.UNKNOWN: {//未知类型，自动检测
+                    LoginedPerUser perUser = loginService.getLoginedPerUser(request);
+                    if (perUser != null) {
                         accountInfo.put("accountTypeName", "个人");
                         accountInfo.put("name", perUser.getName());
                         accountInfo.put("accountContextPath", "/per");
                         break;
                     }
-                    Doctor doctor = loginService.getCurDoctor(request);
-                    if(doctor != null) {
+                    LoginedDoctor doctor = loginService.getLoginedDoctor(request);
+                    if (doctor != null) {
                         accountInfo.put("accountTypeName", "医生");
                         accountInfo.put("name", doctor.getName());
                         accountInfo.put("accountContextPath", "/doctor");
                         break;
                     }
-                    Hospital hospital = loginService.getCurHospital(request);
-                    if(hospital != null) {
+                    LoginedHospital hospital = loginService.getLoginedHospital(request);
+                    if (hospital != null) {
                         accountInfo.put("accountTypeName", "医院");
                         accountInfo.put("name", hospital.getName());
                         accountInfo.put("accountContextPath", "/hospital");
@@ -56,18 +57,18 @@ public class CommonIncController {
                     }
                     break;
                 }
-                case Constants.AccountType.PER_USER :{
-                    PerUser perUser = loginService.getCurPerUser(request);
-                    if(perUser != null) {
+                case Constants.AccountType.PER_USER: {
+                    LoginedPerUser perUser = loginService.getLoginedPerUser(request);
+                    if (perUser != null) {
                         accountInfo.put("accountTypeName", "个人");
                         accountInfo.put("name", perUser.getName());
                         accountInfo.put("accountContextPath", "/per");
                     }
                     break;
                 }
-                case Constants.AccountType.DOCTOR :{
-                    Doctor doctor = loginService.getCurDoctor(request);
-                    if(doctor != null) {
+                case Constants.AccountType.DOCTOR: {
+                    LoginedDoctor doctor = loginService.getLoginedDoctor(request);
+                    if (doctor != null) {
                         accountInfo.put("accountTypeName", "医生");
                         accountInfo.put("name", doctor.getName());
                         accountInfo.put("accountContextPath", "/doctor");
@@ -75,18 +76,19 @@ public class CommonIncController {
                     break;
                 }
                 case Constants.AccountType.HOSPITAL: {
-                    Hospital hospital = loginService.getCurHospital(request);
-                    if(hospital != null) {
+                    LoginedHospital hospital = loginService.getLoginedHospital(request);
+                    if (hospital != null) {
                         accountInfo.put("accountTypeName", "医院");
                         accountInfo.put("name", hospital.getName());
                         accountInfo.put("accountContextPath", "/hospital");
                     }
                     break;
                 }
-                default:break;
+                default:
+                    break;
             }
         }
-        model.addAttribute("accountInfo",accountInfo);
+        model.addAttribute("accountInfo", accountInfo);
         return "/../jsp-inc/header";
     }
 }

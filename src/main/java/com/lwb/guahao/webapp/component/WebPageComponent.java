@@ -9,12 +9,21 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class WebPageComponent {
+    private String appContextPath;
     @Value("${jsp.inc.path}")
     private String jspIncPath; //jsp include 文件目录路径
     @Value("${img.domain}")
     private String imgDomain; //域名
     @Value("${seo.title}")
     private String seoTitle; //页面标题
+
+    public String getAppContextPath() {
+        return appContextPath;
+    }
+
+    public void setAppContextPath(String appContextPath) {
+        this.appContextPath = appContextPath;
+    }
 
     public String getImgDomain() {
         return imgDomain;

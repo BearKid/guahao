@@ -2,32 +2,29 @@ package com.lwb.guahao.webapp.service;
 
 import com.lwb.guahao.common.Constants;
 import com.lwb.guahao.common.SecurityUtil;
-import com.lwb.guahao.model.PerUser;
-import com.lwb.guahao.webapp.dao.PerUserDao;
+import com.lwb.guahao.model.Doctor;
+import com.lwb.guahao.webapp.dao.DoctorDao;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
 
 /**
- * Created by Lu Weibiao on 2015/2/14 22:02.
+ * User: Lu Weibiao
+ * Date: 2015/3/8 0:20
  */
 @Service
-@Transactional
-public class PerUserService {
+public class DoctorService {
     @Resource
-    private PerUserDao perUserDao;
-
-    @Transactional
-    public PerUser register(PerUser user){
-        PerUser newUser = new PerUser();
-        BeanUtils.copyProperties(user, newUser);
+    private DoctorDao doctorDao;
+    public Doctor register(Doctor doctor){
+        Doctor newUser = new Doctor();
+        BeanUtils.copyProperties(doctor, newUser);
         newUser.setPassword(SecurityUtil.password(newUser.getPassword()));
         newUser.setAccountStatusCode(Constants.AccountStatus.UN_VERIFIED);
         newUser.setCreateDate(new Date());
-        perUserDao.save(newUser);
+        doctorDao.save(newUser);
         return newUser;
     }
 }

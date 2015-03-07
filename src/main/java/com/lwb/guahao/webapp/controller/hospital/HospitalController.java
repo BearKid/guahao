@@ -4,6 +4,7 @@ import com.lwb.guahao.model.Hospital;
 import com.lwb.guahao.webapp.service.HospitalService;
 import com.lwb.guahao.webapp.service.LoginService;
 import com.lwb.guahao.webapp.vo.HospitalVo;
+import com.lwb.guahao.webapp.vo.LoginedHospital;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +26,8 @@ public class HospitalController {
 
     @RequestMapping(value = "index")
     public String index(HttpServletRequest request, Model model){
-        Hospital hospital = loginService.getCurHospital(request);
-        HospitalVo hospitalVo = HospitalVo.parse(hospital);
-        model.addAttribute("hospital",hospitalVo);
+        LoginedHospital loginedHospital = loginService.getLoginedHospital(request);
+        model.addAttribute("hospital",loginedHospital);
         return "/hospital/index";
     }
 }

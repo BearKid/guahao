@@ -1,56 +1,61 @@
-package com.lwb.guahao.model;
+package com.lwb.guahao.webapp.vo;
 
-import javax.persistence.*;
-import java.io.Serializable;
+/**
+ * User: Lu Weibiao
+ * Date: 2015/3/7 18:25
+ */
+
+import com.lwb.guahao.common.ConstantsMap;
+import com.lwb.guahao.model.Hospital;
+import org.springframework.beans.BeanUtils;
+
 import java.util.Date;
 
 /**
- * Created by Lu Weibiao on 2015/2/16 14:07.
+ * 登录态的医生账号相关信息
  */
-@Entity
-public class Hospital implements Serializable{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class LoginedHospital {
     private Integer id;
 
-    @Column(nullable = false, length = 50)
     private String password; //账户密码-密文
 
-    @Column(nullable = false)
-    private Integer accountStatusCode; //账户状态 参见：Constants.AccountStatus
+    private Integer accountStatusCode; //账户状态-编码 参见：Constants.AccountStatus
 
-    @Column(nullable = false)
     private Date createDate; //账户创建日期时间
 
-    @Column
     private Date latestLoginDate; //最近一次登录的日期时间
 
-    @Column(nullable = false)
     private String email; //联系邮箱
 
-    @Column(nullable = false, length = 13)
     private String telPhone; //联系电话
 
-    @Column(nullable = false, length = 50)
     private String name; //医院名称
 
-    @Column(nullable = false)
     private Integer areaCode; //医院地址-地区代码 参见ConstantsMap.areaMap
 
-    @Column(nullable = false, length = 255)
     private String address; //医院详细地址
 
-    @Column(nullable = false, length = 10)
     private String linkman; //联系人名称
 
-    @Column(nullable = false, length = 2000)
     private String brief; //医院简介
 
-    @Column(length = 1000)
     private String avatarPath; //头像物理存储路径
 
-    @Column
     private Date modifiedDate; //Hospital被修改的日期时间
+
+    /*----------相较于Hospital 新增的字段-----------*/
+    private String accountStatusName; //账户状态-名称 参见：Constants.AccountStatus
+
+    private String areaName; //医院地址-名称 参见ConstantsMap.areaMap
+
+    public static LoginedHospital parse(Hospital hospital){
+        LoginedHospital loginedHospital = new LoginedHospital();
+        BeanUtils.copyProperties(hospital,loginedHospital);
+
+        loginedHospital.setAccountStatusName(ConstantsMap.accountStatusMap.get(loginedHospital.getAccountStatusCode()));
+        loginedHospital.setAreaName(ConstantsMap.areaMap.get(loginedHospital.getAreaCode()));
+        return loginedHospital;
+    }
 
     public Integer getAccountStatusCode() {
         return accountStatusCode;
@@ -58,6 +63,14 @@ public class Hospital implements Serializable{
 
     public void setAccountStatusCode(Integer accountStatusCode) {
         this.accountStatusCode = accountStatusCode;
+    }
+
+    public String getAccountStatusName() {
+        return accountStatusName;
+    }
+
+    public void setAccountStatusName(String accountStatusName) {
+        this.accountStatusName = accountStatusName;
     }
 
     public String getAddress() {
@@ -74,6 +87,14 @@ public class Hospital implements Serializable{
 
     public void setAreaCode(Integer areaCode) {
         this.areaCode = areaCode;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 
     public String getAvatarPath() {

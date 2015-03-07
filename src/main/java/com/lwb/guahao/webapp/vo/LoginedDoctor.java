@@ -1,76 +1,69 @@
-package com.lwb.guahao.model;
+package com.lwb.guahao.webapp.vo;
 
-/**
- * Created by Lu Weibiao on 2015/2/16 15:47.
- */
+import com.lwb.guahao.common.ConstantsMap;
+import com.lwb.guahao.model.Doctor;
+import com.lwb.guahao.model.DoctorDailySchedule;
+import com.lwb.guahao.model.Hospital;
+import org.springframework.beans.BeanUtils;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
- * 医生
+ * User: Lu Weibiao
+ * Date: 2015/3/7 18:53
  */
-@Entity
-public class Doctor implements Serializable{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+/**
+ * 登录态的医生账号相关信息
+ */
+public class LoginedDoctor {
     private Integer id;
 
-    @Column(nullable = false, length = 255)
     private String accountName; //用于登陆的账户名
 
-    @Column(nullable = false, length = 50)
     private String password; //账户密码
 
-    @Column(nullable = false)
     private Integer accountStatusCode; //账户状态 参见：Constants.AccountStatus
 
-    @Column(nullable = false)
     private Date createDate; //账户创建日期时间
 
-    @Column(nullable = false, length = 10)
     private String name; //医生名称
 
-    @Column
     private Integer age; //年龄
 
-    @Column(nullable = false, length = 1)
     private String sex; //性别
 
-    @Column(length = 50)
     private String title; //医生头衔/级别：医师、主治医生、教授等等。
 
-    @Column
     private Double price; //默认挂号费
 
-    @Column(length = 30)
     private String goodAtTags; //擅长标签列表
 
-    @Column(length = 1000)
     private String brief; //医生简介
 
-    @Column(length = 1000)
     private String avatarPath; //头像物理存储路径
 
-    @Column(nullable = false)
-    private Integer deptClassCode; //科室类目编号 参见：ConstantsMap.deptClassMap
+    private Integer deptClassCode; //科室类目-编号 参见：ConstantsMap.deptClassMap
 
-    @Column
     private Date latestLoginDate; //最近一次登录的日期时间
 
-    @Column
     private Date modifiedDate; //被修改的日期时间
 
-    @Column(nullable = false)
     private Integer hospitalId; //医院id
-    @ManyToOne
-    @JoinColumn(name = "hosptital_id",nullable = false)
-    private Hospital hospital; //医院
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "doctor")
-//    private List<DoctorDailySchedule> doctorDailyScheduleList; //每日号源安排
+    /*-------相较于Doctor 新增的字段----------*/
+    private String deptClassName; //科室类目-名称 参见：ConstantsMap.deptClassMap
+    private String accountStatusName; //账户状态-名称 参见：Constants.AccountStatus
 
+    public static LoginedDoctor parse(Doctor doctor){
+        LoginedDoctor loginedDoctor = new LoginedDoctor();
+        BeanUtils.copyProperties(doctor,loginedDoctor);
+
+        loginedDoctor.setDeptClassName(ConstantsMap.deptClassMap.get(loginedDoctor.getDeptClassCode()));
+        loginedDoctor.setAccountStatusName(ConstantsMap.accountStatusMap.get(loginedDoctor.getAccountStatusCode()));
+        return loginedDoctor;
+    }
 
     public Integer getAccountStatusCode() {
         return accountStatusCode;
@@ -80,12 +73,44 @@ public class Doctor implements Serializable{
         this.accountStatusCode = accountStatusCode;
     }
 
+    public String getAccountStatusName() {
+        return accountStatusName;
+    }
+
+    public void setAccountStatusName(String accountStatusName) {
+        this.accountStatusName = accountStatusName;
+    }
+
     public Date getCreateDate() {
         return createDate;
     }
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Date getLatestLoginDate() {
+        return latestLoginDate;
+    }
+
+    public void setLatestLoginDate(Date latestLoginDate) {
+        this.latestLoginDate = latestLoginDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public String getDeptClassName() {
+        return deptClassName;
+    }
+
+    public void setDeptClassName(String deptClassName) {
+        this.deptClassName = deptClassName;
     }
 
     public String getAccountName() {
@@ -136,14 +161,6 @@ public class Doctor implements Serializable{
         this.goodAtTags = goodAtTags;
     }
 
-    public Hospital getHospital() {
-        return hospital;
-    }
-
-    public void setHospital(Hospital hospital) {
-        this.hospital = hospital;
-    }
-
     public Integer getHospitalId() {
         return hospitalId;
     }
@@ -158,22 +175,6 @@ public class Doctor implements Serializable{
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Date getLatestLoginDate() {
-        return latestLoginDate;
-    }
-
-    public void setLatestLoginDate(Date latestLoginDate) {
-        this.latestLoginDate = latestLoginDate;
-    }
-
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
     }
 
     public String getName() {

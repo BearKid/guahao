@@ -7,7 +7,9 @@ package com.lwb.guahao.webapp.dao;
 
 import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.Hospital;
-import com.lwb.guahao.model.PerUser;
+import com.lwb.guahao.webapp.vo.LoginedDoctor;
+import com.lwb.guahao.webapp.vo.LoginedHospital;
+import com.lwb.guahao.webapp.vo.LoginedPerUser;
 import org.springframework.stereotype.Repository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,60 +20,103 @@ import javax.servlet.http.HttpSession;
  */
 @Repository
 public class HttpSessionDao {
-    private final static String HOSPITAL_KEY = "hospital:key";
-    private static final String PER_USER_KEY = "perUser:key";
-    private static final String DOCTOR_KEY = "doctor:key";
+    private final static String LOGINED_HOSPITAL_KEY = "loginedHospital:key";
+    private static final String LOGINED_DOCTOR_KEY = "loginedDoctor:key";
+    private static final String LOGINED_PER_USER_KEY = "loginedPerUser:key";
 
     /**
-     * 缓存医院账号登录信息
-     * Session作为内存缓存区
-     *
-     * @param request
-     * @param hospital
-     */
-    public void saveHospital(HttpServletRequest request, Hospital hospital) {
-        HttpSession session = request.getSession();
-        session.setAttribute(HOSPITAL_KEY, hospital);
-    }
-
-    /**
-     * 从缓存区取出医院账号登录信息
+     * 缓存登录态的个人账号信息
      * @param request
      * @return
      */
-    public Hospital getHospital(HttpServletRequest request) {
+    public void saveLoginedPerUser(HttpServletRequest request,LoginedPerUser loginedPerUser) {
         HttpSession session = request.getSession();
-        return (Hospital) session.getAttribute(HOSPITAL_KEY);
+        session.setAttribute(LOGINED_PER_USER_KEY, loginedPerUser);
     }
 
     /**
-     * 从缓存区取出个人账号登录信息
+     * 缓存登录态的医院账号登录信息
      * @param request
-     * @return
+     * @param loginedHospital
      */
-    public PerUser getPerUser(HttpServletRequest request) {
+    public void saveLoginedHospital(HttpServletRequest request, LoginedHospital loginedHospital) {
         HttpSession session = request.getSession();
-        return (PerUser) session.getAttribute(PER_USER_KEY);
-    }
-    /**
-     * 从缓存区取出医生账号登录信息
-     * @param request
-     * @return
-     */
-    public Doctor getDoctor(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        return (Doctor) session.getAttribute(DOCTOR_KEY);
-    }
-    /**
-     * 从缓存区删除医院账号信息
-     * @param request
-     * @return
-     */
-    public Hospital deleteHospital(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Hospital hospital = (Hospital)session.getAttribute(HOSPITAL_KEY);
-        session.removeAttribute(HOSPITAL_KEY);
-        return hospital;
+        session.setAttribute(LOGINED_HOSPITAL_KEY, loginedHospital);
     }
 
+    /**
+     * 缓存登录态的医生账号登录信息
+     * @param request
+     * @param loginedDoctor
+     */
+    public void saveLoginedDocotr(HttpServletRequest request, LoginedDoctor loginedDoctor) {
+        HttpSession session = request.getSession();
+        session.setAttribute(LOGINED_DOCTOR_KEY, loginedDoctor);
+    }
+
+    /**
+     * 从缓存区取出登录态的医院账号登录信息
+     * @param request
+     * @return
+     */
+    public LoginedHospital getLoginedHospital(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        return (LoginedHospital) session.getAttribute(LOGINED_HOSPITAL_KEY);
+    }
+
+    /**
+     * 从缓存区取出登录态的个人账号登录信息
+     * @param request
+     * @return
+     */
+    public LoginedPerUser getLoginedPerUser(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        return (LoginedPerUser) session.getAttribute(LOGINED_PER_USER_KEY);
+    }
+
+    /**
+     * 从缓存区取出登录态医生账号登录信息
+     * @param request
+     * @return
+     */
+    public LoginedDoctor getLoginedDoctor(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        return (LoginedDoctor) session.getAttribute(LOGINED_DOCTOR_KEY);
+    }
+
+    /**
+     * 从缓存区删除登录态的医院账号信息
+     * @param request
+     * @return
+     */
+    public LoginedHospital deleteHospital(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginedHospital loginedHospital = (LoginedHospital) session.getAttribute(LOGINED_HOSPITAL_KEY);
+        session.removeAttribute(LOGINED_HOSPITAL_KEY);
+        return loginedHospital;
+    }
+
+    /**
+     * 从缓存区删除登录态的个人账号信息
+     * @param request
+     * @return
+     */
+    public LoginedPerUser deleteLoginedPerUser(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginedPerUser loginedPerUser = (LoginedPerUser)session.getAttribute(LOGINED_PER_USER_KEY);
+        session.removeAttribute(LOGINED_PER_USER_KEY);
+        return loginedPerUser;
+    }
+
+    /**
+     * 从缓存区删除登录态的医生账号信息
+     * @param request
+     * @return
+     */
+    public LoginedDoctor deleteLoginedDoctor(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginedDoctor loginedDoctor = (LoginedDoctor)session.getAttribute(LOGINED_DOCTOR_KEY);
+        session.removeAttribute(LOGINED_DOCTOR_KEY);
+        return loginedDoctor;
+    }
 }

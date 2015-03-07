@@ -11,9 +11,7 @@ import java.util.List;
  * Created by Lu Weibiao on 2015/2/14 21:27.
  */
 @Repository
-public class HospitalDao {
-    @Resource
-    private HibernateTemplate hibernateTemplate;
+public class HospitalDao extends BaseHibernateDao{
 
     public Hospital get(Integer id){
         return hibernateTemplate.get(Hospital.class,id);

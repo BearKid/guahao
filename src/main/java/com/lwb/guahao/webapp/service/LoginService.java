@@ -1,11 +1,17 @@
 package com.lwb.guahao.webapp.service;
 
+import com.lwb.guahao.common.FieldValidationUtil;
 import com.lwb.guahao.common.SecurityUtil;
 import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.Hospital;
 import com.lwb.guahao.model.PerUser;
+import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.dao.HospitalDao;
 import com.lwb.guahao.webapp.dao.HttpSessionDao;
+import com.lwb.guahao.webapp.dao.PerUserDao;
+import com.lwb.guahao.webapp.vo.LoginedDoctor;
+import com.lwb.guahao.webapp.vo.LoginedHospital;
+import com.lwb.guahao.webapp.vo.LoginedPerUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,23 +28,74 @@ import java.util.Date;
 @Transactional
 public class LoginService {
     @Resource
+    private HttpSessionDao httpSessionDao;
+    @Resource
     private HospitalDao hospitalDao;
     @Resource
-    private HttpSessionDao httpSessionDao;
+    private PerUserDao perUserDao;
+    @Resource
+    private DoctorDao doctorDao;
+
     /**
-     * 医院登录
+     * 个人账号登录
+     * @param account
+     * @param password
+     * @param request
+     * @return
+     */
+    public LoginedPerUser perUserLogin(HttpServletRequest request,String account, String password) {
+        LoginedPerUser loginedPerUser = null;
+        PerUser perUser = null;
+        String codedPwd = SecurityUtil.password(password);
+        if(FieldValidationUtil.isEmail(account)){
+            perUser = perUserDao.getByEmailAndPwd(account,codedPwd);
+        } else if(FieldValidationUtil.isMobilePhone(account)){
+            perUser = perUserDao.getByPhoneAndPwd(account,codedPwd);
+        }
+        if(perUser != null){
+            perUser.setLatestLoginDate(new Date());//更新登录时间
+            perUserDao.update(perUser);
+            loginedPerUser = LoginedPerUser.parse(perUser);
+            httpSessionDao.saveLoginedPerUser(request,loginedPerUser);
+        }
+        return loginedPerUser;
+    }
+
+    /**
+     * 医院账号登录
      * @param email
      * @param pwd
      * @return
      */
-    public Hospital hospitalLogin(String email, String pwd, HttpServletRequest request){
+    public LoginedHospital hospitalLogin(HttpServletRequest request,String email, String pwd){
+        LoginedHospital loginedHospital = null;
         Hospital hospital = hospitalDao.uniqueByEmailAndPwd(email, SecurityUtil.password(pwd));
         if(hospital != null) {
-            hospital.setLatestLoginDatetime(new Date()); //更新登录时间
+            hospital.setLatestLoginDate(new Date()); //更新登录时间
             hospitalDao.update(hospital);
-            httpSessionDao.saveHospital(request, hospital); //缓存
-            return hospital;
-        } else return null;
+            loginedHospital = LoginedHospital.parse(hospital);
+            httpSessionDao.saveLoginedHospital(request, loginedHospital); //缓存
+        }
+        return loginedHospital;
+    }
+
+    /**
+     * 医生账号登录
+     * @param accountName
+     * @param pwd
+     * @param request
+     * @return
+     */
+    public LoginedDoctor doctorLogin(HttpServletRequest request,String accountName, String pwd){
+        LoginedDoctor loginedDoctor = null;
+        Doctor doctor = doctorDao.uniqueByAccountAndPwd(accountName, SecurityUtil.password(pwd));
+        if(doctor != null){
+            doctor.setLatestLoginDate(new Date());//更新登录时间
+            doctorDao.update(doctor);
+            loginedDoctor = LoginedDoctor.parse(doctor);
+            httpSessionDao.saveLoginedDocotr(request, loginedDoctor); //缓存
+        }
+        return loginedDoctor;
     }
 
     /**
@@ -47,8 +104,8 @@ public class LoginService {
      * @return
      */
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Hospital getCurHospital(HttpServletRequest request){
-        return httpSessionDao.getHospital(request);
+    public LoginedHospital getLoginedHospital(HttpServletRequest request){
+        return httpSessionDao.getLoginedHospital(request);
     }
 
     /**
@@ -57,8 +114,8 @@ public class LoginService {
      * @return
      */
     @Transactional(propagation = Propagation.SUPPORTS)
-    public PerUser getCurPerUser(HttpServletRequest request) {
-        return httpSessionDao.getPerUser(request);
+    public LoginedPerUser getLoginedPerUser(HttpServletRequest request) {
+        return httpSessionDao.getLoginedPerUser(request);
     }
 
     /**
@@ -67,8 +124,8 @@ public class LoginService {
      * @return
      */
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Doctor getCurDoctor(HttpServletRequest request) {
-        return httpSessionDao.getDoctor(request);
+    public LoginedDoctor getLoginedDoctor(HttpServletRequest request) {
+        return httpSessionDao.getLoginedDoctor(request);
     }
 
     /**
@@ -78,7 +135,7 @@ public class LoginService {
      */
     @Transactional(propagation = Propagation.SUPPORTS)
     public boolean isHospitalLogined(HttpServletRequest request){
-        return httpSessionDao.getHospital(request) != null;
+        return httpSessionDao.getLoginedHospital(request) != null;
     }
 
     /**
@@ -86,8 +143,28 @@ public class LoginService {
      * @param request
      * @return
      */
-    public Hospital hospitalLogout(HttpServletRequest request) {
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public LoginedHospital hospitalLogout(HttpServletRequest request) {
         return httpSessionDao.deleteHospital(request);
     }
 
+    /**
+     * 个人账号退出登录
+     * @param request
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public LoginedPerUser perUserLogout(HttpServletRequest request){
+        return httpSessionDao.deleteLoginedPerUser(request);
+    }
+
+    /**
+     * 医生账号退出登录
+     * @param request
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public LoginedDoctor doctorLogout(HttpServletRequest request){
+        return httpSessionDao.deleteLoginedDoctor(request);
+    }
 }

@@ -196,7 +196,6 @@
         $(this).ajaxSubmit({
             success: function (data) {
                 if (data.errMsg) {
-                    alert(data.errMsg + "\n" + data.errMsg.unfinished + "\n" + data.errMsg.isRegistered);
                     var errMsg = "";
                     if (data.errMsg.unfinished) errMsg += data.errMsg.unfinished + "\n";
                     else {

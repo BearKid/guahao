@@ -17,4 +17,9 @@ public class FieldValidationUtil {
         if(phone == null) return false;
         return phone.matches("^0\\d{2,3}-?\\d{7,8}$");
     }
+
+    public static boolean isEmail(String email) {
+        if (email == null) return false;
+        return email.matches("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
+    }
 }

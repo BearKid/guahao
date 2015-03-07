@@ -23,7 +23,7 @@ public class HospitalVo {
 
     private String createDate; //账户创建日期时间
 
-    private String latestLoginDatetime; //最近一次登录的日期时间
+    private String latestLoginDate; //最近一次登录的日期时间
 
     private String email; //联系邮箱
 
@@ -53,7 +53,7 @@ public class HospitalVo {
         SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
 
         target.setAccountStatusName(ConstantsMap.accountStatusMap.get(source.getAccountStatusCode()));
-        target.setLatestLoginDatetime(datetimeFormat.format(source.getLatestLoginDatetime()));
+        target.setLatestLoginDate(datetimeFormat.format(source.getLatestLoginDate()));
         target.setCreateDate(datetimeFormat.format(source.getCreateDate()));
         target.setAreaName(AreaUtil.getAreaName(source.getAreaCode()));
 
@@ -132,12 +132,12 @@ public class HospitalVo {
         this.id = id;
     }
 
-    public String getLatestLoginDatetime() {
-        return latestLoginDatetime;
+    public String getLatestLoginDate() {
+        return latestLoginDate;
     }
 
-    public void setLatestLoginDatetime(String latestLoginDatetime) {
-        this.latestLoginDatetime = latestLoginDatetime;
+    public void setLatestLoginDate(String latestLoginDate) {
+        this.latestLoginDate = latestLoginDate;
     }
 
     public String getLinkman() {

@@ -28,10 +28,7 @@ public class PerUser implements Serializable {
     private Date createDate; //账户创建日期时间
 
     @Column
-    private Date latestLoginDatetime; //最近一次登录的日期时间
-
-    @Column(nullable = false)
-    private Integer accountStatus; //账户状态
+    private Date latestLoginDate; //最近一次登录的日期时间
 
     @Column(nullable = false, length = 18)
     private String idCard; //身份证号码
@@ -93,20 +90,12 @@ public class PerUser implements Serializable {
         this.createDate = createDate;
     }
 
-    public Date getLatestLoginDatetime() {
-        return latestLoginDatetime;
+    public Date getLatestLoginDate() {
+        return latestLoginDate;
     }
 
-    public void setLatestLoginDatetime(Date latestLoginDatetime) {
-        this.latestLoginDatetime = latestLoginDatetime;
-    }
-
-    public Integer getAccountStatus() {
-        return accountStatus;
-    }
-
-    public void setAccountStatus(Integer accountStatus) {
-        this.accountStatus = accountStatus;
+    public void setLatestLoginDate(Date latestLoginDate) {
+        this.latestLoginDate = latestLoginDate;
     }
 
     public String getIdCard() {

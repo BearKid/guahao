@@ -108,7 +108,7 @@ public class AreaUtil {
      * @param areaCode
      * @return
      */
-    private int getProvinceCode(int areaCode){
+    public static int getProvinceCode(int areaCode){
         return (areaCode / PROVINCE_MASK) * PROVINCE_MASK;
     }
     /**
@@ -116,7 +116,7 @@ public class AreaUtil {
      * @param areaCode
      * @return
      */
-    private int getCityCode(int areaCode){
+    public static int getCityCode(int areaCode){
         return (areaCode / CITY_MASK) * CITY_MASK;
     }
 
