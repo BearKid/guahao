@@ -32,6 +32,10 @@ public class DoctorDailySchedule implements Serializable{
     private Date effectiveDate; //生效日期
 
     @Column
+    @Temporal(TemporalType.DATE)
+    private Date modifyDate; //修改日期
+
+    @Column
     private String sourceArrangement; //当日各时间段号源分配计划。Json <--> List<DoctorDailyScheduleVo.SourceArrangement>。
 
     @ManyToOne
@@ -52,6 +56,14 @@ public class DoctorDailySchedule implements Serializable{
 
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
+    }
+
+    public Date getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Date modifyDate) {
+        this.modifyDate = modifyDate;
     }
 
     public Integer getId() {

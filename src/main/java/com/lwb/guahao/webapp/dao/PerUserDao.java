@@ -20,4 +20,8 @@ public class PerUserDao {
     public void saveOrUpdate(PerUser perUser){
         hibernateTemplate.saveOrUpdate(perUser);
     }
+
+    public Integer save(PerUser user) {
+        return (Integer)hibernateTemplate.save(user);
+    }
 }

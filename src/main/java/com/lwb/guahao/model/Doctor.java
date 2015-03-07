@@ -5,6 +5,7 @@ package com.lwb.guahao.model;
  */
 
 import javax.persistence.*;
+import javax.print.attribute.standard.NumberUp;
 import java.io.Serializable;
 import java.util.List;
 
@@ -27,6 +28,15 @@ public class Doctor implements Serializable{
     private String name; //医生名称
 
     @Column
+    private Integer age; //年龄
+
+    @Column(nullable = false, length = 1)
+    private String sex; //性别
+
+    @Column(length = 50)
+    private String title; //医生头衔/级别：医师、主治医生、教授等等。
+
+    @Column
     private Double price; //默认挂号费
 
     @Column(length = 30)
@@ -34,6 +44,9 @@ public class Doctor implements Serializable{
 
     @Column(length = 1000)
     private String brief; //医生简介
+
+    @Column(length = 1000)
+    private String avatarPath; //头像物理存储路径
 
     @Column(nullable = false)
     private Integer deptClassCode; //科室类目编号 参见：ConstantsMap.deptClassMap
@@ -45,12 +58,84 @@ public class Doctor implements Serializable{
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "doctor")
     private List<DoctorDailySchedule> doctorDailyScheduleList; //每日号源安排
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getAccountName() {
         return accountName;
     }
 
     public void setAccountName(String accountName) {
         this.accountName = accountName;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getGoodAtTags() {
+        return goodAtTags;
+    }
+
+    public void setGoodAtTags(String goodAtTags) {
+        this.goodAtTags = goodAtTags;
     }
 
     public String getBrief() {
@@ -69,22 +154,6 @@ public class Doctor implements Serializable{
         this.deptClassCode = deptClassCode;
     }
 
-    public List<DoctorDailySchedule> getDoctorDailyScheduleList() {
-        return doctorDailyScheduleList;
-    }
-
-    public void setDoctorDailyScheduleList(List<DoctorDailySchedule> doctorDailyScheduleList) {
-        this.doctorDailyScheduleList = doctorDailyScheduleList;
-    }
-
-    public String getGoodAtTags() {
-        return goodAtTags;
-    }
-
-    public void setGoodAtTags(String goodAtTags) {
-        this.goodAtTags = goodAtTags;
-    }
-
     public Hospital getHospital() {
         return hospital;
     }
@@ -93,35 +162,11 @@ public class Doctor implements Serializable{
         this.hospital = hospital;
     }
 
-    public Integer getId() {
-        return id;
+    public List<DoctorDailySchedule> getDoctorDailyScheduleList() {
+        return doctorDailyScheduleList;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setDoctorDailyScheduleList(List<DoctorDailySchedule> doctorDailyScheduleList) {
+        this.doctorDailyScheduleList = doctorDailyScheduleList;
     }
 }

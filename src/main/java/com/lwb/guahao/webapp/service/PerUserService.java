@@ -1,8 +1,10 @@
 package com.lwb.guahao.webapp.service;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.lwb.guahao.common.Constants;
 import com.lwb.guahao.model.PerUser;
 import com.lwb.guahao.webapp.dao.PerUserDao;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,35 +21,13 @@ public class PerUserService {
     @Resource
     private PerUserDao perUserDao;
 
-    @Transactional(readOnly = true)
-    public PerUser get(Integer id){
-        return perUserDao.get(id);
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void saveOrUpdate(PerUser user){
-        perUserDao.saveOrUpdate(user);
-    }
-
-    public void txTest(){
-        PerUser user1 = new PerUser();
-        user1.setName("bill");
-        user1.setEmail(new Date(System.currentTimeMillis()).toString());
-        user1.setIdCard("1254235");
-        user1.setAccountStatus(Constants.AccountStatus.FORBIDDEN);
-        user1.setCreDate(new Date());
-        user1.setPassword("123");
-        this.saveOrUpdate(user1);
-        System.out.println("user1 save ok!");
-        PerUser user = new PerUser();
-        user.setId(1);
-        user.setName("bill");
-        user.setEmail(new Date(System.currentTimeMillis()).toString());
-        user.setIdCard("1254235");
-        user.setAccountStatus(Constants.AccountStatus.FORBIDDEN);
-        user.setCreDate(new Date());
-        user.setPassword("123");
-        this.saveOrUpdate(user);
-        System.out.println("user save ok!");
+    @Transactional
+    public PerUser register(PerUser user){
+        PerUser newUser = new PerUser();
+        BeanUtils.copyProperties(user, newUser);
+        user.setAccountStatus(Constants.AccountStatus.UN_VERIFIED);
+        user.setCreateDate(new Date());
+        perUserDao.save(newUser);
+        return newUser;
     }
 }

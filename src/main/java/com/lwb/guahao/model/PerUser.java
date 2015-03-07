@@ -19,10 +19,16 @@ public class PerUser implements Serializable {
     private Integer id;
 
     @Column(nullable = false, length = 50)
-    private String password; //账户密码
+    private String password; //账户密码-密文
 
     @Column(nullable = false)
-    private Date creDate; //账户创建日期时间
+    private Integer accountStatusCode; //账户状态 参见：Constants.AccountStatus
+
+    @Column(nullable = false)
+    private Date createDate; //账户创建日期时间
+
+    @Column
+    private Date latestLoginDatetime; //最近一次登录的日期时间
 
     @Column(nullable = false)
     private Integer accountStatus; //账户状态
@@ -39,35 +45,13 @@ public class PerUser implements Serializable {
     @Column(length = 11)
     private String mobilePhone;  //联系手机
 
+    @Column(length = 1000)
+    private String avatarPath; //头像物理存储路径
+
 
     //根据身份证号码可以得出
     //private Integer age; //年龄
     //private String sex; //性别
-
-
-    public Integer getAccountStatus() {
-        return accountStatus;
-    }
-
-    public void setAccountStatus(Integer accountStatus) {
-        this.accountStatus = accountStatus;
-    }
-
-    public Date getCreDate() {
-        return creDate;
-    }
-
-    public void setCreDate(Date creDate) {
-        this.creDate = creDate;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public Integer getId() {
         return id;
@@ -75,6 +59,54 @@ public class PerUser implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
+    }
+
+    public Integer getAccountStatusCode() {
+        return accountStatusCode;
+    }
+
+    public void setAccountStatusCode(Integer accountStatusCode) {
+        this.accountStatusCode = accountStatusCode;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getLatestLoginDatetime() {
+        return latestLoginDatetime;
+    }
+
+    public void setLatestLoginDatetime(Date latestLoginDatetime) {
+        this.latestLoginDatetime = latestLoginDatetime;
+    }
+
+    public Integer getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(Integer accountStatus) {
+        this.accountStatus = accountStatus;
     }
 
     public String getIdCard() {
@@ -85,14 +117,6 @@ public class PerUser implements Serializable {
         this.idCard = idCard;
     }
 
-    public String getMobilePhone() {
-        return mobilePhone;
-    }
-
-    public void setMobilePhone(String mobilePhone) {
-        this.mobilePhone = mobilePhone;
-    }
-
     public String getName() {
         return name;
     }
@@ -101,11 +125,19 @@ public class PerUser implements Serializable {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
     }
 }

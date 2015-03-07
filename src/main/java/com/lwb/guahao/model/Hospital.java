@@ -46,6 +46,9 @@ public class Hospital implements Serializable{
     @Column(nullable = false, length = 2000)
     private String brief; //医院简介
 
+    @Column(length = 1000)
+    private String avatarPath; //头像物理存储路径
+
     @Column
     private Date modifiedDate; //Hospital被修改的日期时间
 
@@ -55,6 +58,14 @@ public class Hospital implements Serializable{
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
     }
 
     public Date getLatestLoginDatetime() {
