@@ -19,12 +19,6 @@ public class DoctorDailySchedule implements Serializable{
     private Integer id;
 
     @Column
-    private Integer totalSource; //当日总号源数
-
-    @Column
-    private Integer oddSource; //剩余号源数
-
-    @Column
     private Double price; //挂号费
 
     @Column
@@ -35,19 +29,26 @@ public class DoctorDailySchedule implements Serializable{
     @Temporal(TemporalType.DATE)
     private Date modifyDate; //修改日期
 
-    @Column
-    private String sourceArrangement; //当日各时间段号源分配计划。Json <--> List<DoctorDailyScheduleVo.SourceArrangement>。
-
-    @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
+    @Column(nullable = false)
+    private Integer doctorId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctorId", insertable = false, updatable = false)
     private Doctor doctor; //医生
 
-    public Doctor getDoctor() {
-        return doctor;
+    public Integer getId() {
+        return id;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public Date getEffectiveDate() {
@@ -66,43 +67,19 @@ public class DoctorDailySchedule implements Serializable{
         this.modifyDate = modifyDate;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getDoctorId() {
+        return doctorId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDoctorId(Integer doctorId) {
+        this.doctorId = doctorId;
     }
 
-    public Integer getOddSource() {
-        return oddSource;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setOddSource(Integer oddSource) {
-        this.oddSource = oddSource;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getSourceArrangement() {
-        return sourceArrangement;
-    }
-
-    public void setSourceArrangement(String sourceArrangement) {
-        this.sourceArrangement = sourceArrangement;
-    }
-
-    public Integer getTotalSource() {
-        return totalSource;
-    }
-
-    public void setTotalSource(Integer totalSource) {
-        this.totalSource = totalSource;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 }

@@ -1,7 +1,7 @@
 package com.lwb.guahao.webapp.controller;
 
-import com.lwb.guahao.common.AreaUtil;
-import com.lwb.guahao.common.FieldValidationUtil;
+import com.lwb.guahao.common.util.AreaUtil;
+import com.lwb.guahao.common.util.FieldValidationUtil;
 import com.lwb.guahao.model.Hospital;
 import com.lwb.guahao.webapp.service.HospitalService;
 import com.lwb.guahao.webapp.service.LoginService;

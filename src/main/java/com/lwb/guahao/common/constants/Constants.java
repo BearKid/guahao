@@ -1,4 +1,4 @@
-package com.lwb.guahao.common;
+package com.lwb.guahao.common.constants;
 
 /**
  * Created by Lu Weibiao on 2015/2/16 14:18.
@@ -26,10 +26,11 @@ public class Constants {
 
     //订单状态
     public static class OrderStatus {
-        public static final int UN_PAYED  = 0; //已下定，未支付
-        public static final int PAYED = 1; //已支付，待就诊
-        public static final int FINISHED = 2; //完成就诊
-        public static final int FAILED = 3; //爽约未就诊
-        public static final int CANCEL = -1; //取消预约
+        public static final int UN_PAYED  = 0; //已下单，等待支付
+        public static final int PAYED = 1; //已支付，待应约
+        public static final int PRESENT = 2; //应约完成就诊
+        public static final int ABSENCE = 3; //爽约未就诊
+        public static final int CANCEL = 4; //取消预约
+        public static final int EXPIRED = 5; //超过1小时未支付，订单过期。
     }
 }

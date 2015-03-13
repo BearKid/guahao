@@ -1,4 +1,4 @@
-package com.lwb.guahao.common;
+package com.lwb.guahao.common.util;
 
 import java.security.MessageDigest;
 

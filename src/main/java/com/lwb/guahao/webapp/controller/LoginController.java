@@ -1,6 +1,6 @@
 package com.lwb.guahao.webapp.controller;
 
-import com.lwb.guahao.common.FieldValidationUtil;
+import com.lwb.guahao.common.util.FieldValidationUtil;
 import com.lwb.guahao.webapp.component.WebPageComponent;
 import com.lwb.guahao.webapp.service.LoginService;
 import com.lwb.guahao.webapp.vo.LoginedDoctor;

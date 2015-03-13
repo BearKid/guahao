@@ -85,6 +85,9 @@
                 <value>com.lwb.guahao.model</value><!-- 扫描实体类，也就是平时所说的model -->
             </list>
         </property>
+        <property name="namingStrategy">
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+        </property>
     </bean>
     <bean id="hibernateTemplete" class="org.springframework.orm.hibernate3.HibernateTemplate">
         <property name="sessionFactory" ref="sessionFactory"></property>

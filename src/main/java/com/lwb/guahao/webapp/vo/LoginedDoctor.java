@@ -1,13 +1,10 @@
 package com.lwb.guahao.webapp.vo;
 
-import com.lwb.guahao.common.ConstantsMap;
+import com.lwb.guahao.common.constants.ConstantsMap;
 import com.lwb.guahao.model.Doctor;
-import com.lwb.guahao.model.DoctorDailySchedule;
-import com.lwb.guahao.model.Hospital;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * User: Lu Weibiao

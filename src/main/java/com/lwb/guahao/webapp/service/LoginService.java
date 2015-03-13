@@ -1,7 +1,7 @@
 package com.lwb.guahao.webapp.service;
 
-import com.lwb.guahao.common.FieldValidationUtil;
-import com.lwb.guahao.common.SecurityUtil;
+import com.lwb.guahao.common.util.FieldValidationUtil;
+import com.lwb.guahao.common.util.SecurityUtil;
 import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.Hospital;
 import com.lwb.guahao.model.PerUser;

@@ -5,7 +5,7 @@ package com.lwb.guahao.webapp.vo;
  * Date: 2015/3/7 18:25
  */
 
-import com.lwb.guahao.common.ConstantsMap;
+import com.lwb.guahao.common.constants.ConstantsMap;
 import com.lwb.guahao.model.Hospital;
 import org.springframework.beans.BeanUtils;
 

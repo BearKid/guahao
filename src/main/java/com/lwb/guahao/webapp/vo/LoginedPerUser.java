@@ -5,7 +5,9 @@ package com.lwb.guahao.webapp.vo;
  * Date: 2015/3/7 16:38
  */
 
-import com.lwb.guahao.common.*;
+import com.lwb.guahao.common.constants.ConstantsMap;
+import com.lwb.guahao.common.util.AreaUtil;
+import com.lwb.guahao.common.util.DateUtils;
 import com.lwb.guahao.model.PerUser;
 import org.springframework.beans.BeanUtils;
 
@@ -63,7 +65,7 @@ public class LoginedPerUser {
         loginedPerUser.setAreaName(provName.concat(cityName));//设置地区全限定名
 
         String birthDateStr = loginedPerUser.getIdCard().substring(6,14);//出生日期-身份证号码第7~14位
-        loginedPerUser.setAge(DateUtils.getAge(birthDateStr,"yyyyMMdd"));
+        loginedPerUser.setAge(DateUtils.getAge(birthDateStr, "yyyyMMdd"));
 
         String sexCodeStr = loginedPerUser.getIdCard().substring(14,17);//性别-身份证号码第15~17位
         int sexCode = Integer.parseInt(sexCodeStr);

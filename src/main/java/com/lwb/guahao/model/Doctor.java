@@ -64,8 +64,8 @@ public class Doctor implements Serializable{
 
     @Column(nullable = false)
     private Integer hospitalId; //医院id
-    @ManyToOne
-    @JoinColumn(name = "hosptital_id",nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hospitalId",insertable = false, updatable = false)
     private Hospital hospital; //医院
 
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "doctor")

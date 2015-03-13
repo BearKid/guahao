@@ -1,7 +1,6 @@
 package com.lwb.guahao.webapp.service;
 
-import com.lwb.guahao.common.Constants;
-import com.lwb.guahao.common.ConstantsMap;
+import com.lwb.guahao.common.constants.Constants;
 import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.Hospital;
 import com.lwb.guahao.model.PerUser;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.print.Doc;
 
 /**
  * Function:
@@ -40,6 +38,7 @@ public class AppInitService {
             hospital.setAddress("东莞神马镇牛逼村掉咋天大厦");
             hospital.setTelPhone("0769-86413795");
             hospital.setBrief("东莞神马镇牛逼村掉咋天大厦，技术牛逼，你的第一选择。");
+            hospital.setAccountStatusCode(Constants.AccountStatus.UN_VERIFIED);
             Hospital newHospital = hospitalService.register(hospital);
             //医生账号
             Doctor doctor = new Doctor();
@@ -54,7 +53,7 @@ public class AppInitService {
             doctor.setBrief("简介简介简介简介简介简介");
             doctor.setDeptClassCode(1000);
             doctor.setHospitalId(newHospital.getId());
-            doctor.setHospital(newHospital);
+//            doctor.setHospital(newHospital);
             doctorService.register(doctor);
             //个人账号
             PerUser perUser = new PerUser();

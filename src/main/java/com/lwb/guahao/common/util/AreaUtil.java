@@ -1,9 +1,11 @@
-package com.lwb.guahao.common;
+package com.lwb.guahao.common.util;
 
 /**
  * Created by Lu Weibiao on 2015/2/18 22:03.
  */
 
+import com.lwb.guahao.common.Area;
+import com.lwb.guahao.common.constants.ConstantsMap;
 import org.apache.commons.logging.impl.Log4JLogger;
 
 import java.util.*;

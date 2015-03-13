@@ -35,12 +35,16 @@ public class Reservation implements Serializable{
     @Column
     private Date modifyDatetime; //订单修改日期时间
 
-    @ManyToOne
-    @JoinColumn(name = "per_user_id", nullable = false)
+    @Column(nullable = false)
+    private Integer perUserId; //个人用户id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "perUserId",insertable = false, updatable = false)
     private PerUser perUser; //病人
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
+    @Column(nullable = false)
+    private Integer doctorId; //医生id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctorId",insertable = false, updatable = false)
     private Doctor doctor; //医生
 
     public Integer getId() {
@@ -49,6 +53,22 @@ public class Reservation implements Serializable{
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getPerUserId() {
+        return perUserId;
+    }
+
+    public void setPerUserId(Integer perUserId) {
+        this.perUserId = perUserId;
+    }
+
+    public Integer getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(Integer doctorId) {
+        this.doctorId = doctorId;
     }
 
     public Double getPrice() {

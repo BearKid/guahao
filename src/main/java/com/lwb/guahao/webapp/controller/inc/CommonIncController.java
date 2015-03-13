@@ -1,6 +1,6 @@
 package com.lwb.guahao.webapp.controller.inc;
 
-import com.lwb.guahao.common.Constants;
+import com.lwb.guahao.common.constants.Constants;
 import com.lwb.guahao.webapp.service.LoginService;
 import com.lwb.guahao.webapp.vo.LoginedDoctor;
 import com.lwb.guahao.webapp.vo.LoginedHospital;
