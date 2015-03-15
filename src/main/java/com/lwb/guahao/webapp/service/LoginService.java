@@ -167,4 +167,9 @@ public class LoginService {
     public LoginedDoctor doctorLogout(HttpServletRequest request){
         return httpSessionDao.deleteLoginedDoctor(request);
     }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Integer getLoginedHospitalId(HttpServletRequest request){
+        return getLoginedHospital(request).getId();
+    }
 }

@@ -10,6 +10,7 @@ import java.io.Serializable;
 /**
  * 科室 （待定）
  */
+@Deprecated
 public class Department implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

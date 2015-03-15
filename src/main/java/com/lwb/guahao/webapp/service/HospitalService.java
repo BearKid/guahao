@@ -2,14 +2,18 @@ package com.lwb.guahao.webapp.service;
 
 import com.lwb.guahao.common.constants.Constants;
 import com.lwb.guahao.common.util.SecurityUtil;
+import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.Hospital;
+import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.dao.HospitalDao;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.print.Doc;
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: Lu Weibiao
@@ -20,6 +24,8 @@ import java.util.Date;
 public class HospitalService {
     @Resource
     private HospitalDao hospitalDao;
+    @Resource
+    private DoctorDao doctorDao;
 
     /**
      * 注册新的医院账户
@@ -55,5 +61,22 @@ public class HospitalService {
      */
     public boolean isRegistered(String email){
         return hospitalDao.uniqueByEmail(email) != null;
+    }
+
+    /**
+     * 结合一些约束获取某医院的医生
+     * @param hospitalId
+     * @param name
+     * @param deptClassCode
+     * @param accountName
+     * @return
+     */
+    public List<Doctor> getDoctors(Integer hospitalId, String name, Integer deptClassCode, String accountName,Integer pn) {
+        List<Doctor> doctors = null;
+        if(pn == null){
+            pn = 1;
+        }
+        doctors = doctorDao.getDoctorsBy(hospitalId,name,deptClassCode,accountName,pn,Constants.DEFAULT_PAGE_SIZE);
+        return doctors;
     }
 }

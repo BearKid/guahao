@@ -25,7 +25,7 @@ public class PerUser implements Serializable {
     private Integer accountStatusCode; //账户状态 参见：Constants.AccountStatus
 
     @Column(nullable = false)
-    private Date createDate; //账户创建日期时间
+    private Date createDateTime; //账户创建日期时间
 
     @Column
     private Date latestLoginDate; //最近一次登录的日期时间
@@ -39,8 +39,14 @@ public class PerUser implements Serializable {
     @Column(length = 255)
     private String email;  //联系邮箱
 
+    @Column
+    private Boolean isEmailBound; //标识邮箱是否已绑定
+
     @Column(length = 11)
     private String mobilePhone;  //联系手机
+
+    @Column
+    private Boolean isMobileBound; //标识手机是否已绑定
 
     @Column(length = 1000)
     private String avatarPath; //头像物理存储路径
@@ -82,12 +88,12 @@ public class PerUser implements Serializable {
         this.password = password;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreateDateTime() {
+        return createDateTime;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreateDateTime(Date createDateTime) {
+        this.createDateTime = createDateTime;
     }
 
     public Date getLatestLoginDate() {
@@ -128,5 +134,21 @@ public class PerUser implements Serializable {
 
     public void setMobilePhone(String mobilePhone) {
         this.mobilePhone = mobilePhone;
+    }
+
+    public Boolean getIsEmailBound() {
+        return isEmailBound;
+    }
+
+    public void setIsEmailBound(Boolean isEmailBound) {
+        this.isEmailBound = isEmailBound;
+    }
+
+    public Boolean getIsMobileBound() {
+        return isMobileBound;
+    }
+
+    public void setIsMobileBound(Boolean isMobileBound) {
+        this.isMobileBound = isMobileBound;
     }
 }

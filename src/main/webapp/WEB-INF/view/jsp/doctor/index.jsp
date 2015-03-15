@@ -71,7 +71,7 @@
 
             <dl class="dl-horizontal">
                 <dt>账号创建时间</dt>
-                <dd>${doctor.createDate}</dd>
+                <dd>${doctor.createDateTime}</dd>
             </dl>
 
         </div>

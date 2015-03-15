@@ -1,7 +1,6 @@
 package com.lwb.guahao.model;
 
 import javax.persistence.*;
-import javax.print.Doc;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,6 +11,7 @@ import java.util.Date;
 /**
  * 医生每日的号源计划
  */
+@Deprecated
 @Entity
 public class DoctorDailySchedule implements Serializable{
     @Id
@@ -23,11 +23,10 @@ public class DoctorDailySchedule implements Serializable{
 
     @Column
     @Temporal(TemporalType.DATE)
-    private Date effectiveDate; //生效日期
+    private Date takeEffectDate; //生效日期
 
     @Column
-    @Temporal(TemporalType.DATE)
-    private Date modifyDate; //修改日期
+    private Date editDateTime; //修改日期
 
     @Column(nullable = false)
     private Integer doctorId;
@@ -51,20 +50,20 @@ public class DoctorDailySchedule implements Serializable{
         this.price = price;
     }
 
-    public Date getEffectiveDate() {
-        return effectiveDate;
+    public Date getTakeEffectDate() {
+        return takeEffectDate;
     }
 
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
+    public void setTakeEffectDate(Date takeEffectDate) {
+        this.takeEffectDate = takeEffectDate;
     }
 
-    public Date getModifyDate() {
-        return modifyDate;
+    public Date getEditDateTime() {
+        return editDateTime;
     }
 
-    public void setModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
+    public void setEditDateTime(Date editDateTime) {
+        this.editDateTime = editDateTime;
     }
 
     public Integer getDoctorId() {

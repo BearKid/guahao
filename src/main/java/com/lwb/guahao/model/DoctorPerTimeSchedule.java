@@ -9,7 +9,7 @@ import java.util.Date;
  */
 
 /**
- * 某一时间段的号源安排
+ * 某天的某一时间段的号源安排
  */
 @Entity
 public class DoctorPerTimeSchedule implements Serializable {
@@ -33,10 +33,34 @@ public class DoctorPerTimeSchedule implements Serializable {
     Integer oddSource; //剩余号源数
 
     @Column(nullable = false)
-    private Integer doctorDailyScheduleId; //每天排班计划id
+    private Integer doctorId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctorDailyScheduleId",insertable = false, updatable = false)
-    private DoctorDailySchedule doctorDailySchedule;
+    @JoinColumn(name = "doctorId", insertable = false, updatable = false)
+    private Doctor doctor; //医生
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Integer getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(Integer doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public Date getEndDateTime() {
+        return endDateTime;
+    }
+
+    public void setEndDateTime(Date endDateTime) {
+        this.endDateTime = endDateTime;
+    }
 
     public Integer getId() {
         return id;
@@ -44,6 +68,14 @@ public class DoctorPerTimeSchedule implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getOddSource() {
+        return oddSource;
+    }
+
+    public void setOddSource(Integer oddSource) {
+        this.oddSource = oddSource;
     }
 
     public Double getPrice() {
@@ -62,43 +94,11 @@ public class DoctorPerTimeSchedule implements Serializable {
         this.startDateTime = startDateTime;
     }
 
-    public Date getEndDateTime() {
-        return endDateTime;
-    }
-
-    public void setEndDateTime(Date endDateTime) {
-        this.endDateTime = endDateTime;
-    }
-
     public Integer getTotalSource() {
         return totalSource;
     }
 
     public void setTotalSource(Integer totalSource) {
         this.totalSource = totalSource;
-    }
-
-    public Integer getOddSource() {
-        return oddSource;
-    }
-
-    public void setOddSource(Integer oddSource) {
-        this.oddSource = oddSource;
-    }
-
-    public Integer getDoctorDailyScheduleId() {
-        return doctorDailyScheduleId;
-    }
-
-    public void setDoctorDailyScheduleId(Integer doctorDailyScheduleId) {
-        this.doctorDailyScheduleId = doctorDailyScheduleId;
-    }
-
-    public DoctorDailySchedule getDoctorDailySchedule() {
-        return doctorDailySchedule;
-    }
-
-    public void setDoctorDailySchedule(DoctorDailySchedule doctorDailySchedule) {
-        this.doctorDailySchedule = doctorDailySchedule;
     }
 }

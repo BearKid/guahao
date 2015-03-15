@@ -23,7 +23,7 @@ public class DoctorService {
         BeanUtils.copyProperties(doctor, newUser);
         newUser.setPassword(SecurityUtil.password(newUser.getPassword()));
         newUser.setAccountStatusCode(Constants.AccountStatus.UN_VERIFIED);
-        newUser.setCreateDate(new Date());
+        newUser.setCreateDateTime(new Date());
         doctorDao.save(newUser);
         return newUser;
     }

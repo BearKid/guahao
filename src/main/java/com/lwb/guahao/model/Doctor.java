@@ -27,7 +27,7 @@ public class Doctor implements Serializable{
     private Integer accountStatusCode; //账户状态 参见：Constants.AccountStatus
 
     @Column(nullable = false)
-    private Date createDate; //账户创建日期时间
+    private Date createDateTime; //账户创建日期时间
 
     @Column(nullable = false, length = 10)
     private String name; //医生名称
@@ -60,7 +60,7 @@ public class Doctor implements Serializable{
     private Date latestLoginDate; //最近一次登录的日期时间
 
     @Column
-    private Date modifiedDate; //被修改的日期时间
+    private Date editDateTIme; //被修改的日期时间
 
     @Column(nullable = false)
     private Integer hospitalId; //医院id
@@ -80,12 +80,12 @@ public class Doctor implements Serializable{
         this.accountStatusCode = accountStatusCode;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreateDateTime() {
+        return createDateTime;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreateDateTime(Date createDateTime) {
+        this.createDateTime = createDateTime;
     }
 
     public String getAccountName() {
@@ -168,12 +168,12 @@ public class Doctor implements Serializable{
         this.latestLoginDate = latestLoginDate;
     }
 
-    public Date getModifiedDate() {
-        return modifiedDate;
+    public Date getEditDateTIme() {
+        return editDateTIme;
     }
 
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+    public void setEditDateTIme(Date editDateTIme) {
+        this.editDateTIme = editDateTIme;
     }
 
     public String getName() {

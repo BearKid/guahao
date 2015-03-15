@@ -26,7 +26,7 @@ public class PerUserService {
         BeanUtils.copyProperties(user, newUser);
         newUser.setPassword(SecurityUtil.password(newUser.getPassword()));
         newUser.setAccountStatusCode(Constants.AccountStatus.UN_VERIFIED);
-        newUser.setCreateDate(new Date());
+        newUser.setCreateDateTime(new Date());
         perUserDao.save(newUser);
         return newUser;
     }

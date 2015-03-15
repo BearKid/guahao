@@ -8,6 +8,7 @@ package com.lwb.guahao.common.constants;
  * 常量
  */
 public class Constants {
+    public static final int DEFAULT_PAGE_SIZE = 10;//结果集分页大小
     public static final class AccountType {
         public static final int PER_USER = 0;
         public static final int HOSPITAL = 1;

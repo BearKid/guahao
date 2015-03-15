@@ -20,6 +20,7 @@
 
 <script src="http://malsup.github.io/jquery.form.js"></script>
 <!--本地js库-->
+<script src="${applicationScope.contextPath}/js/common.js"></script>
 <script src="${applicationScope.contextPath}/js/common.event.js"></script>
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
