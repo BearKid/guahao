@@ -21,9 +21,9 @@ public class LoginedHospital {
 
     private Integer accountStatusCode; //账户状态-编码 参见：Constants.AccountStatus
 
-    private Date createDate; //账户创建日期时间
+    private Date createDateTime; //账户创建日期时间
 
-    private Date latestLoginDate; //最近一次登录的日期时间
+    private Date latestLoginDateTime; //最近一次登录的日期时间
 
     private String email; //联系邮箱
 
@@ -113,12 +113,12 @@ public class LoginedHospital {
         this.brief = brief;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreateDateTime() {
+        return createDateTime;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreateDateTime(Date createDateTime) {
+        this.createDateTime = createDateTime;
     }
 
     public String getEmail() {
@@ -137,12 +137,12 @@ public class LoginedHospital {
         this.id = id;
     }
 
-    public Date getLatestLoginDate() {
-        return latestLoginDate;
+    public Date getLatestLoginDateTime() {
+        return latestLoginDateTime;
     }
 
-    public void setLatestLoginDate(Date latestLoginDate) {
-        this.latestLoginDate = latestLoginDate;
+    public void setLatestLoginDateTime(Date latestLoginDateTime) {
+        this.latestLoginDateTime = latestLoginDateTime;
     }
 
     public String getLinkman() {

@@ -71,7 +71,7 @@ public class LoginService {
         LoginedHospital loginedHospital = null;
         Hospital hospital = hospitalDao.uniqueByEmailAndPwd(email, SecurityUtil.password(pwd));
         if(hospital != null) {
-            hospital.setLatestLoginDate(new Date()); //更新登录时间
+            hospital.setLatestLoginDateTime(new Date()); //更新登录时间
             hospitalDao.update(hospital);
             loginedHospital = LoginedHospital.parse(hospital);
             httpSessionDao.saveLoginedHospital(request, loginedHospital); //缓存

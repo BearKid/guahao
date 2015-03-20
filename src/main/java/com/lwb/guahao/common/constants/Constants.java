@@ -9,6 +9,12 @@ package com.lwb.guahao.common.constants;
  */
 public class Constants {
     public static final int DEFAULT_PAGE_SIZE = 10;//结果集分页大小
+
+    //性别类型
+    public static final class SexType{
+        public static final int MALE = 1;
+        public static final int FEMALE = 2;
+    }
     public static final class AccountType {
         public static final int PER_USER = 0;
         public static final int HOSPITAL = 1;

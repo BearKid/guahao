@@ -5,8 +5,11 @@
 
 body {
     padding-top: 50px;
+    background-color: #fff;
 }
-
+a {
+    outline: none;
+}
 .sidebar {
     position: fixed;
     top: 51px;
@@ -92,3 +95,11 @@ button.btn-close {
 #loginFormsWrapper form .btn[type="submit"]{
     margin-top: 15px;
 }
+
+/* 账号模板 START */
+#stepBar{
+    height: 40px;
+    line-height: 40px;
+}
+
+/* 账号模板 END */

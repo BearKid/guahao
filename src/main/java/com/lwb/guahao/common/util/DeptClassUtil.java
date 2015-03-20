@@ -51,14 +51,14 @@ public class DeptClassUtil {
                 new Log4JLogger().error("当前科室类目节点既不是一级科室节点，又不是二级科室节点");
             }
         }
-        adjustDeptClasssOrder(deptClassList);//调整列表中科室类目的排列顺序
+        adjustDeptClassesOrder(deptClassList);//调整列表中科室类目的排列顺序
     }
 
-    private static void adjustDeptClasssOrder(List<DeptClass> deptClassList) {
+    private static void adjustDeptClassesOrder(List<DeptClass> deptClassList) {
         Collections.sort(deptClassList, new DeptClassComparatorByCode());//按科室类目代码大小排序
         for(DeptClass deptClass : deptClassList){ //调整子科室类目排列顺序
             if(deptClass.getSubDeptClassList() != null){
-                adjustDeptClasssOrder(deptClass.getSubDeptClassList());
+                adjustDeptClassesOrder(deptClass.getSubDeptClassList());
             }
         }
     }

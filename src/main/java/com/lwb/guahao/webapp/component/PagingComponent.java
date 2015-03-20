@@ -1,6 +1,7 @@
 package com.lwb.guahao.webapp.component;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.regex.Matcher;
@@ -13,8 +14,11 @@ import java.util.regex.Pattern;
 @Component
 public class PagingComponent {
     public String getQueryStringWithoutPn(HttpServletRequest request){
-        String curQueryString = request.getQueryString();
-        Matcher matcher = Pattern.compile("pn=\\d+").matcher(curQueryString);
-        return matcher.replaceFirst("");
+        String queryString = request.getQueryString();
+        if(!StringUtils.isEmpty(queryString)) {
+            Matcher matcher = Pattern.compile("pn=\\d+").matcher(queryString);
+            queryString = matcher.replaceFirst("");
+        }
+        return queryString;
     }
 }

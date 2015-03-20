@@ -66,7 +66,7 @@
             </dl>
             <dl class="dl-horizontal">
                 <dt>最近登录时间</dt>
-                <dd>${doctor.latestLoginDate}</dd>
+                <dd>${doctor.latestLoginDateTime}</dd>
             </dl>
 
             <dl class="dl-horizontal">

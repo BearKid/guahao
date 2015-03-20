@@ -41,5 +41,5 @@
 </dl>
 <dl class="dl-horizontal">
     <dt>最近登录时间</dt>
-    <dd>${hospital.latestLoginDate}</dd>
+    <dd>${hospital.latestLoginDateTime}</dd>
 </dl>

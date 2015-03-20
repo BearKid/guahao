@@ -163,7 +163,7 @@
     $("#provinceNavTag").click(function () {
         $("#selectedProvince").text("");
         $("#selectedCity").text("");
-        $("#jsOKCancelPanel").data("areaCode", "");
+        $("#jsOkAreasPanel").data("areaCode", "");
         //导航标签切换
         $("#cityNavTag").removeClass("active").hide();
         $("#provinceNavTag").addClass("active").show();

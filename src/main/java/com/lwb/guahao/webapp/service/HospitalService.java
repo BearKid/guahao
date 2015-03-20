@@ -1,17 +1,19 @@
 package com.lwb.guahao.webapp.service;
 
+import com.lwb.guahao.common.ApiRet;
+import com.lwb.guahao.common.Paging;
 import com.lwb.guahao.common.constants.Constants;
 import com.lwb.guahao.common.util.SecurityUtil;
 import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.Hospital;
 import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.dao.HospitalDao;
+import com.lwb.guahao.webapp.vo.DoctorVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.print.Doc;
 import java.util.Date;
 import java.util.List;
 
@@ -64,19 +66,36 @@ public class HospitalService {
     }
 
     /**
-     * 结合一些约束获取某医院的医生
+     * 结合一些约束获取某医院的医生分页
      * @param hospitalId
      * @param name
      * @param deptClassCode
      * @param accountName
      * @return
      */
-    public List<Doctor> getDoctors(Integer hospitalId, String name, Integer deptClassCode, String accountName,Integer pn) {
-        List<Doctor> doctors = null;
+    public Paging<DoctorVo> getDoctorPaging(Integer hospitalId, String name, Integer deptClassCode, String accountName, Integer pn) {
+        Paging<DoctorVo> doctorVoPaging = null;
         if(pn == null){
             pn = 1;
         }
-        doctors = doctorDao.getDoctorsBy(hospitalId,name,deptClassCode,accountName,pn,Constants.DEFAULT_PAGE_SIZE);
-        return doctors;
+        Paging<Doctor> doctorPaging = doctorDao.getDoctorsPagingBy(hospitalId, name, deptClassCode, accountName, pn, Constants.DEFAULT_PAGE_SIZE);
+        List<DoctorVo> doctorVos = DoctorVo.parse(doctorPaging.getItems());
+        doctorVoPaging = new Paging<DoctorVo>(doctorVos,doctorPaging.getPn(),doctorPaging.getPageSize(),doctorPaging.getTotalSize());
+        return doctorVoPaging;
+    }
+
+    /**
+     * 创建医院账号
+     * @param doctorToSave
+     * @return
+     */
+    public ApiRet<Doctor> createDoctor(Doctor doctorToSave) {
+        Doctor doctor = new Doctor();
+        BeanUtils.copyProperties(doctorToSave,doctor);
+        doctor.setCreateDateTime(new Date());
+        doctor.setPassword(SecurityUtil.password(doctor.getPassword()));
+        doctor.setAccountStatusCode(Constants.AccountStatus.NORMAL);
+        doctorDao.save(doctor);
+        return new ApiRet<Doctor>(doctor);
     }
 }

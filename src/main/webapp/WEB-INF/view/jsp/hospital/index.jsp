@@ -22,25 +22,47 @@
     <div class="row">
         <div class="col-xs-4 col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">基本信息</a></li>
-                <li><a href="#">医生管理</a></li>
-                <li><a href="#">账号安全</a></li>
+                <li><a href="#" id="jsHospitalBaseInfo">基本信息</a></li>
+                <li><a href="#" id="jsHospitalDoctors">医生管理</a></li>
+                <li><a href="#" id="jsHospitalSecurity">账号安全</a></li>
             </ul>
         </div>
         <div class="col-xs-8 col-xs-offset-4 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-            <div class="step-bar"><a href="#">基本信息</a> >> </div>
+            <div id="stepBar"></div>
             <div id="main" class="main"></div>
         </div>
     </div>
 </div>
 </body>
 <script>
-    document.ready(function(){
-        var $loadingGif = $("#loadingGif");
-        $loadingGif.show();
-        $("#main").load("${applicationScope.contextPath}/hospital/baseInfo",function(){
-            $loadingGif.hide();
-        });
-    })
+    $(document).ready(function(){
+        $("#jsHospitalBaseInfo").trigger("click");
+    });
+    $("#jsHospitalBaseInfo").click(function(){
+        curNavItem = $(this).parent();
+        navItems = curNavItem.siblings().removeClass("active");
+        curNavItem.addClass("active");
+        var navMap = new Map();
+        navMap.put("基本信息","${applicationScope.contextPath}/hospital/baseInfo");
+        Hospital.loadHtmlByUrl("${applicationScope.contextPath}/hospital/baseInfo",navMap);
+    });
+    $("#jsHospitalDoctors").click(function(){
+        curNavItem = $(this).parent();
+        navItems = curNavItem.siblings().removeClass("active");
+        curNavItem.addClass("active");
+        var navMap = new Map();
+        navMap.put("医院管理","${applicationScope.contextPath}/hospital/doctors");
+        Hospital.loadHtmlByUrl("${applicationScope.contextPath}/hospital/doctors",navMap);
+    });
+    $("#jsHospitalSecurity").click(function(){
+        curNavItem = $(this).parent();
+        navItems = curNavItem.siblings().removeClass("active");
+        curNavItem.addClass("active");
+        var navMap = new Map();
+        navMap.put("账号安全","${applicationScope.contextPath}/hospital/security");
+        <%--var navMap = new Object();--%>
+        <%--navMap["账号安全"] = "${applicationScope.contextPath}/hospital/security";--%>
+        Hospital.loadHtmlByUrl("${applicationScope.contextPath}/hospital/security",navMap);
+    });
 </script>
 </html>

@@ -12,6 +12,11 @@ import java.util.Date;
  * Date: 2015/3/7 17:06
  */
 public class DateUtils {
+    /**常用日期时间格式**/
+    public final static SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+    public final static SimpleDateFormat dateTimeWeekFormatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss E");
+    public final static SimpleDateFormat weekFormatter = new SimpleDateFormat("E");
+    public final static SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy年MM月dd日");
     /**
      * 根据出生日期字符串算出年龄
      * @param birthDateString

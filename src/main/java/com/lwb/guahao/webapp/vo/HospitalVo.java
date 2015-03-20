@@ -53,7 +53,7 @@ public class HospitalVo {
         SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
 
         target.setAccountStatusName(ConstantsMap.accountStatusMap.get(source.getAccountStatusCode()));
-        target.setLatestLoginDate(datetimeFormat.format(source.getLatestLoginDate()));
+        target.setLatestLoginDate(datetimeFormat.format(source.getLatestLoginDateTime()));
         target.setCreateDate(datetimeFormat.format(source.getCreateDate()));
         target.setAreaName(AreaUtil.getAreaName(source.getAreaCode()));
 

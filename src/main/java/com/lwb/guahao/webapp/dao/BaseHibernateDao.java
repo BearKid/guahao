@@ -8,6 +8,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * User: Lu Weibiao
@@ -34,5 +35,38 @@ public abstract class BaseHibernateDao<T> {
                 return query.uniqueResult();
             }
         });
+    }
+
+    /**
+     * 设置参数绑定。
+     * 在使用hibernateTemplate中使用回调操作原生Query时使用。
+     * 因为hibernate Query原本的setParamters需要同时传入参数数组和参数类型数组，不够方便。
+     * @param query
+     * @param params //数组类型
+     * @return
+     */
+    protected Query setParameters(Query query, Object[] params){
+        int i = 0;
+        for(Object param : params){
+            query.setParameter(i, param);
+            ++i;
+        }
+        return query;
+    }
+    /**
+     * 设置参数绑定。
+     * 在使用hibernateTemplate中使用回调操作原生Query时使用。
+     * 因为hibernate Query原本的setParamters需要同时传入参数数组和参数类型数组，不够方便。
+     * @param query
+     * @param params  //List类型
+     * @return
+     */
+    protected Query setParameters(Query query, List params){
+        int i = 0;
+        for(Object param : params){
+            query.setParameter(i, param);
+            ++i;
+        }
+        return query;
     }
 }

@@ -1,9 +1,11 @@
 package com.lwb.guahao.webapp.dao;
 
+import com.lwb.guahao.common.Paging;
 import com.lwb.guahao.model.Doctor;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.type.Type;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -31,36 +33,53 @@ public class DoctorDao extends BaseHibernateDao {
         return (Integer) hibernateTemplate.save(doctor);
     }
 
-    public List<Doctor> getDoctorsBy(Integer hospitalId, String name, Integer deptClasCode, String accountName,
-                                     final int pn, final int pageSize) {
-        final StringBuilder hqlBuilder = new StringBuilder("from Doctor d where 1=1");
-        List params = new ArrayList();
+    public Paging<Doctor> getDoctorsPagingBy(Integer hospitalId, String name, Integer deptClasCode, String accountName,
+                                           final int pn, final int pageSize) {
+        final String selectHql = "select d ";
+        final String countHql = "select count(*) ";
+        final StringBuilder fromHqlBuilder = new StringBuilder("from Doctor d where 1=1");
+        final List params = new ArrayList();
+
         if (hospitalId != null) {
-            hqlBuilder.append(" and d.hospital.id = ?");
+            fromHqlBuilder.append(" and d.hospital.id = ?");
             params.add(hospitalId);
         }
         if (!StringUtils.isEmpty(name)) {
-            hqlBuilder.append(" and d.name = ?");
+            fromHqlBuilder.append(" and d.name = ?");
             params.add(name);
         }
         if (deptClasCode != null) {
-            hqlBuilder.append(" and d.deptClassCode = ?");
+            fromHqlBuilder.append(" and d.deptClassCode = ?");
             params.add(deptClasCode);
         }
         if (!StringUtils.isEmpty(accountName)) {
-            hqlBuilder.append(" and d.accountName = ?");
+            fromHqlBuilder.append(" and d.accountName = ?");
             params.add(accountName);
         }
-        hqlBuilder.append(" order by d.createDateTime");
-        return hibernateTemplate.execute(new HibernateCallback<List<Doctor>>() {
+        fromHqlBuilder.append(" order by d.createDateTime");
+
+        final String finalSelectHql = selectHql + fromHqlBuilder.toString();
+        List<Doctor> doctors = hibernateTemplate.execute(new HibernateCallback<List<Doctor>>() {
             @Override
             public List<Doctor> doInHibernate(Session session) throws HibernateException, SQLException {
-                Query query = session.createQuery(hqlBuilder.toString());
+                Query query = session.createQuery(finalSelectHql);
                 query.setFirstResult((pn - 1) * pageSize);
                 query.setMaxResults(pageSize);
+                setParameters(query, params);
                 return query.list();
             }
         });
+
+        final String finalCountHql = countHql + fromHqlBuilder.toString();
+        Long totalSize = hibernateTemplate.execute(new HibernateCallback<Long>() {
+            @Override
+            public Long doInHibernate(Session session) throws HibernateException, SQLException {
+                Query query = session.createQuery(finalCountHql);
+                setParameters(query,params);
+                return (Long)query.uniqueResult();
+            }
+        });
+        return new Paging<Doctor>(doctors,pn,pageSize,totalSize.intValue());
 
     }
 }

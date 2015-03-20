@@ -23,7 +23,7 @@ public class Hospital implements Serializable{
     private Date createDate; //账户创建日期时间
 
     @Column
-    private Date latestLoginDate; //最近一次登录的日期时间
+    private Date latestLoginDateTime; //最近一次登录的日期时间
 
     @Column(nullable = false)
     private String email; //联系邮箱
@@ -116,12 +116,12 @@ public class Hospital implements Serializable{
         this.id = id;
     }
 
-    public Date getLatestLoginDate() {
-        return latestLoginDate;
+    public Date getLatestLoginDateTime() {
+        return latestLoginDateTime;
     }
 
-    public void setLatestLoginDate(Date latestLoginDate) {
-        this.latestLoginDate = latestLoginDate;
+    public void setLatestLoginDateTime(Date latestLoginDateTime) {
+        this.latestLoginDateTime = latestLoginDateTime;
     }
 
     public String getLinkman() {

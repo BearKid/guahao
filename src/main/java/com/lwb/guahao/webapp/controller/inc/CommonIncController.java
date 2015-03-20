@@ -1,6 +1,7 @@
 package com.lwb.guahao.webapp.controller.inc;
 
 import com.lwb.guahao.common.constants.Constants;
+import com.lwb.guahao.common.util.DeptClassUtil;
 import com.lwb.guahao.webapp.service.LoginService;
 import com.lwb.guahao.webapp.vo.LoginedDoctor;
 import com.lwb.guahao.webapp.vo.LoginedHospital;
@@ -90,5 +91,10 @@ public class CommonIncController {
         }
         model.addAttribute("accountInfo", accountInfo);
         return "/../jsp-inc/header";
+    }
+    @RequestMapping(value = "/inc/common/deptClassSelectBox")
+    public String deptClassSelectBox(HttpServletRequest request, Model model) {
+        model.addAttribute("deptClassList", DeptClassUtil.deptClassList);
+        return "/../jsp-inc/common/deptClassSelectBox";
     }
 }

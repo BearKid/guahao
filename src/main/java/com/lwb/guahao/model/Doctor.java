@@ -60,7 +60,7 @@ public class Doctor implements Serializable{
     private Date latestLoginDate; //最近一次登录的日期时间
 
     @Column
-    private Date editDateTIme; //被修改的日期时间
+    private Date editDateTime; //被修改的日期时间
 
     @Column(nullable = false)
     private Integer hospitalId; //医院id
@@ -168,12 +168,12 @@ public class Doctor implements Serializable{
         this.latestLoginDate = latestLoginDate;
     }
 
-    public Date getEditDateTIme() {
-        return editDateTIme;
+    public Date getEditDateTime() {
+        return editDateTime;
     }
 
-    public void setEditDateTIme(Date editDateTIme) {
-        this.editDateTIme = editDateTIme;
+    public void setEditDateTime(Date editDateTime) {
+        this.editDateTime = editDateTime;
     }
 
     public String getName() {
