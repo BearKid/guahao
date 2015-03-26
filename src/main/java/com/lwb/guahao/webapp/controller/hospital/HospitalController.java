@@ -2,26 +2,28 @@ package com.lwb.guahao.webapp.controller.hospital;
 
 import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.Paging;
-import com.lwb.guahao.common.constants.Constants;
 import com.lwb.guahao.common.constants.ConstantsMap;
 import com.lwb.guahao.common.util.DeptClassUtil;
 import com.lwb.guahao.model.Doctor;
+import com.lwb.guahao.qo.DoctorDailyScheduleQo;
 import com.lwb.guahao.webapp.component.PagingComponent;
 import com.lwb.guahao.webapp.service.DoctorService;
 import com.lwb.guahao.webapp.service.HospitalService;
 import com.lwb.guahao.webapp.service.LoginService;
+import com.lwb.guahao.webapp.vo.DoctorDailyScheduleQoVo;
+import com.lwb.guahao.webapp.vo.DoctorDailyScheduleVo;
 import com.lwb.guahao.webapp.vo.DoctorVo;
 import com.lwb.guahao.webapp.vo.LoginedHospital;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * User: Lu Weibiao
@@ -36,6 +38,8 @@ public class HospitalController {
     private HospitalService hospitalService;
     @Resource
     private DoctorService doctorService;
+    @Resource
+    private DoctorPerTimeScheduleService doctorPerTimeScheduleService;
     @Resource
     private PagingComponent pagingComponent;
 
@@ -118,5 +122,27 @@ public class HospitalController {
         model.addAttribute("ret",apiRet.getRet());
         model.addAttribute("msg",apiRet.getMsg());
         model.addAttribute("data",apiRet.getData());
+    }
+
+    @RequestMapping(value = "doctor/{id}/dailySchedules",method = RequestMethod.GET)
+    public String doctorDailySchedules(HttpServletRequest request, Model model, @PathVariable(value = "id") Integer doctorId,DoctorDailyScheduleQoVo qoVo){
+        Integer curHospitalId = loginService.getLoginedHospitalId(request);
+        ApiRet apiRet = new ApiRet();
+        String view = null;
+        if(!hospitalService.hasThisDoctor(curHospitalId,doctorId)){
+            apiRet.setRet(ApiRet.RET_FAIL);
+            apiRet.setMsg("没有访问权限");
+            view = null;
+        } else{
+            qoVo.setDoctorId(doctorId);
+            apiRet = doctorPerTimeScheduleService.getPagingBy(qoVo);
+            model.addAttribute("doctorDailyScheduleQo",qoVo);
+            model.addAttribute("doctorDailySchedulePaging",(Paging<DoctorDailyScheduleVo>)apiRet.getData());
+            view = "/../jsp-inc/hospital/doctor/dailySchedules";
+        }
+        model.addAttribute("ret",apiRet.getRet());
+        model.addAttribute("msg",apiRet.getMsg());
+//        return view;
+        return "/../jsp-inc/hospital/doctor/dailySchedules";
     }
 }

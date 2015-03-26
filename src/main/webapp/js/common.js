@@ -40,7 +40,11 @@ function loadHtmlByUrl(targetId, url) {
             dataType: "html",
             type: "GET",
             success: function (data) {
-                $(targetId).html(data);
+                if(data.ret && data.ret == API_RET_FAIL && data.msg){
+                    $ModalBox.open(data.msg);
+                } else{
+                    $(targetId).html(data);
+                }
                 $loadingGif.hide();
                 console.log("loading end");
             },

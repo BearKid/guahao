@@ -22,6 +22,9 @@ public class Paging<T> {
 //            throw new IllegalArgumentException();
 //        }
     }
+    public boolean isEmpty(){
+        return items.isEmpty();
+    }
 
     /**
      * 获取总页数

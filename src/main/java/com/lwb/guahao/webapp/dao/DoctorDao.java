@@ -20,6 +20,9 @@ import java.util.List;
  */
 @Repository
 public class DoctorDao extends BaseHibernateDao {
+    public Doctor get(Integer doctorId) {
+        return hibernateTemplate.get(Doctor.class,doctorId);
+    }
     public void update(Doctor doctor) {
         hibernateTemplate.update(doctor);
     }
@@ -82,4 +85,5 @@ public class DoctorDao extends BaseHibernateDao {
         return new Paging<Doctor>(doctors,pn,pageSize,totalSize.intValue());
 
     }
+
 }

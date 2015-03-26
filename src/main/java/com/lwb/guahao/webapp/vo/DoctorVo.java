@@ -62,9 +62,9 @@ public class DoctorVo {
         DoctorVo doctorVo = new DoctorVo();
         BeanUtils.copyProperties(doctor,doctorVo);
         //日期时间格式化
-        doctorVo.setCreateDateTime(StringUtils.isEmpty(doctor.getLatestLoginDate()) ? "未知" : dateTimeFormatter.format(doctor.getCreateDateTime()));
-        doctorVo.setEditDateTime(StringUtils.isEmpty(doctor.getEditDateTime()) ? "未知" : dateTimeFormatter.format(doctor.getEditDateTime()));
-        doctorVo.setLatestLoginDate(StringUtils.isEmpty(doctor.getLatestLoginDate()) ? "未知" : dateTimeFormatter.format(doctor.getLatestLoginDate()));
+        doctorVo.setCreateDateTime(StringUtils.isEmpty(doctor.getLatestLoginDate()) ? "未知" : yearMonthDayTimeFormatter.format(doctor.getCreateDateTime()));
+        doctorVo.setEditDateTime(StringUtils.isEmpty(doctor.getEditDateTime()) ? "未知" : yearMonthDayTimeFormatter.format(doctor.getEditDateTime()));
+        doctorVo.setLatestLoginDate(StringUtils.isEmpty(doctor.getLatestLoginDate()) ? "未知" : yearMonthDayTimeFormatter.format(doctor.getLatestLoginDate()));
         doctorVo.setDeptClassName(ConstantsMap.deptClassMap.get(doctor.getDeptClassCode()));
         return doctorVo;
     }

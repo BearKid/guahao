@@ -1,21 +1,20 @@
 package com.lwb.guahao.webapp.vo;
 
 import com.lwb.guahao.model.Doctor;
-import com.lwb.guahao.model.DoctorPerTimeSchedule;
 
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Lu Weibiao on 2015/2/16 22:26.
  */
 public class DoctorDailyScheduleVo {
-    private Integer id;
+    private Integer id; //伪id标识
     private Integer totalSource; //当日总号源数
     private Integer oddSource; //剩余号源数
-    private Integer price; //挂号费
-    private Date effectiveDate; //生效日期
-    private List<DoctorPerTimeSchedule> doctorPerTimeScheduleList; //当日各时间段号源分配计划。Json <--> List<DoctorDailyScheduleVo.SourceArrangement>。
+    private Double price; //挂号费
+    private String takeEffectiveDate; //生效日期
+    private List<DoctorPerTimeScheduleVo> doctorPerTimeScheduleList; //当日各时间段号源分配计划。Json <--> List<DoctorDailyScheduleVo.SourceArrangement>。
+    private Integer doctorId;
     private Doctor doctor;
 
     public Integer getId() {
@@ -24,6 +23,14 @@ public class DoctorDailyScheduleVo {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(Integer doctorId) {
+        this.doctorId = doctorId;
     }
 
     public Integer getTotalSource() {
@@ -42,27 +49,27 @@ public class DoctorDailyScheduleVo {
         this.oddSource = oddSource;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public Date getEffectiveDate() {
-        return effectiveDate;
+    public String getTakeEffectiveDate() {
+        return takeEffectiveDate;
     }
 
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
+    public void setTakeEffectiveDate(String takeEffectiveDate) {
+        this.takeEffectiveDate = takeEffectiveDate;
     }
 
-    public List<DoctorPerTimeSchedule> getDoctorPerTimeScheduleList() {
+    public List<DoctorPerTimeScheduleVo> getDoctorPerTimeScheduleList() {
         return doctorPerTimeScheduleList;
     }
 
-    public void setDoctorPerTimeScheduleList(List<DoctorPerTimeSchedule> doctorPerTimeScheduleList) {
+    public void setDoctorPerTimeScheduleList(List<DoctorPerTimeScheduleVo> doctorPerTimeScheduleList) {
         this.doctorPerTimeScheduleList = doctorPerTimeScheduleList;
     }
 

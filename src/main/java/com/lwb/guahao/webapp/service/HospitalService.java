@@ -98,4 +98,15 @@ public class HospitalService {
         doctorDao.save(doctor);
         return new ApiRet<Doctor>(doctor);
     }
+
+    /**
+     * 判断指定医院是否有指定的医生
+     * @param hospitalId
+     * @param doctorId
+     * @return
+     */
+    public boolean hasThisDoctor(Integer hospitalId, Integer doctorId) {
+        Doctor doctor = doctorDao.get(doctorId);
+        return hospitalId.equals(doctor.getHospitalId());
+    }
 }

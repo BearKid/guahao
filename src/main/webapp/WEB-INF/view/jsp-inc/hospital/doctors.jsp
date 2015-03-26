@@ -114,7 +114,7 @@
     //医生排班页面
     $(".jsDoctorShcedule").click(function () {
         var doctorId = $(this).parent().parent().data("doctorId");
-        var url = "${applicationScope.contextPath}/hospital/doctor/" + doctorId + "/schedules";
+        var url = "${applicationScope.contextPath}/hospital/doctor/" + doctorId + "/dailySchedules";
         var navMap = new Map();
         navMap.put("医生管理", "${applicationScope.contextPath}/hospital/doctors");
         navMap.put("医生排班", url);
