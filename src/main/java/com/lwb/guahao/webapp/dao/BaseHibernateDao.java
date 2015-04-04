@@ -1,5 +1,6 @@
 package com.lwb.guahao.webapp.dao;
 
+import com.lwb.guahao.model.DoctorPerTimeSchedule;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -17,6 +18,16 @@ import java.util.List;
 public abstract class BaseHibernateDao<T> {
     @Resource
     protected HibernateTemplate hibernateTemplate;
+
+    /**
+     * 批量更新
+     * @param list
+     */
+    public void saveOrUpdate(List<T> list) {
+        for(T entity : list) {
+            hibernateTemplate.saveOrUpdate(entity);
+        }
+    }
 
     /**
      * 获取唯一返回值/对象

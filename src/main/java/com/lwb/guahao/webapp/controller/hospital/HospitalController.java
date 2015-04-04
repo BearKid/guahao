@@ -3,9 +3,11 @@ package com.lwb.guahao.webapp.controller.hospital;
 import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.Paging;
 import com.lwb.guahao.common.constants.ConstantsMap;
+import com.lwb.guahao.common.util.DateUtils;
 import com.lwb.guahao.common.util.DeptClassUtil;
+import com.lwb.guahao.common.util.IntegerUtils;
 import com.lwb.guahao.model.Doctor;
-import com.lwb.guahao.qo.DoctorDailyScheduleQo;
+import com.lwb.guahao.model.DoctorPerTimeSchedule;
 import com.lwb.guahao.webapp.component.PagingComponent;
 import com.lwb.guahao.webapp.service.DoctorService;
 import com.lwb.guahao.webapp.service.HospitalService;
@@ -14,6 +16,7 @@ import com.lwb.guahao.webapp.vo.DoctorDailyScheduleQoVo;
 import com.lwb.guahao.webapp.vo.DoctorDailyScheduleVo;
 import com.lwb.guahao.webapp.vo.DoctorVo;
 import com.lwb.guahao.webapp.vo.LoginedHospital;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -24,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * User: Lu Weibiao
@@ -32,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping(value = "/hospital")
 public class HospitalController {
+    private static final Logger logger = Logger.getLogger(HospitalController.class);
     @Resource
     private LoginService loginService;
     @Resource
@@ -124,6 +131,14 @@ public class HospitalController {
         model.addAttribute("data",apiRet.getData());
     }
 
+    /**
+     * 获取某个医生的排班列表（分页）
+     * @param request
+     * @param model
+     * @param doctorId
+     * @param qoVo
+     * @return
+     */
     @RequestMapping(value = "doctor/{id}/dailySchedules",method = RequestMethod.GET)
     public String doctorDailySchedules(HttpServletRequest request, Model model, @PathVariable(value = "id") Integer doctorId,DoctorDailyScheduleQoVo qoVo){
         Integer curHospitalId = loginService.getLoginedHospitalId(request);
@@ -138,11 +153,49 @@ public class HospitalController {
             apiRet = doctorPerTimeScheduleService.getPagingBy(qoVo);
             model.addAttribute("doctorDailyScheduleQo",qoVo);
             model.addAttribute("doctorDailySchedulePaging",(Paging<DoctorDailyScheduleVo>)apiRet.getData());
+            model.addAttribute("queryStringWithoutPn", pagingComponent.getQueryStringWithoutPn(request));
             view = "/../jsp-inc/hospital/doctor/dailySchedules";
         }
         model.addAttribute("ret",apiRet.getRet());
         model.addAttribute("msg",apiRet.getMsg());
 //        return view;
         return "/../jsp-inc/hospital/doctor/dailySchedules";
+    }
+    @RequestMapping(value = "dailySchedule/saveOrUpdate",method = RequestMethod.POST)
+    public String doctorDailyScheduleSaveOrUpdate(HttpServletRequest request, Model model){
+        ApiRet apiRet = new ApiRet();
+        /*根据传入参数构建doctorPerTimeSchedule List*/
+        String[] doctorPerTimeScheduleIdArr = request.getParameterValues("doctorPerTimeScheduleId");
+        String[] startTimeArr = request.getParameterValues("startTime");
+        String[] endTimeArr = request.getParameterValues("endTime");
+        String[] totalSourceArr = request.getParameterValues("totalSource");
+        String price = request.getParameter("price");
+        String scheduleDay = request.getParameter("scheduleDay");
+        String doctorId = request.getParameter("doctorId");
+        int size = doctorPerTimeScheduleIdArr.length;
+        List<DoctorPerTimeSchedule> doctorPerTimeScheduleList = new ArrayList<DoctorPerTimeSchedule>(size);
+        try {
+            for (int i = 0; i < size; i++) {
+                DoctorPerTimeSchedule schedule = new DoctorPerTimeSchedule();
+                schedule.setId(IntegerUtils.parseString(doctorPerTimeScheduleIdArr[i], null));
+                schedule.setDoctorId(Integer.valueOf(doctorId));
+                Date startDateTime = DateUtils.yearMonthDayWeekTimeFormatter.parse(scheduleDay + " " + startTimeArr[i]);
+                schedule.setStartDateTime(startDateTime);
+                Date endDateTime = DateUtils.yearMonthDayWeekTimeFormatter.parse(scheduleDay + " " + endTimeArr[i]);
+                schedule.setEndDateTime(endDateTime);
+                schedule.setTotalSource(IntegerUtils.parseString(totalSourceArr[i], 0));
+                schedule.setOddSource(schedule.getTotalSource());
+                schedule.setPrice(IntegerUtils.parseString(price,0)*1.0);
+                doctorPerTimeScheduleList.add(schedule);
+            }
+            doctorPerTimeScheduleService.saveOrUpdate(doctorPerTimeScheduleList);
+        }catch (Exception e){
+            logger.error("doctorDailyScheduleSaveOrUpdate",e);
+            apiRet.setRet(ApiRet.RET_FAIL);
+            apiRet.setMsg("保存失败");
+        }
+        model.addAttribute("ret",apiRet.getRet());
+        model.addAttribute("msg",apiRet.getMsg());
+        return null;
     }
 }

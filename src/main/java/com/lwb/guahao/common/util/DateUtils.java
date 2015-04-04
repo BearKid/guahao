@@ -16,16 +16,17 @@ public class DateUtils {
     public final static String yearMonthDayTimePattern = "yyyy年MM月dd日 HH:mm:ss";
     public final static String yearMonthDayPattern = "yyyy年MM月dd日";
     public final static String yearMonthDayWeekPattern = "yyyy年MM月dd日(E)";
-    public final static String yearMonthDayTimeWeekPattern = "yyyy年MM月dd日 HH:mm:ss E";
+    public final static String yearMonthDayWeekTimePattern = "yyyy年MM月dd日(E) HH:mm";
     public final static String timePattern = "HH:mm:ss";
     public final static String weekPattern = "E";
     public final static String ISOYearMonthDayPattern = "yyyy-MM-dd";
     public final static SimpleDateFormat yearMonthDayTimeFormatter = new SimpleDateFormat(yearMonthDayTimePattern);
     public final static SimpleDateFormat timeFormatter = new SimpleDateFormat(timePattern);
-    public final static SimpleDateFormat yearMonthDayTimeWeekFormatter = new SimpleDateFormat(yearMonthDayTimeWeekPattern);
+    public final static SimpleDateFormat yearMonthDayWeekTimeFormatter = new SimpleDateFormat(yearMonthDayWeekTimePattern);
     public final static SimpleDateFormat weekFormatter = new SimpleDateFormat(weekPattern);
     public final static SimpleDateFormat yearMonthDayFormatter = new SimpleDateFormat(yearMonthDayPattern);
     public final static SimpleDateFormat ISODateFormatter = new SimpleDateFormat(ISOYearMonthDayPattern);
+    public final static SimpleDateFormat yearMonthDayWeekFormatter = new SimpleDateFormat(yearMonthDayWeekPattern);
 
     /**
      * 根据出生日期字符串算出年龄

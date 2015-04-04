@@ -32,7 +32,7 @@ public class DoctorPerTimeScheduleDao extends BaseHibernateDao{
         final String countHql = "select count(*)";
         StringBuilder fromHqlBuilder = new StringBuilder(" from DoctorPerTimeSchedule s where s.doctorId = ? and s.startDateTime >= ? and s.startDateTime < ?");
         Date startDateTime = new DateTime(qo.getStartDay()).withTimeAtStartOfDay().toDate();
-        Date endDateTime = new DateTime(qo.getEndDay()).plus(1).withTimeAtStartOfDay().toDate();
+        Date endDateTime = new DateTime(qo.getEndDay()).plusDays(1).withTimeAtStartOfDay().toDate();
         params.add(qo.getDoctorId());
         params.add(startDateTime);
         params.add(endDateTime);

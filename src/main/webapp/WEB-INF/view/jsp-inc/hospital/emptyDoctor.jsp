@@ -80,7 +80,7 @@
 <script>
     //创建医生-提交
     $("#submitCreateDoctorForm").click(function () {
-        Hospital.ajaxByForm("#createDoctorForm", function (data) {
+        Hospital.getJsonByForm("#createDoctorForm", function (data) {
             $ModalBox.open(data.msg);
             if (data.ret == API_RET_SUCCESS) {
                 setTimeout(function () {

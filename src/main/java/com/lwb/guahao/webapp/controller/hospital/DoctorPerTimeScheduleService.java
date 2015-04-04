@@ -87,7 +87,7 @@ public class DoctorPerTimeScheduleService {
 //        Map<DateTime,List<DoctorPerTimeScheduleVo>> tempMap = new LinkedHashMap<DateTime, List<DoctorPerTimeScheduleVo>>(doctorDailyScheuleVoMap);
         if(!ignoreNoScheduleDate){
             DateTime startDay = new DateTime(startDate).withTimeAtStartOfDay();
-            DateTime endDay = new DateTime(endDate).plus(1).withTimeAtStartOfDay();
+            DateTime endDay = new DateTime(endDate).plusDays(1).withTimeAtStartOfDay();
             DateTime tempDay = startDay;
             while(!tempDay.isAfter(endDay)){
                 doctorDailyScheuleVoMap.put(tempDay,new ArrayList<DoctorPerTimeScheduleVo>(0));
@@ -177,5 +177,9 @@ public class DoctorPerTimeScheduleService {
 //            }
 //        });
         return doctorDailyScheduleVoList;
+    }
+
+    public void saveOrUpdate(List<DoctorPerTimeSchedule> doctorPerTimeScheduleList) {
+        doctorPerTimeScheduleDao.saveOrUpdate(doctorPerTimeScheduleList);
     }
 }

@@ -82,7 +82,7 @@ function loadHtmlByForm(targetId,formId){
  * @param url 请求url
  * @param callBack 请求成功后获取json数据进行后续处理
  */
-function ajaxByUrl(url,callBack) {
+function getJsonByUrl(url,callBack) {
     var $loadingGif = $("#loadingGif");
     $loadingGif.show();
     console.log("loading");
@@ -106,7 +106,7 @@ function ajaxByUrl(url,callBack) {
  * @param formId 要提交的表单
  * @param callBack 请求成功后获取json数据进行后续处理
  */
-function ajaxByForm(formId,callBack){
+function getJsonByForm(formId,callBack){
     var $loadingGif = $("#loadingGif");
     $loadingGif.show();
     console.log("loading");
@@ -151,8 +151,11 @@ Hospital.loadHtmlByForm = function(formId,navMap){
  * @param formId
  * @param callBack
  */
-Hospital.ajaxByForm = function(formId,callBack){
-    ajaxByForm(formId,callBack);
+Hospital.getJsonByForm = function(formId,callBack){
+    getJsonByForm(formId,callBack);
+}
+Hospital.getJsonByUrl = function(url,callBack){
+    getJsonByUrl(url,callBack);
 }
 /**
  * 医院账号模块 - 加载主区域html前执行的其他处理
