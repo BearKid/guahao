@@ -5,8 +5,10 @@ import com.lwb.guahao.common.Paging;
 import com.lwb.guahao.common.constants.Constants;
 import com.lwb.guahao.common.util.SecurityUtil;
 import com.lwb.guahao.model.Doctor;
+import com.lwb.guahao.model.DoctorPerTimeSchedule;
 import com.lwb.guahao.model.Hospital;
 import com.lwb.guahao.webapp.dao.DoctorDao;
+import com.lwb.guahao.webapp.dao.DoctorPerTimeScheduleDao;
 import com.lwb.guahao.webapp.dao.HospitalDao;
 import com.lwb.guahao.webapp.vo.DoctorVo;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +30,8 @@ public class HospitalService {
     private HospitalDao hospitalDao;
     @Resource
     private DoctorDao doctorDao;
+    @Resource
+    private DoctorPerTimeScheduleDao doctorPerTimeScheduleDao;
 
     /**
      * 注册新的医院账户
@@ -50,7 +54,7 @@ public class HospitalService {
      */
     public Hospital update(Hospital hospital){
         Hospital newHospital = new Hospital();
-        BeanUtils.copyProperties(hospital,newHospital);//防止传入的hospital被修改
+        BeanUtils.copyProperties(hospital, newHospital);//防止传入的hospital被修改
         newHospital.setModifiedDate(new Date());
         hospitalDao.update(newHospital);
         return newHospital;
@@ -108,5 +112,19 @@ public class HospitalService {
     public boolean hasThisDoctor(Integer hospitalId, Integer doctorId) {
         Doctor doctor = doctorDao.get(doctorId);
         return hospitalId.equals(doctor.getHospitalId());
+    }
+
+
+    /**
+     * 判断指定医院是否有该医生排班
+     * @param doctorPerTimeScheduleId
+     * @return
+     */
+    public boolean hasThisPerTimeSchedule(Integer hospitalId, Integer doctorPerTimeScheduleId) {
+        DoctorPerTimeSchedule doctorPerTimeSchedule = doctorPerTimeScheduleDao.get(doctorPerTimeScheduleId);
+        if(doctorPerTimeSchedule.getDoctorId() == null) return false;
+
+        Doctor doctor = doctorDao.get(doctorPerTimeSchedule.getDoctorId());
+        return (doctor != null) && !hospitalId.equals(doctor.getHospitalId());
     }
 }

@@ -41,7 +41,7 @@ public class DoctorPerTimeScheduleService {
         if(qo.getPageSize() == null){
             qo.setPageSize(Constants.DEFAULT_PAGE_SIZE);
         }
-        Paging<DoctorPerTimeSchedule> doctorPerTimeSchedulePaging= doctorPerTimeScheduleDao.getPagingByDoctorId(qo);
+        Paging<DoctorPerTimeSchedule> doctorPerTimeSchedulePaging= doctorPerTimeScheduleDao.getPagingBy(qo);
         List<DoctorDailyScheduleVo>  doctorDailyScheduleVoList = buildDoctorDailyScheduleVoList(doctorPerTimeSchedulePaging.getItems(),qo.getStartDay(),qo.getEndDay(),qo.getIgnoreNoScheduleDay());
         Paging<DoctorDailyScheduleVo> doctorDailyScheduleVoPaging = new Paging<DoctorDailyScheduleVo>(
                 doctorDailyScheduleVoList,
@@ -73,6 +73,7 @@ public class DoctorPerTimeScheduleService {
                 return ret;
             }
         });//临时归类-每天排班映射 降序
+
         /*按天归类排班*/
         for(DoctorPerTimeSchedule doctorPerTimeSchedule : doctorPerTimeSchedulesList){
             DateTime day = new DateTime(doctorPerTimeSchedule.getStartDateTime()).withTimeAtStartOfDay();//排班对应的日期天
@@ -83,31 +84,21 @@ public class DoctorPerTimeScheduleService {
             }
             doctorPerTimeScheduleVoList.add(DoctorPerTimeScheduleVo.parse(doctorPerTimeSchedule));
         }
+
         /*没有排班的日期也参与占位*/
-//        Map<DateTime,List<DoctorPerTimeScheduleVo>> tempMap = new LinkedHashMap<DateTime, List<DoctorPerTimeScheduleVo>>(doctorDailyScheuleVoMap);
         if(!ignoreNoScheduleDate){
             DateTime startDay = new DateTime(startDate).withTimeAtStartOfDay();
             DateTime endDay = new DateTime(endDate).plusDays(1).withTimeAtStartOfDay();
             DateTime tempDay = startDay;
-            while(!tempDay.isAfter(endDay)){
-                doctorDailyScheuleVoMap.put(tempDay,new ArrayList<DoctorPerTimeScheduleVo>(0));
+            while(tempDay.isBefore(endDay)){//遍历检查指定的那几天
+                List<DoctorPerTimeScheduleVo> tempVoList = doctorDailyScheuleVoMap.get(tempDay);
+                if(tempVoList == null) {//如果某天的排班列表为null,则创建一个空的排班列表
+                    doctorDailyScheuleVoMap.put(tempDay, new ArrayList<DoctorPerTimeScheduleVo>(0));
+                }
                 tempDay = tempDay.plusDays(1);
             }
-//            Set<DateTime> dateSet = tempMap.keySet();
-//            DateTime preDay = null;
-//            for(DateTime nextDay : dateSet){
-//                if(preDay == null){
-//                    preDay = nextDay;
-//                    continue;
-//                }
-//                DateTime tempNextDay = null;
-//                while((tempNextDay = preDay.minusDays(1)).isBefore(nextDay)){
-//                    doctorDailyScheuleVoMap.put(tempNextDay,null);
-//                    preDay = tempNextDay;
-//                }
-//                preDay = nextDay;
-//            }
         }
+
         /*构建正式的每天排班列表中*/
         List<DoctorDailyScheduleVo> doctorDailyScheduleVoList = new LinkedList<DoctorDailyScheduleVo>();
         for(Map.Entry<DateTime,List<DoctorPerTimeScheduleVo>> entry : doctorDailyScheuleVoMap.entrySet()){
@@ -149,9 +140,9 @@ public class DoctorPerTimeScheduleService {
                         Date date1 = DateUtils.timeFormatter.parse(o1.getStartTime());
                         Date date2 = DateUtils.timeFormatter.parse(o2.getStartTime());
                         if(date1.before(date2)){
-                            ret  = 1;
+                            ret  = -1;
                         } else if(date1.after(date2)){
-                            ret = -1;
+                            ret = 1;
                         }
                     } catch (ParseException e){
                       throw new RuntimeException(e);
@@ -179,7 +170,22 @@ public class DoctorPerTimeScheduleService {
         return doctorDailyScheduleVoList;
     }
 
-    public void saveOrUpdate(List<DoctorPerTimeSchedule> doctorPerTimeScheduleList) {
+    /**
+     * 保存、更新排班
+     * @param doctorPerTimeScheduleList
+     * @return
+     */
+    public ApiRet saveOrUpdate(List<DoctorPerTimeSchedule> doctorPerTimeScheduleList) {
+        ApiRet apiRet = new ApiRet(ApiRet.RET_SUCCESS,"保存成功",null);
         doctorPerTimeScheduleDao.saveOrUpdate(doctorPerTimeScheduleList);
+        return apiRet;
+    }
+
+    /**
+     * 删除指定的排班
+     * @param doctorPerTimeScheduleId
+     */
+    public void delete(Integer doctorPerTimeScheduleId) {
+        doctorPerTimeScheduleDao.delete(doctorPerTimeScheduleId);
     }
 }

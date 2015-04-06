@@ -20,13 +20,13 @@ import java.util.List;
  * Date: 2015/3/23 21:06
  */
 @Repository
-public class DoctorPerTimeScheduleDao extends BaseHibernateDao{
+public class DoctorPerTimeScheduleDao extends BaseHibernateDao<DoctorPerTimeSchedule>{
     /**
      * 获取分页
      * @param qo
      * @return
      */
-    public Paging<DoctorPerTimeSchedule> getPagingByDoctorId(final DoctorDailyScheduleQo qo) {
+    public Paging<DoctorPerTimeSchedule> getPagingBy(final DoctorDailyScheduleQo qo) {
         final List params = new ArrayList();
         final String selectHql = "select s";
         final String countHql = "select count(*)";
@@ -39,25 +39,10 @@ public class DoctorPerTimeScheduleDao extends BaseHibernateDao{
 
         final String fromHql = fromHqlBuilder.toString();
 
-        List<DoctorPerTimeSchedule> doctorPerTimeScheduleList = hibernateTemplate.execute(new HibernateCallback<List<DoctorPerTimeSchedule>>() {
-            @Override
-            public List<DoctorPerTimeSchedule> doInHibernate(Session session) throws HibernateException, SQLException {
-                Query query = session.createQuery(selectHql + fromHql);
-                setParameters(query,params);
-                query.setFirstResult(qo.getFirstIndex());
-                query.setMaxResults(qo.getPageSize());
-                return query.list();
-            }
-        });
+        List<DoctorPerTimeSchedule> doctorPerTimeScheduleList = pagingQuery(selectHql + fromHql,params,qo.getFirstIndex(),qo.getPageSize());
 
-        Long totalSize = hibernateTemplate.execute(new HibernateCallback<Long>() {
-            @Override
-            public Long doInHibernate(Session session) throws HibernateException, SQLException {
-                Query query = session.createQuery(countHql + fromHql);
-                setParameters(query,params);
-                return (Long)query.uniqueResult();
-            }
-        });
+        Long totalSize = (Long)unique(countHql + fromHql,params);
+
         Paging<DoctorPerTimeSchedule> paging = new Paging<DoctorPerTimeSchedule>(doctorPerTimeScheduleList,qo.getPn(),qo.getPageSize(),totalSize.intValue());
         return paging;
     }

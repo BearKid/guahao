@@ -1,5 +1,6 @@
 package com.lwb.guahao.webapp.controller;
 
+import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.util.FieldValidationUtil;
 import com.lwb.guahao.webapp.component.WebPageComponent;
 import com.lwb.guahao.webapp.service.LoginService;
@@ -55,8 +56,10 @@ public class LoginController {
         LoginedHospital loginedHospital = loginService.hospitalLogin(request, accountName, password);
         if (loginedHospital == null) {
             errMsg.put("login", "账号不存在或密码输入错误");
-            model.addAttribute("errMsg", errMsg);
+            model.addAttribute("ret", ApiRet.RET_FAIL);
+            model.addAttribute("msg", errMsg);
         } else {
+            model.addAttribute("ret",ApiRet.RET_SUCCESS);
             model.addAttribute("redirectUrl", (redirectUrl == null) ? webPageComponent.getAppContextPath() + "/hospital/index" : redirectUrl);
         }
     }
@@ -80,8 +83,10 @@ public class LoginController {
         LoginedPerUser loginedUser = loginService.perUserLogin(request, accountName, password);
         if (loginedUser == null) {
             errMsg.put("login", "账号或密码输入错误");
-            model.addAttribute("errMsg", errMsg);
+            model.addAttribute("ret",ApiRet.RET_FAIL);
+            model.addAttribute("msg", errMsg);
         } else {
+            model.addAttribute("ret",ApiRet.RET_SUCCESS);
             model.addAttribute("redirectUrl", (redirectUrl == null) ? webPageComponent.getAppContextPath() + "/per/index" : redirectUrl);
         }
     }
@@ -103,8 +108,10 @@ public class LoginController {
         LoginedDoctor loginedDoctor = loginService.doctorLogin(request, accountName, password);
         if (loginedDoctor == null) {
             errMsg.put("login", "账号或密码输入错误");
+            model.addAttribute("ret",ApiRet.RET_FAIL);
             model.addAttribute("errMsg", errMsg);
         } else {
+            model.addAttribute("ret",ApiRet.RET_SUCCESS);
             model.addAttribute("redirectUrl", (redirectUrl == null) ? webPageComponent.getAppContextPath() + "/doctor/index" : redirectUrl);
         }
     }

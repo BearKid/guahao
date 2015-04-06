@@ -55,31 +55,44 @@
             <li class="loginFormNavTag" data-target-id="hospitalLoginForm" role="presentation"><a href="#">医院登录</a></li>
             <li class="loginFormNavTag" data-target-id="doctorLoginForm"role="presentation"><a href="#">医生登录</a></li>
         </ul>
-        <form id="perUserLoginForm" class="form-signin active" action="${applicationScope.contextPath}/login/per.json" method="post">
+        <form id="perUserLoginForm" class="form-signin active loginForm" action="${applicationScope.contextPath}/login/per.json" method="post">
             <h2 class="form-signin-heading">个人登录</h2>
             <label for="inputPerUserAccountName" class="sr-only">Email address</label>
             <input name="accountName" type="text" id="inputPerUserAccountName" class="form-control" placeholder="邮箱|手机号码" required autofocus>
             <label for="inputPerUserPassword" class="sr-only">Password</label>
             <input name="password" type="password" id="inputPerUserPassword" class="form-control" placeholder="密码" required>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+            <button class="btn btn-lg btn-primary btn-block loginBtn" type="button">登录</button>
         </form>
 
-        <form id="hospitalLoginForm" class="form-signin" style="display: none;" action="${applicationScope.contextPath}/login/hospital.json" method="post">
+        <form id="hospitalLoginForm" class="form-signin loginForm" style="display: none;" action="${applicationScope.contextPath}/login/hospital.json" method="post">
             <h2 class="form-signin-heading">医院登录</h2>
             <label for="inputEmail" class="sr-only">Email address</label>
             <input name="accountName" type="email" id="inputEmail" class="form-control" placeholder="邮箱" required autofocus>
             <label for="inputPassword" class="sr-only">Password</label>
             <input name="password" type="password" id="inputPassword" class="form-control" placeholder="密码" required>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+            <button class="btn btn-lg btn-primary btn-block loginBtn" type="button">登录</button>
         </form>
 
-        <form id="doctorLoginForm" class="form-signin" style="display: none;" action="${applicationScope.contextPath}/login/doctor.json" method="post">
+        <form id="doctorLoginForm" class="form-signin loginForm" style="display: none;" action="${applicationScope.contextPath}/login/doctor.json" method="post">
             <h2 class="form-signin-heading">医生登录</h2>
             <label for="inputDoctorAccountName" class="sr-only">Email address</label>
             <input name="accountName" type="text" id="inputDoctorAccountName" class="form-control" placeholder="账号名" required autofocus>
             <label for="inputDoctorPassword" class="sr-only">Password</label>
             <input name="password" type="password" id="inputDoctorPassword" class="form-control" placeholder="密码" required>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+            <button class="btn btn-lg btn-primary btn-block loginBtn" type="button">登录</button>
         </form>
     </div>
 </div>
+<script>
+    $(".loginForm .loginBtn").click(function(){
+        var $this = $(this);
+        var formId = $this.parents(".loginForm").attr("id");
+        getJsonByForm("#"+ formId,function(data) {
+            if (data.ret == API_RET_SUCCESS) {
+                window.location = data.redirectUrl;
+            } else{
+                $ModalBox.open(data.msg);
+            }
+        });
+    });
+</script>

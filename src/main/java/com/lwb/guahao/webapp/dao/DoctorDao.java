@@ -19,28 +19,20 @@ import java.util.List;
  * Date: 2015/3/7 22:47
  */
 @Repository
-public class DoctorDao extends BaseHibernateDao {
-    public Doctor get(Integer doctorId) {
-        return hibernateTemplate.get(Doctor.class,doctorId);
-    }
-    public void update(Doctor doctor) {
-        hibernateTemplate.update(doctor);
-    }
-
+public class DoctorDao extends BaseHibernateDao<Doctor> {
     public Doctor uniqueByAccountAndPwd(String accountName, String pwd) {
         String hql = "from Doctor as d where d.accountName = ? and d.password = ?";
-        return (Doctor) unique(hql, accountName, pwd);
-    }
-
-    public Integer save(Doctor doctor) {
-        return (Integer) hibernateTemplate.save(doctor);
+        Object[] params = new Object[]{
+                accountName, pwd
+        };
+        return (Doctor) unique(hql, params);
     }
 
     public Paging<Doctor> getDoctorsPagingBy(Integer hospitalId, String name, Integer deptClasCode, String accountName,
                                            final int pn, final int pageSize) {
         final String selectHql = "select d ";
-        final String countHql = "select count(*) ";
-        final StringBuilder fromHqlBuilder = new StringBuilder("from Doctor d where 1=1");
+        final String countHql = "select count(*)";
+        final StringBuilder fromHqlBuilder = new StringBuilder(" from Doctor d where 1=1");
         final List params = new ArrayList();
 
         if (hospitalId != null) {
@@ -62,28 +54,13 @@ public class DoctorDao extends BaseHibernateDao {
         fromHqlBuilder.append(" order by d.createDateTime");
 
         final String finalSelectHql = selectHql + fromHqlBuilder.toString();
-        List<Doctor> doctors = hibernateTemplate.execute(new HibernateCallback<List<Doctor>>() {
-            @Override
-            public List<Doctor> doInHibernate(Session session) throws HibernateException, SQLException {
-                Query query = session.createQuery(finalSelectHql);
-                query.setFirstResult((pn - 1) * pageSize);
-                query.setMaxResults(pageSize);
-                setParameters(query, params);
-                return query.list();
-            }
-        });
+        List<Doctor> doctors = pagingQuery(finalSelectHql, params, (pn-1)*pageSize, pageSize);
 
         final String finalCountHql = countHql + fromHqlBuilder.toString();
-        Long totalSize = hibernateTemplate.execute(new HibernateCallback<Long>() {
-            @Override
-            public Long doInHibernate(Session session) throws HibernateException, SQLException {
-                Query query = session.createQuery(finalCountHql);
-                setParameters(query,params);
-                return (Long)query.uniqueResult();
-            }
-        });
-        return new Paging<Doctor>(doctors,pn,pageSize,totalSize.intValue());
 
+        Long totalSize = (Long)unique(finalCountHql,params);
+
+        return new Paging<Doctor>(doctors,pn,pageSize,totalSize.intValue());
     }
 
 }
