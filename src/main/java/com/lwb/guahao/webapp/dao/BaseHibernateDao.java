@@ -17,7 +17,7 @@ import java.util.List;
  * Date: 2015/3/7 16:12
  */
 public abstract class BaseHibernateDao<T> {
-    private final Logger logger = Logger.getLogger(BaseHibernateDao.class);
+    private static final Logger logger = Logger.getLogger(BaseHibernateDao.class);
     private final Class<T> entityClass;
     private final String EXISTS_HQL;
     private final String DELETE_HQL;

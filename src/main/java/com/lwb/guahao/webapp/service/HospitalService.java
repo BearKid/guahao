@@ -121,10 +121,15 @@ public class HospitalService {
      * @return
      */
     public boolean hasThisPerTimeSchedule(Integer hospitalId, Integer doctorPerTimeScheduleId) {
+        boolean hasThisPerTimeSchedule;
         DoctorPerTimeSchedule doctorPerTimeSchedule = doctorPerTimeScheduleDao.get(doctorPerTimeScheduleId);
-        if(doctorPerTimeSchedule.getDoctorId() == null) return false;
-
-        Doctor doctor = doctorDao.get(doctorPerTimeSchedule.getDoctorId());
-        return (doctor != null) && !hospitalId.equals(doctor.getHospitalId());
+        Integer doctorId = doctorPerTimeSchedule.getDoctorId();
+        if(doctorId == null) {
+            hasThisPerTimeSchedule = false;
+        } else {
+            Doctor doctor = doctorDao.get(doctorId);
+            hasThisPerTimeSchedule = hospitalId.equals(doctor.getHospitalId());
+        }
+        return hasThisPerTimeSchedule;
     }
 }

@@ -5,6 +5,7 @@ import com.lwb.guahao.common.Paging;
 import com.lwb.guahao.common.constants.ConstantsMap;
 import com.lwb.guahao.common.util.DateUtils;
 import com.lwb.guahao.common.util.DeptClassUtil;
+import com.lwb.guahao.common.util.DoubleUtils;
 import com.lwb.guahao.common.util.IntegerUtils;
 import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.DoctorPerTimeSchedule;
@@ -16,7 +17,6 @@ import com.lwb.guahao.webapp.vo.DoctorDailyScheduleQoVo;
 import com.lwb.guahao.webapp.vo.DoctorDailyScheduleVo;
 import com.lwb.guahao.webapp.vo.DoctorVo;
 import com.lwb.guahao.webapp.vo.LoginedHospital;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -184,7 +184,8 @@ public class HospitalController {
             String[] startTimeArr = request.getParameterValues("startTime");
             String[] endTimeArr = request.getParameterValues("endTime");
             String[] totalSourceArr = request.getParameterValues("totalSource");
-            String price = request.getParameter("price");
+            String priceStr = request.getParameter("price");
+            Double price = DoubleUtils.parseString(priceStr,0.0);
             String scheduleDay = request.getParameter("scheduleDay");
             String doctorId = request.getParameter("doctorId");
             int size = doctorPerTimeScheduleIdArr.length;
@@ -202,7 +203,7 @@ public class HospitalController {
                 schedule.setEndDateTime(endDateTime);
                 schedule.setTotalSource(IntegerUtils.parseString(totalSourceArr[i], 0));
                 schedule.setOddSource(schedule.getTotalSource());
-                schedule.setPrice(IntegerUtils.parseString(price, 0) * 1.0);
+                schedule.setPrice(price);
                 doctorPerTimeScheduleList.add(schedule);
             }
 
@@ -224,7 +225,7 @@ public class HospitalController {
      * @param model
      * @param doctorPerTimeScheduleId
      */
-    @RequestMapping(value = "doctorPerTimeSchedule/${doctorPerTimeScheduleId}/del")
+    @RequestMapping(value = "doctorPerTimeSchedule/{doctorPerTimeScheduleId}/del")
     public void deleteDoctorPerTimeSchedule(HttpServletRequest request, Model model, @PathVariable Integer doctorPerTimeScheduleId) {
         ApiRet apiRet = new ApiRet(ApiRet.RET_SUCCESS, "删除成功", null);
         Integer hospitalId = loginService.getLoginedHospitalId(request);

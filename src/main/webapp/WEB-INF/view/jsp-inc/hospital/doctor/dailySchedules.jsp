@@ -44,7 +44,7 @@
         <label for="startDay">排班日期</label>
         <input name="startDay" type="text" class="form-control" id="startDay" placeholder="起始日期"
                value="${doctorDailyScheduleQo.startDay}">
-        <input name="endDay" type="text" class="form-control" id="endDay" placeholder="起始日期"
+        <input name="endDay" type="text" class="form-control" id="endDay" placeholder="结束日期"
                value="${doctorDailyScheduleQo.endDay}">
     </div>
     <div class="checkbox">
@@ -171,6 +171,7 @@
         </c:forEach>
     </c:if>
     <!--排班输入栏模板-->
+    <!--
     <tr id="_doctorPerTimeScheduleInputTemplate" class="doctorPerTimeScheduleInput">
         <input name="doctorPerTimeScheduleId" type="hidden" value=""/>
         <td width="40%">
@@ -186,6 +187,7 @@
             <a class="doctorPerTimeScheduleDelete" href="#" data-doctor-per-time-schedule-id="">删除</a>
         </td>
     </tr>
+    -->
 </table>
 <div id="doctorDailySchedulePager"></div>
 <span id="doctorDailyScheduleCurUrl" style="display: none;">
