@@ -13,6 +13,8 @@ import java.util.Date;
  */
 @Entity
 public class Doctor implements Serializable{
+    public static final String GOOD_AT_TAGS_DELIMITER = ",";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

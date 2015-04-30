@@ -74,7 +74,7 @@ public class DeptClassUtil {
         }
     }
 
-    private static String getDeptClassName(int deptClassCode) {
+    public static String getDeptClassName(int deptClassCode) {
         return ConstantsMap.deptClassMap.get(deptClassCode);
     }
 

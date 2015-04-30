@@ -54,7 +54,7 @@ public class HospitalVo {
 
         target.setAccountStatusName(ConstantsMap.accountStatusMap.get(source.getAccountStatusCode()));
         target.setLatestLoginDate(datetimeFormat.format(source.getLatestLoginDateTime()));
-        target.setCreateDate(datetimeFormat.format(source.getCreateDate()));
+        target.setCreateDate(datetimeFormat.format(source.getCreateDateTime()));
         target.setAreaName(AreaUtil.getAreaName(source.getAreaCode()));
 
         return target;

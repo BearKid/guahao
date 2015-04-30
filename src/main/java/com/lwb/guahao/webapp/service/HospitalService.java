@@ -42,7 +42,7 @@ public class HospitalService {
         Hospital newUser = new Hospital();
         BeanUtils.copyProperties(hospital,newUser);//防止传入的hospital被修改
         newUser.setPassword(SecurityUtil.password(hospital.getPassword()));
-        newUser.setCreateDate(new Date());
+        newUser.setCreateDateTime(new Date());
         newUser.setAccountStatusCode(Constants.AccountStatus.UN_VERIFIED);
         hospitalDao.save(newUser);
         return newUser;

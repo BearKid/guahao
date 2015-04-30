@@ -22,12 +22,34 @@ public class PerUserService {
 
     @Transactional
     public PerUser register(PerUser user){
-        PerUser newUser = new PerUser();
-        BeanUtils.copyProperties(user, newUser);
-        newUser.setPassword(SecurityUtil.password(newUser.getPassword()));
-        newUser.setAccountStatusCode(Constants.AccountStatus.UN_VERIFIED);
-        newUser.setCreateDateTime(new Date());
-        perUserDao.save(newUser);
+        PerUser newUser;
+        if(!isRegistered(user)){
+            newUser = new PerUser();
+            BeanUtils.copyProperties(user, newUser);
+            newUser.setPassword(SecurityUtil.password(newUser.getPassword()));
+            newUser.setAccountStatusCode(Constants.AccountStatus.UN_VERIFIED);
+            newUser.setIsEmailBound(false);
+            newUser.setIsMobileBound(false);
+            newUser.setCreateDateTime(new Date());
+            perUserDao.save(newUser);
+        } else {
+            newUser = null;
+        }
         return newUser;
+    }
+
+    /**
+     * 判断用户是否已注册
+     * @param user
+     * @return
+     */
+    public boolean isRegistered(PerUser user){
+        boolean isRegistered;
+        if(perUserDao.existsByEmail(user.getEmail()) || perUserDao.existsByMobilePhone(user.getMobilePhone()) || perUserDao.existsByIdCard(user.getIdCard())){
+            isRegistered = true;
+        } else{
+            isRegistered = false;
+        }
+        return isRegistered;
     }
 }

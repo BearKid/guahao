@@ -17,5 +17,8 @@
 <jsp:include page="/inc/headerBar">
     <jsp:param name="accountType" value="<%=Constants.AccountType.UNKNOWN%>"/>
 </jsp:include>
-
+<form action="/search" method="GET">
+    <input name="keyWord" type="text"/>
+    <input type="submit" value="搜索"/>
+</form>
 </html>

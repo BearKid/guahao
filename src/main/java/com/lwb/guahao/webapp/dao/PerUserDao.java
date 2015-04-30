@@ -23,4 +23,31 @@ public class PerUserDao extends BaseHibernateDao<PerUser> {
         };
         return (PerUser) unique(hql,params);
     }
+
+    public boolean existsByEmail(String email) {
+        String hql = "select id from PerUser p where p.email = ?";
+        Object[] params = new Object[]{
+                email
+        };
+        Integer id = (Integer)unique(hql,params);
+        return id != null;
+    }
+
+    public boolean existsByMobilePhone(String mobilePhone) {
+        String hql = "select id from PerUser p where p.mobilePhone = ?";
+        Object[] params = new Object[]{
+                mobilePhone
+        };
+        Integer id = (Integer) unique(hql, params);
+        return id != null;
+    }
+
+    public boolean existsByIdCard(String idCard) {
+        String hql = "select id from PerUser p where p.idCard = ?";
+        Object[] params = new Object[]{
+                idCard
+        };
+        Integer id = (Integer) unique(hql, params);
+        return id != null;
+    }
 }

@@ -30,7 +30,7 @@
     </style>
 </head>
 <body>
-<!-- hospital/registerPage.jsp -->
+<!-- hospital/hospitalRegisterPage.jsp -->
 <jsp:include page="/inc/headerBar?accountType=1"/>
 <div class="container">
     <div class="container">

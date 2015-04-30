@@ -20,7 +20,7 @@ public class Hospital implements Serializable{
     private Integer accountStatusCode; //账户状态 参见：Constants.AccountStatus
 
     @Column(nullable = false)
-    private Date createDate; //账户创建日期时间
+    private Date createDateTime; //账户创建日期时间
 
     @Column
     private Date latestLoginDateTime; //最近一次登录的日期时间
@@ -92,12 +92,12 @@ public class Hospital implements Serializable{
         this.brief = brief;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreateDateTime() {
+        return createDateTime;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreateDateTime(Date createDateTime) {
+        this.createDateTime = createDateTime;
     }
 
     public String getEmail() {

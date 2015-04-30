@@ -173,3 +173,21 @@ Hospital._beforeLoadHtml = function(navMap){
         $stepBar.append(' >> ');
     }
 };
+
+/**
+ * 个人账号模块
+ * @type {Object}
+ */
+var PerUser = new Object;
+
+/**
+ * 个人账号模块 - 根据表单异步请求并回调
+ * @param formId
+ * @param callBack
+ */
+PerUser.getJsonByForm = function(formId,callBack){
+    getJsonByForm(formId,callBack);
+}
+PerUser.getJsonByUrl = function(url,callBack) {
+    getJsonByUrl(url, callBack);
+}
