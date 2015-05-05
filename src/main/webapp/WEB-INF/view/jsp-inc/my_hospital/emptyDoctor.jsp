@@ -8,7 +8,7 @@
 <jsp:include page="/inc/common/deptClassSelectBox"/>
 
 <form id="createDoctorForm" class="form-signin"
-      action="${applicationScope.contextPath}/hospital/doctor/create.json"
+      action="${applicationScope.contextPath}/myHospital/doctor/create.json"
       method="post">
 
     <div class="form-group">
@@ -86,8 +86,8 @@
                 setTimeout(function () {
                     $ModalBox.close();
                     var navMap = new Map();
-                    navMap.put("医院管理", "${applicationScope.contextPath}/hospital/doctors");
-                    Hospital.loadHtmlByUrl("${applicationScope.contextPath}/hospital/doctors",navMap);
+                    navMap.put("医院管理", "${applicationScope.contextPath}/myHospital/doctors");
+                    Hospital.loadHtmlByUrl("${applicationScope.contextPath}/myHospital/doctors",navMap);
                 }, 2000);
             }
             console.log("create dcotor end");

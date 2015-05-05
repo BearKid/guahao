@@ -6,24 +6,23 @@ package com.lwb.guahao.webapp.vo;
  */
 
 import com.lwb.guahao.common.constants.ConstantsMap;
+import com.lwb.guahao.common.util.DateUtils;
 import com.lwb.guahao.model.Hospital;
 import org.springframework.beans.BeanUtils;
-
-import java.util.Date;
 
 /**
  * 登录态的医生账号相关信息
  */
 public class LoginedHospital {
-    private Integer id;
+    private String id;
 
     private String password; //账户密码-密文
 
-    private Integer accountStatusCode; //账户状态-编码 参见：Constants.AccountStatus
+    private String accountStatusCode; //账户状态-编码 参见：Constants.AccountStatus
 
-    private Date createDateTime; //账户创建日期时间
+    private String createDateTime; //账户创建日期时间
 
-    private Date latestLoginDateTime; //最近一次登录的日期时间
+    private String latestLoginDateTime; //最近一次登录的日期时间
 
     private String email; //联系邮箱
 
@@ -31,7 +30,7 @@ public class LoginedHospital {
 
     private String name; //医院名称
 
-    private Integer areaCode; //医院地址-地区代码 参见ConstantsMap.areaMap
+    private String areaCode; //医院地址-地区代码 参见ConstantsMap.areaMap
 
     private String address; //医院详细地址
 
@@ -41,7 +40,7 @@ public class LoginedHospital {
 
     private String avatarPath; //头像物理存储路径
 
-    private Date modifiedDate; //Hospital被修改的日期时间
+    private String modifyDateTime; //Hospital被修改的日期时间
 
     /*----------相较于Hospital 新增的字段-----------*/
     private String accountStatusName; //账户状态-名称 参见：Constants.AccountStatus
@@ -52,16 +51,23 @@ public class LoginedHospital {
         LoginedHospital loginedHospital = new LoginedHospital();
         BeanUtils.copyProperties(hospital,loginedHospital);
 
-        loginedHospital.setAccountStatusName(ConstantsMap.accountStatusMap.get(loginedHospital.getAccountStatusCode()));
-        loginedHospital.setAreaName(ConstantsMap.areaMap.get(loginedHospital.getAreaCode()));
+        loginedHospital.setId(hospital.getId() == null ? null : hospital.getId().toString());
+        loginedHospital.setAccountStatusCode(hospital.getAccountStatusCode() == null ? null : hospital.getAccountStatusCode().toString());
+        loginedHospital.setAccountStatusName(ConstantsMap.accountStatusMap.get(hospital.getAccountStatusCode()));
+        loginedHospital.setAreaName(ConstantsMap.areaMap.get(hospital.getAreaCode()));
+        loginedHospital.setAreaCode(hospital.getAreaCode() == null ? null : hospital.getAreaCode().toString());
+        //日期时间
+        loginedHospital.setCreateDateTime(hospital.getCreateDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(hospital.getCreateDateTime()));
+        loginedHospital.setModifyDateTime(hospital.getModifyDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(hospital.getModifyDateTime()));
+        loginedHospital.setLatestLoginDateTime(hospital.getLatestLoginDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(hospital.getLatestLoginDateTime()));
         return loginedHospital;
     }
 
-    public Integer getAccountStatusCode() {
+    public String getAccountStatusCode() {
         return accountStatusCode;
     }
 
-    public void setAccountStatusCode(Integer accountStatusCode) {
+    public void setAccountStatusCode(String accountStatusCode) {
         this.accountStatusCode = accountStatusCode;
     }
 
@@ -81,11 +87,11 @@ public class LoginedHospital {
         this.address = address;
     }
 
-    public Integer getAreaCode() {
+    public String getAreaCode() {
         return areaCode;
     }
 
-    public void setAreaCode(Integer areaCode) {
+    public void setAreaCode(String areaCode) {
         this.areaCode = areaCode;
     }
 
@@ -113,11 +119,11 @@ public class LoginedHospital {
         this.brief = brief;
     }
 
-    public Date getCreateDateTime() {
+    public String getCreateDateTime() {
         return createDateTime;
     }
 
-    public void setCreateDateTime(Date createDateTime) {
+    public void setCreateDateTime(String createDateTime) {
         this.createDateTime = createDateTime;
     }
 
@@ -129,19 +135,19 @@ public class LoginedHospital {
         this.email = email;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Date getLatestLoginDateTime() {
+    public String getLatestLoginDateTime() {
         return latestLoginDateTime;
     }
 
-    public void setLatestLoginDateTime(Date latestLoginDateTime) {
+    public void setLatestLoginDateTime(String latestLoginDateTime) {
         this.latestLoginDateTime = latestLoginDateTime;
     }
 
@@ -153,12 +159,12 @@ public class LoginedHospital {
         this.linkman = linkman;
     }
 
-    public Date getModifiedDate() {
-        return modifiedDate;
+    public String getModifyDateTime() {
+        return modifyDateTime;
     }
 
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+    public void setModifyDateTime(String modifyDateTime) {
+        this.modifyDateTime = modifyDateTime;
     }
 
     public String getName() {

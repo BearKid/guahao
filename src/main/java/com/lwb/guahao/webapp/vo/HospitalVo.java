@@ -2,6 +2,7 @@ package com.lwb.guahao.webapp.vo;
 
 import com.lwb.guahao.common.util.AreaUtil;
 import com.lwb.guahao.common.constants.ConstantsMap;
+import com.lwb.guahao.common.util.DateUtils;
 import com.lwb.guahao.model.Hospital;
 import org.springframework.beans.BeanUtils;
 
@@ -21,9 +22,9 @@ public class HospitalVo {
     private Integer accountStatusCode; //账户状态 参见：Constants.AccountStatus
     private String accountStatusName; //账户状态 参见：Constants.AccountStatus
 
-    private String createDate; //账户创建日期时间
+    private String createDateTime; //账户创建日期时间
 
-    private String latestLoginDate; //最近一次登录的日期时间
+    private String latestLoginDateTime; //最近一次登录的日期时间
 
     private String email; //联系邮箱
 
@@ -50,12 +51,12 @@ public class HospitalVo {
         HospitalVo target = new HospitalVo();
         BeanUtils.copyProperties(source, target);
 
-        SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-
         target.setAccountStatusName(ConstantsMap.accountStatusMap.get(source.getAccountStatusCode()));
-        target.setLatestLoginDate(datetimeFormat.format(source.getLatestLoginDateTime()));
-        target.setCreateDate(datetimeFormat.format(source.getCreateDateTime()));
         target.setAreaName(AreaUtil.getAreaName(source.getAreaCode()));
+
+        //日期时间
+        target.setLatestLoginDateTime(source.getLatestLoginDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(source.getLatestLoginDateTime()));
+        target.setCreateDateTime(source.getCreateDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(source.getCreateDateTime()));
 
         return target;
     }
@@ -108,12 +109,12 @@ public class HospitalVo {
         this.brief = brief;
     }
 
-    public String getCreateDate() {
-        return createDate;
+    public String getCreateDateTime() {
+        return createDateTime;
     }
 
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
+    public void setCreateDateTime(String createDateTime) {
+        this.createDateTime = createDateTime;
     }
 
     public String getEmail() {
@@ -132,12 +133,12 @@ public class HospitalVo {
         this.id = id;
     }
 
-    public String getLatestLoginDate() {
-        return latestLoginDate;
+    public String getLatestLoginDateTime() {
+        return latestLoginDateTime;
     }
 
-    public void setLatestLoginDate(String latestLoginDate) {
-        this.latestLoginDate = latestLoginDate;
+    public void setLatestLoginDateTime(String latestLoginDateTime) {
+        this.latestLoginDateTime = latestLoginDateTime;
     }
 
     public String getLinkman() {

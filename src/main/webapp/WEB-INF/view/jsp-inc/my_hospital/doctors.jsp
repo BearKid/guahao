@@ -11,7 +11,7 @@
     }
 </style>
 <jsp:include page="/inc/common/deptClassSelectBox"/>
-<form id="doctorSearchForm" class="form-inline" action="${applicationScope.contextPath}/hospital/doctors">
+<form id="doctorSearchForm" class="form-inline" action="${applicationScope.contextPath}/myHospital/doctors">
     <div class="form-group">
         <label for="name">名称</label>
         <input name="name" type="text" class="form-control" id="name" placeholder="输入医生名称" value="${name}">
@@ -49,7 +49,7 @@
             <td>${doctor.deptClassName}</td>
             <td>${doctor.price}</td>
             <td>
-                <a class="jsDoctorDetail" href="${applicationScope.contextPath}/doctor/${doctor.id}"
+                <a class="jsDoctorDetail" href="${applicationScope.contextPath}/doctor/${doctor.id}/detail"
                    target="_blank">详情</a>
                 <a class="jsEditDoctor" href="#">修改</a>
                 <a class="jsDoctorShcedule" href="#">排班</a>
@@ -66,9 +66,9 @@
         pagenumber: ${doctorPaging.pn},
         pagecount: ${doctorPaging.totalPages},
         buttonClickCallback: function (pn) {
-            var url = "${applicationScope.contextPath}/hospital/doctors?${queryStringWithoutPn}&pn=" + pn;
+            var url = "${applicationScope.contextPath}/myHospital/doctors?${queryStringWithoutPn}&pn=" + pn;
             var navMap = new Map();
-            navMap.put("医院管理", "${applicationScope.contextPath}/hospital/doctors");
+            navMap.put("医院管理", "${applicationScope.contextPath}/myHospital/doctors");
             Hospital.loadHtmlByUrl(url, navMap);
         }
     });
@@ -87,26 +87,20 @@
 
     //创建医生页面
     $("#jsCreateDoctor").click(function () {
-        var url = "${applicationScope.contextPath}/hospital/doctor/empty";
+        var url = "${applicationScope.contextPath}/myHospital/doctor/empty";
         var navMap = new Map();
-        navMap.put("医生管理", "${applicationScope.contextPath}/hospital/doctors");
+        navMap.put("医生管理", "${applicationScope.contextPath}/myHospital/doctors");
         navMap.put("创建账号", url);
         Hospital.loadHtmlByUrl(url, navMap);
     });
 
-    //医生详情页
-    $(".jsDoctorDetail").click(function () {
-        var doctorId = $(this).parent().parent().data("doctorId");
-        var url = "${applicationScope.contextPath}/doctor/" + doctorId;
-        window.open(url);
-    });
 
     //修改医生信息页面
     $(".jsEditDoctor").click(function () {
         var doctorId = $(this).parent().parent().data("doctorId");
-        var url = "${applicationScope.contextPath}/hospital/doctor/" + doctorId + "/edit";
+        var url = "${applicationScope.contextPath}/myHospital/doctor/" + doctorId + "/edit";
         var navMap = new Map();
-        navMap.put("医生管理", "${applicationScope.contextPath}/hospital/doctors");
+        navMap.put("医生管理", "${applicationScope.contextPath}/myHospital/doctors");
         navMap.put("修改医生信息", url);
         Hospital.loadHtmlByUrl(url, navMap);
     });
@@ -114,9 +108,9 @@
     //医生排班页面
     $(".jsDoctorShcedule").click(function () {
         var doctorId = $(this).parent().parent().data("doctorId");
-        var url = "${applicationScope.contextPath}/hospital/doctor/" + doctorId + "/dailySchedules";
+        var url = "${applicationScope.contextPath}/myHospital/doctor/" + doctorId + "/dailySchedules";
         var navMap = new Map();
-        navMap.put("医生管理", "${applicationScope.contextPath}/hospital/doctors");
+        navMap.put("医生管理", "${applicationScope.contextPath}/myHospital/doctors");
         navMap.put("医生排班", url);
         Hospital.loadHtmlByUrl(url, navMap);
     });

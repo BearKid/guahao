@@ -1,4 +1,4 @@
-package com.lwb.guahao.webapp.controller.per;
+package com.lwb.guahao.webapp.controller.my_per;
 
 import com.lwb.guahao.webapp.service.LoginService;
 import com.lwb.guahao.webapp.service.PerUserService;
@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by Lu Weibiao on 2015/2/14 19:22.
  */
-@Controller
-@RequestMapping(value = "/per")
+@Controller(value = "myPerUserController")
+@RequestMapping(value = "/myPer")
 public class PerUserController {
     @Resource
     private PerUserService perUserService;
@@ -25,6 +25,6 @@ public class PerUserController {
     public String index(HttpServletRequest request, Model model) {
         LoginedPerUser loginedPerUser = loginService.getLoginedPerUser(request);
         model.addAttribute("perUser", loginedPerUser);
-        return "/per/index";
+        return "/my_per/index";
     }
 }

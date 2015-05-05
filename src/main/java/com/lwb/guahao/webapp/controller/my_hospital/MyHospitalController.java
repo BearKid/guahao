@@ -1,4 +1,4 @@
-package com.lwb.guahao.webapp.controller.hospital;
+package com.lwb.guahao.webapp.controller.my_hospital;
 
 import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.Paging;
@@ -10,6 +10,7 @@ import com.lwb.guahao.common.util.IntegerUtils;
 import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.DoctorPerTimeSchedule;
 import com.lwb.guahao.webapp.component.PagingComponent;
+import com.lwb.guahao.webapp.service.DoctorPerTimeScheduleService;
 import com.lwb.guahao.webapp.service.DoctorService;
 import com.lwb.guahao.webapp.service.HospitalService;
 import com.lwb.guahao.webapp.service.LoginService;
@@ -37,9 +38,9 @@ import java.util.List;
  * Date: 2015/2/28 22:10
  */
 @Controller
-@RequestMapping(value = "/hospital")
-public class HospitalController {
-    private static final Logger logger = Logger.getLogger(HospitalController.class);
+@RequestMapping(value = "/myHospital")
+public class MyHospitalController {
+    private static final Logger logger = Logger.getLogger(MyHospitalController.class);
     @Resource
     private LoginService loginService;
     @Resource
@@ -53,14 +54,14 @@ public class HospitalController {
 
     @RequestMapping(value = "index")
     public String index(HttpServletRequest request, Model model) {
-        return "/hospital/index";
+        return "/my_hospital/index";
     }
 
     @RequestMapping(value = "baseInfo")
     public String baseInfo(HttpServletRequest request, Model model) {
         LoginedHospital loginedHospital = loginService.getLoginedHospital(request);
         model.addAttribute("hospital", loginedHospital);
-        return "/../jsp-inc/hospital/baseInfo";
+        return "/../jsp-inc/my_hospital/baseInfo";
     }
 
     @RequestMapping(value = "doctors")
@@ -79,7 +80,7 @@ public class HospitalController {
         model.addAttribute("deptClassCode", deptClassCode);
         model.addAttribute("deptClassName", ConstantsMap.deptClassMap.get(deptClassCode));
         model.addAttribute("accountName", accountName);
-        return "/../jsp-inc/hospital/doctors";
+        return "/../jsp-inc/my_hospital/doctors";
     }
 
     /**
@@ -91,7 +92,7 @@ public class HospitalController {
      */
     @RequestMapping(value = "doctor/empty")
     public String emptyDoctor(HttpServletRequest request, Model model) {
-        return "/../jsp-inc/hospital/emptyDoctor";
+        return "/../jsp-inc/my_hospital/emptyDoctor";
     }
 
     /**
@@ -160,12 +161,12 @@ public class HospitalController {
             model.addAttribute("doctorDailyScheduleQo", qoVo);
             model.addAttribute("doctorDailySchedulePaging", (Paging<DoctorDailyScheduleVo>) apiRet.getData());
             model.addAttribute("queryStringWithoutPn", pagingComponent.getQueryStringWithoutPn(request));
-            view = "/../jsp-inc/hospital/doctor/dailySchedules";
+            view = "/../jsp-inc/my_hospital/doctor/dailySchedules";
         }
         model.addAttribute("ret", apiRet.getRet());
         model.addAttribute("msg", apiRet.getMsg());
 //        return view; TODO
-        return "/../jsp-inc/hospital/doctor/dailySchedules";
+        return "/../jsp-inc/my_hospital/doctor/dailySchedules";
     }
 
     /**

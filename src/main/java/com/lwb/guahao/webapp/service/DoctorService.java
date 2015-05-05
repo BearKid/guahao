@@ -3,7 +3,10 @@ package com.lwb.guahao.webapp.service;
 import com.lwb.guahao.common.constants.Constants;
 import com.lwb.guahao.common.util.SecurityUtil;
 import com.lwb.guahao.model.Doctor;
+import com.lwb.guahao.model.Hospital;
 import com.lwb.guahao.webapp.dao.DoctorDao;
+import com.lwb.guahao.webapp.dao.HospitalDao;
+import com.lwb.guahao.webapp.vo.DoctorVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,14 @@ import java.util.Date;
 public class DoctorService {
     @Resource
     private DoctorDao doctorDao;
+    @Resource
+    private HospitalDao hospitalDao;
+
+    /**
+     * 医生账号注册
+     * @param doctor
+     * @return
+     */
     public Doctor register(Doctor doctor){
         Doctor newUser = new Doctor();
         BeanUtils.copyProperties(doctor, newUser);
@@ -26,5 +37,18 @@ public class DoctorService {
         newUser.setCreateDateTime(new Date());
         doctorDao.save(newUser);
         return newUser;
+    }
+
+    /**
+     * 根据医生id获取Doctor VO
+     * @param doctorId
+     * @return
+     */
+    public DoctorVo getDoctor(Integer doctorId) {
+        Doctor doctor = doctorDao.get(doctorId);
+        Hospital hospital = hospitalDao.get(doctor.getHospitalId());
+
+        DoctorVo doctorVo = DoctorVo.parse(doctor,hospital);
+        return doctorVo;
     }
 }

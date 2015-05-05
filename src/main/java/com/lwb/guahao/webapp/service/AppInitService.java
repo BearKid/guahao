@@ -46,7 +46,7 @@ public class AppInitService {
             doctor.setPassword("123");
             doctor.setName("卢大伟");
             doctor.setAge(22);
-            doctor.setSex("男");
+            doctor.setSex(1);
             doctor.setTitle("专家");
             doctor.setPrice(20.0);
             doctor.setGoodAtTags("腻害,牛逼,十年经验");

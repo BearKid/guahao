@@ -1,4 +1,4 @@
-package com.lwb.guahao.webapp.controller.hospital;
+package com.lwb.guahao.webapp.service;
 
 import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.Paging;

@@ -16,7 +16,7 @@ public class PagingComponent {
     public String getQueryStringWithoutPn(HttpServletRequest request){
         String queryString = request.getQueryString();
         if(!StringUtils.isEmpty(queryString)) {
-            Matcher matcher = Pattern.compile("pn=\\d+").matcher(queryString);
+            Matcher matcher = Pattern.compile("(pn=\\d+?&)|(&pn=\\d+?$)").matcher(queryString);
             queryString = matcher.replaceFirst("");
         }
         return queryString;

@@ -90,8 +90,10 @@ function getJsonByUrl(url,callBack) {
         url: url,
         dataType: "json",
         type: "GET",
-        success: function (data) {
+        complete: function () {
             $loadingGif.hide();
+        },
+        success: function (data) {
             console.log("loading end");
             callBack(data);
         },

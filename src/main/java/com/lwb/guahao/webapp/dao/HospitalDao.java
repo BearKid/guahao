@@ -70,8 +70,8 @@ public class HospitalDao extends BaseHibernateDao<Hospital>{
         String keyWord = searchQo.getKeyWord();
         if(!StringUtils.isEmpty(keyWord)){
             fromHqlBuilder.append(" and (h.name like ? or h.brief like ?)");
-            params.add(keyWord);
-            params.add(keyWord);
+            params.add("%" + keyWord + "%");
+            params.add("%" + keyWord + "%");
         }
 
         List<Hospital> hospitalList = pagingQuery(selectHql + fromHqlBuilder.toString(), params, (pn -1) * pageSize, pageSize);

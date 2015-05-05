@@ -1,4 +1,4 @@
-package com.lwb.guahao.webapp.controller;
+package com.lwb.guahao.webapp.controller.pub;
 
 import com.lwb.guahao.webapp.component.WebPageComponent;
 import org.springframework.stereotype.Controller;

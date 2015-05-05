@@ -12,7 +12,7 @@
     <style>
     </style>
 </head>
-<%--<!-- hospital/index.jsp-->--%>
+<%--<!-- /my_hospital/index.jsp-->--%>
 <body>
 <jsp:include page="/inc/headerBar">
     <jsp:param name="accountType" value="<%=Constants.AccountType.HOSPITAL%>"/>
@@ -43,26 +43,26 @@
         navItems = curNavItem.siblings().removeClass("active");
         curNavItem.addClass("active");
         var navMap = new Map();
-        navMap.put("基本信息","${applicationScope.contextPath}/hospital/baseInfo");
-        Hospital.loadHtmlByUrl("${applicationScope.contextPath}/hospital/baseInfo",navMap);
+        navMap.put("基本信息","${applicationScope.contextPath}/myHospital/baseInfo");
+        Hospital.loadHtmlByUrl("${applicationScope.contextPath}/myHospital/baseInfo",navMap);
     });
     $("#jsHospitalDoctors").click(function(){
         curNavItem = $(this).parent();
         navItems = curNavItem.siblings().removeClass("active");
         curNavItem.addClass("active");
         var navMap = new Map();
-        navMap.put("医院管理","${applicationScope.contextPath}/hospital/doctors");
-        Hospital.loadHtmlByUrl("${applicationScope.contextPath}/hospital/doctors",navMap);
+        navMap.put("医院管理","${applicationScope.contextPath}/myHospital/doctors");
+        Hospital.loadHtmlByUrl("${applicationScope.contextPath}/myHospital/doctors",navMap);
     });
     $("#jsHospitalSecurity").click(function(){
         curNavItem = $(this).parent();
         navItems = curNavItem.siblings().removeClass("active");
         curNavItem.addClass("active");
         var navMap = new Map();
-        navMap.put("账号安全","${applicationScope.contextPath}/hospital/security");
+        navMap.put("账号安全","${applicationScope.contextPath}/myHospital/security");
         <%--var navMap = new Object();--%>
-        <%--navMap["账号安全"] = "${applicationScope.contextPath}/hospital/security";--%>
-        Hospital.loadHtmlByUrl("${applicationScope.contextPath}/hospital/security",navMap);
+        <%--navMap["账号安全"] = "${applicationScope.contextPath}/myHospital/security";--%>
+        Hospital.loadHtmlByUrl("${applicationScope.contextPath}/myHospital/security",navMap);
     });
 </script>
 </html>

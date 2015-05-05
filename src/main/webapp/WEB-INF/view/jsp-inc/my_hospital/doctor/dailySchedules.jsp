@@ -13,6 +13,7 @@
     }
     #doctorDailyScheduleList{
         width: 100%;
+        margin-top: 20px;
     }
     #doctorDailyScheduleList th{
         border: 1px solid #ddd;
@@ -35,15 +36,15 @@
     }
 
     #_doctorPerTimeScheduleInputTemplate{
-        /*display: none;*/
+        display: none;
     }
 </style>
 <form id="doctorSearchForm" class="form-inline"
-      action="${applicationScope.contextPath}/hospital/doctor/${doctorDailyScheduleQo.doctorId}/dailySchedules">
+      action="${applicationScope.contextPath}/myHospital/doctor/${doctorDailyScheduleQo.doctorId}/dailySchedules">
     <div class="form-group">
         <label for="startDay">排班日期</label>
         <input name="startDay" type="text" class="form-control" id="startDay" placeholder="起始日期"
-               value="${doctorDailyScheduleQo.startDay}">
+               value="${doctorDailyScheduleQo.startDay}"> ~
         <input name="endDay" type="text" class="form-control" id="endDay" placeholder="结束日期"
                value="${doctorDailyScheduleQo.endDay}">
     </div>
@@ -73,7 +74,7 @@
             <tr>
                 <td colspan="5">
                     <form id="doctorDailyScheduleSaveForm-${doctorDailySchedule.id}" class="doctorDailyScheduleSaveForm doctorDailySchedule"
-                          action="${applicationScope.contextPath}/hospital/dailySchedule/saveOrUpdate.json" method="POST">
+                          action="${applicationScope.contextPath}/myHospital/dailySchedule/saveOrUpdate.json" method="POST">
                         <input name="scheduleDay" type="hidden" value="${doctorDailySchedule.takeEffectiveDate}">
                         <input name="doctorId" type="hidden" value="${doctorDailyScheduleQo.doctorId}">
                         <!--某天排班-简略-->
@@ -98,8 +99,8 @@
                                         <td width="15%">${doctorDailySchedule.totalSource}</td>
                                         <td width="15%">${doctorDailySchedule.oddSource}</td>
                                         <td width="15%">
-                                            <span>${doctorDailySchedule.price}</span>
-                                            <input name="price" type="text" value="${doctorDailySchedule.price}" style="display:none;width: 100%"/>
+                                            <span id="doctorDailySchedulePrice-${doctorDailySchedule.id}">${doctorDailySchedule.price}</span>
+                                            <input id="doctorDailySchedulePriceInput-${doctorDailySchedule.id}" name="price" type="text" value="${doctorDailySchedule.price}" style="display:none;width: 100%"/>
                                         </td>
                                         <c:if test="${doctorDailySchedule.totalSource != doctorDailySchedule.oddSource}">
                                             <td>
@@ -143,7 +144,7 @@
                                 <tr class="doctorPerTimeScheduleInput"
                                     id="doctorPerTimeScheduleInput-${doctorPerTimeSchedule.id}"
                                     data-id="${doctorPerTimeSchedule.id}">
-                                        <%--<form action="${applicationScope.contextPath}/hospital/doctor/${doctorPerTimeSchedule.doctorId}/dailySchedule/${doctorPerTimeSchedule.id}/saveOrUpdate" method="post">--%>
+                                        <%--<form action="${applicationScope.contextPath}/myHospital/doctor/${doctorPerTimeSchedule.doctorId}/dailySchedule/${doctorPerTimeSchedule.id}/saveOrUpdate" method="post">--%>
                                     <input name="doctorPerTimeScheduleId" type="hidden"
                                            value="${doctorPerTimeSchedule.id}"/>
                                     <td width="40%">
@@ -171,7 +172,6 @@
         </c:forEach>
     </c:if>
     <!--排班输入栏模板-->
-    <!--
     <tr id="_doctorPerTimeScheduleInputTemplate" class="doctorPerTimeScheduleInput">
         <input name="doctorPerTimeScheduleId" type="hidden" value=""/>
         <td width="40%">
@@ -187,11 +187,10 @@
             <a class="doctorPerTimeScheduleDelete" href="#" data-doctor-per-time-schedule-id="">删除</a>
         </td>
     </tr>
-    -->
 </table>
 <div id="doctorDailySchedulePager"></div>
 <span id="doctorDailyScheduleCurUrl" style="display: none;">
-${applicationScope.contextPath}/hospital/doctor/${doctorDailyScheduleQo.doctorId}/dailySchedules?${queryStringWithoutPn}&pn=${doctorDailySchedulePaging.pn}
+${applicationScope.contextPath}/myHospital/doctor/${doctorDailyScheduleQo.doctorId}/dailySchedules?${queryStringWithoutPn}&pn=${doctorDailySchedulePaging.pn}
 </span>
 <script>
     $("#jsSubmitdoctorSearchForm").click(function () {
@@ -238,13 +237,15 @@ ${applicationScope.contextPath}/hospital/doctor/${doctorDailyScheduleQo.doctorId
 
         if($doctorDailyScheduleList.css("display") === "none"){
             $doctorDailyScheduleList.show();
-            $this.text("收起");
+
             //可能是从修改面板切换到详情面板
             var $doctorPerTimeScheduleInputList = $("#doctorPerTimeScheduleInputList-" + doctorDailyScheduleId);
             if($doctorPerTimeScheduleInputList.css("display") !== "none") {
                 $doctorPerTimeScheduleInputList.hide();
                 $this.next().show();//呈现修改按钮
                 $this.next().next().hide();//隐藏保存按钮
+                $("#doctorDailySchedulePriceInput-" + doctorDailyScheduleId).hide();
+                $("#doctorDailySchedulePrice-" + doctorDailyScheduleId).show();
             }
         } else{
             $doctorDailyScheduleList.hide();
@@ -276,7 +277,7 @@ ${applicationScope.contextPath}/hospital/doctor/${doctorDailyScheduleQo.doctorId
         var curDoctorPerTimeScheduleId = $curDoctorPerTimeScheduleInput.data("id");
         var $curDoctorPerTimeSchedule = $("#doctorPerTimeSchedule-" + curDoctorPerTimeScheduleId);//当前点击的删除按钮所在排班展示栏
         if (curDoctorPerTimeScheduleId) {//数据库记录删除
-            var url = "${applicationScope.contextPath}/hospital/doctorPerTimeSchedule/" +curDoctorPerTimeScheduleId +"/del.json";
+            var url = "${applicationScope.contextPath}/myHospital/doctorPerTimeSchedule/" +curDoctorPerTimeScheduleId +"/del.json";
             Hospital.getJsonByUrl(url, function (data) {
                 if (data.ret == API_RET_SUCCESS) {//删除当前行的UI
                     $curDoctorPerTimeScheduleInput.remove();
@@ -313,7 +314,7 @@ ${applicationScope.contextPath}/hospital/doctor/${doctorDailyScheduleQo.doctorId
         pagenumber: ${doctorDailySchedulePaging.pn},
         pagecount: ${doctorDailySchedulePaging.totalPages},
         buttonClickCallback: function (pn) {
-            var url = "${applicationScope.contextPath}/hospital/doctor/${doctorDailyScheduleQo.doctorId}/dailySchedules/${queryStringWithoutPn}&pn="+pn;
+            var url = "${applicationScope.contextPath}/myHospital/doctor/${doctorDailyScheduleQo.doctorId}/dailySchedules/${queryStringWithoutPn}&pn="+pn;
             Hospital.loadHtmlByUrl(url, null);
         }
     });

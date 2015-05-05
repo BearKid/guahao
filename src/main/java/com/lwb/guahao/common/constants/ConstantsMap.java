@@ -14,6 +14,7 @@ public class ConstantsMap {
     public static final Map<Integer, String> accountStatusMap = new HashMap();
     public static final Map<Integer, String> deptClassMap = new HashMap();
     public static final Map<Integer, String> areaMap = new HashMap();
+    public static final Map<Integer, String> sexMap = new HashMap();
 
     static{
         /* 账户状态 */
@@ -116,5 +117,8 @@ public class ConstantsMap {
 //        areaMap.put(810000,"香港特别行政区");
 //        areaMap.put(820000,"澳门特别行政区");
 
+        /* 性别 */
+        sexMap.put(Constants.SexType.MALE,"男");
+        sexMap.put(Constants.SexType.FEMALE,"女");
     }
 }

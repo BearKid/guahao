@@ -15,6 +15,7 @@ import com.lwb.guahao.webapp.vo.LoginedPerUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -170,6 +171,8 @@ public class LoginService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public Integer getLoginedHospitalId(HttpServletRequest request){
-        return getLoginedHospital(request).getId();
+        String idStr = getLoginedHospital(request).getId();
+        Integer id = StringUtils.isEmpty(idStr) ? null : Integer.valueOf(idStr);
+        return id;
     }
 }

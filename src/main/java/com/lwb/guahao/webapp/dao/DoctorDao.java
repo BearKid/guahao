@@ -100,9 +100,9 @@ public class DoctorDao extends BaseHibernateDao<Doctor> {
         String keyWord = searchQo.getKeyWord();
         if(!StringUtils.isEmpty(keyWord)){
             fromHqlBuilder.append(" and (d.name like ? or d.goodAtTags like ? or d.brief like ?)");
-            params.add(keyWord);
-            params.add(keyWord);
-            params.add(keyWord);
+            params.add("%" + keyWord + "%");
+            params.add("%" + keyWord + "%");
+            params.add("%" + keyWord + "%");
         }
 
         List<Doctor> doctorList = pagingQuery(selectHql + fromHqlBuilder.toString(),params, (pn -1) * pageSize, pageSize);

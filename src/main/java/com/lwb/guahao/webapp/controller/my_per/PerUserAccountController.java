@@ -1,4 +1,4 @@
-package com.lwb.guahao.webapp.controller.per;
+package com.lwb.guahao.webapp.controller.my_per;
 
 import com.lwb.guahao.webapp.service.LoginService;
 import com.lwb.guahao.webapp.service.PerUserService;
@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletRequest;
  * User: Lu Weibiao
  * Date: 2015/3/8 1:18
  */
-@Controller
+@Controller(value = "myPerUserAccountController")
 public class PerUserAccountController {
     @Resource
     private LoginService loginService;
     @Resource
     private PerUserService perUserService;
 
-    @RequestMapping(value = "per/logout")
+    @RequestMapping(value = "myPer/logout")
     public String logout(HttpServletRequest request, Model model){
         loginService.perUserLogout(request);
         model.addAttribute("redirectUrl","/");

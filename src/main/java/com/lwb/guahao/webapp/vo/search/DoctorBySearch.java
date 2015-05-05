@@ -2,8 +2,10 @@ package com.lwb.guahao.webapp.vo.search;
 
 import com.lwb.guahao.common.util.AreaUtil;
 import com.lwb.guahao.common.util.DeptClassUtil;
+import com.lwb.guahao.common.util.SexUtil;
 import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.Hospital;
+import com.lwb.guahao.webapp.vo.HospitalVo;
 import org.springframework.util.StringUtils;
 
 /**
@@ -36,6 +38,7 @@ public class DoctorBySearch {
     private String[] goodAtTags; //擅长标签列表
 
     private String hospitalName; //医院名称
+
 
     public String getId() {
         return id;
@@ -125,6 +128,7 @@ public class DoctorBySearch {
         this.hospitalName = hospitalName;
     }
 
+
     /**
      * 解析转换为DoctorBySearch
      * @param doctor
@@ -143,7 +147,8 @@ public class DoctorBySearch {
         Integer deptClassCode = doctor.getDeptClassCode();
         doctorBySearch.setDeptClassName((deptClassCode == null) ? null : DeptClassUtil.getDeptClassName(deptClassCode));
 
-        String[] goodAtTags = StringUtils.split(doctor.getGoodAtTags(),Doctor.GOOD_AT_TAGS_DELIMITER);
+        String goodAtTagsStr = doctor.getGoodAtTags();
+        String[] goodAtTags = (goodAtTagsStr== null) ? null : goodAtTagsStr.split(Doctor.GOOD_AT_TAGS_DELIMITER);
         doctorBySearch.setGoodAtTags(goodAtTags);
 
         Integer hospitalId = doctor.getHospitalId();
@@ -155,7 +160,7 @@ public class DoctorBySearch {
         doctorBySearch.setId((id == null) ? null : id.toString());
 
         doctorBySearch.setName(doctor.getName());
-        doctorBySearch.setSex(doctor.getSex());
+        doctorBySearch.setSex(SexUtil.getSexName(doctor.getSex()));
         doctorBySearch.setTitle(doctor.getTitle());
 
         return doctorBySearch;

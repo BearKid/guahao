@@ -9,55 +9,196 @@
 <head>
     <jsp:include page="${applicationScope.jspIncPath}/headTagBody.jsp"/>
     <style>
-        .doctorAvatar{}
-        .doctorGoodAtTag{
+        #main{
+            max-width: 1000px;
+        }
+
+        #searchNav{
+            border-bottom: 1px solid #E4E4E4;
+            padding: 5px;
+        }
+        #searchNav .tab{
+            font-size: 20px;
+            color: #666666;
+        }
+        #searchNav .tab.active{
+            background-color: #66CCFF;
+            color: #fff;
+        }
+        #searchFilterPanel{
+            margin: 20px 0px;
+            border-bottom: 1px solid #E4E4E4;
+        }
+        #searchFilterPanel .filterType{
+            margin-bottom: 10px;
+        }
+        #searchFilterPanel .filterType .title{
+            font-weight: bold;
+        }
+        #searchFilterPanel .filterType .option{
+            color:#333;
+            margin-right: 10px;
+        }
+        #docotorBySearchPaging .doctor,#hospitalBySearchPaging .hospital{
+            border-bottom: 1px solid #F2F2F2;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+        }
+        .doctor .row1, .doctor .row2{
+            margin-bottom: 10px;
+        }
+        .doctor .avatar {
+        }
+        .doctor .name,.hospital .name{
+            color: #333;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        .doctor .hospitalName{
+            background-color: #FFCC00;
+            color: #ffffff;
+            padding: 2px 5px;
+        }
+        .doctor .goodAtTag {
             border: 1px solid #E4E4E4;
-            background-color: #F2F2F2 ;
+            background-color: #F2F2F2;
             color: #666;
+            padding: 2px 5px;
+            margin-right: 5px;
+        }
+
+        #hospitalBySearchPaging .hospital{ }
+
+        .hospital .row1{
+            margin-bottom: 10px;
+        }
+
+        .hospital .brief{
+
         }
     </style>
 </head>
 <body>
 <%--search/genenralSearch.jsp--%>
-</body>
 <jsp:include page="/inc/headerBar">
     <jsp:param name="accountType" value="<%=Constants.AccountType.UNKNOWN%>"/>
 </jsp:include>
-<div>
-    <a href="#">综合</a>
+<div id="main" class="container-fluid">
+    <div id="searchNav">
+    <a class="tab" href="#">综合</a>
 </div>
-<div id="optionsPanel">
-    地区：
-    <c:forEach items="${areaList}" var="area">
-        <a href="${applicationScope.contextPath}/search?${queryStringWithOutAreaCode}&areaCode=${area.code}">${area.name}</a>
-    </c:forEach>
-    科室：
-    <c:forEach items="${deptClassList}" var="deptClass">
-        <a href="${applicationScope.contextPath}/search?${queryStringWithOutDeptClassCode}&deptClassCode=${deptClass.code}">${deptClass.name}</a>
-    </c:forEach>
-    关键词：
-    <form action="${applicationScope.contextPath}/search?${queryStringWithOutKeyWord}" method="GET">
-        <input value="${searchQo.keyWord}" type="text"/>
-        <input id="searchSubmit" type="button" value="确定"/>
-    </form>
-</div>
+<div id="searchFilterPanel">
+    <div class="filterType">
+        <span class="title">&nbsp;&nbsp;&nbsp;地区：</span>
+        <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutAreaCode}">所有</a>
+        <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutAreaCode}&areaCode=441900">东莞</a>
+        <a class="option"  id="jsAreas" href="#">更多</a>
 
-<c:forEach items="${doctorBySearchPaging.items}" var="doctor">
-    <div>
-        <div class="doctorAvatar"><img src="${applicationScope.contextPath}${doctor.avatarPath}"/></div>
-        <div>
-            <div>
-            ${doctor.name}&nbsp;&nbsp;${doctor.deptClassName}&nbsp;&nbsp;
-            ${doctor.title}&nbsp;&nbsp${doctor.age};&nbsp;&nbsp;${doctor.sex}
-                <a href="${applicationScope.contextPath}/hospitalDetail/${doctor.hospitalId}">${doctor.hospitalName}</a>
+        <form id="searchFormWithAreaCode" style="display: none;"
+              action="#">
+            <input type="text" id="inputAreaCode" name="areaCode" value=""/>
+            <input type="text" id="inputAreaName" value=""/>
+        </form>
+    </div>
+    <div class="filterType">
+        <span class="title">&nbsp;&nbsp;&nbsp;科室：</span>
+        <a class="option" href="${applicationScope.contextPath}/search?${queryStringWithOutDeptClassCode}">所有</a>
+        <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutDeptClassCode}&deptClassCode=xxx">xxx</a>
+        <a class="option"  id="jsDeptClasses" href="#">更多</a>
+
+        <form id="searchFormWithDepClassCode" style="display: none;"
+              action="#">
+            <input type="text" id="inputDeptClassCode" name="deptClassCode" value=""/>
+            <input type="text" id="inputDeptClassName" value=""/>
+        </form>
+    </div>
+    <div class="filterType">
+        <span class="title">关键词：</span>
+        <form id="searchFormWithKeyWord" class="form-inline" style="display: inline;" action="#" method="GET">
+            <div class="form-group">
+                <input id="searchInputKeyWord" value="${searchQo.keyWord}" type="text" class="form-control"/>
             </div>
-            <div>
+            <button id="searchSubmit" type="button" class="btn btn-default">确定</button>
+        </form>
+    </div>
+</div>
+<div id="searchPaging">
+<!-- 医生列表 -->
+<div id="docotorBySearchPaging">
+<c:forEach items="${doctorBySearchPaging.items}" var="doctor">
+    <div class="doctor">
+        <div class="avatar"><img src="${applicationScope.contextPath}${doctor.avatarPath}"/></div>
+        <div>
+            <div class="row1">
+                    <a class="name" href="${applicationScope.contextPath}/doctor/${doctor.id}/detail" target="_blank">${doctor.name}</a>&nbsp;&nbsp;${doctor.deptClassName}&nbsp;&nbsp;
+                    ${doctor.title}&nbsp;&nbsp;${doctor.age}岁&nbsp;&nbsp;${doctor.sex}&nbsp;&nbsp;
+                <a class="hospitalName" href="${applicationScope.contextPath}/hospital/${doctor.hospitalId}/detail">${doctor.hospital.name}</a>
+            </div>
+            <div class="row2">
                 <c:forEach items="${doctor.goodAtTags}" var="goodAt">
-                <span class="doctorGoodAtTag">${goodAt}</span>
+                    <span class="goodAtTag">${goodAt}</span>
                 </c:forEach>
             </div>
-            <div class="doctorBrief">${doctor.brief}</div>
+            <div class="doctorBrief row3">${doctor.brief}</div>
         </div>
     </div>
 </c:forEach>
+</div>
+<!-- 医院列表 -->
+<div id="hospitalBySearchPaging">
+    <c:forEach items="${hospitalBySearchPaging.items}" var="hospital">
+        <div class="hospital">
+            <%--<div class="doctorAvatar"><img src="${applicationScope.contextPath}${hospital.avatarPath}"/></div>--%>
+            <div>
+                <div class="row1">
+                    <a class="name" href="${applicationScope.contextPath}/hospital/${hospital.id}/detail">${hospital.name}</a>
+                    &nbsp;&nbsp;${hospital.areaName}&nbsp;&nbsp;地址：${hospital.address}
+                </div>
+                <div class="brief row2">${hospital.brief}</div>
+            </div>
+        </div>
+    </c:forEach>
+</div>
+<div id="generalSearchPager"></div>
+</div>
+</div>
+
+<jsp:include page="/inc/common/areaSelectBox"/>
+<jsp:include page="/inc/common/deptClassSelectBox"/>
+</body>
+<script src="${applicationScope.contextPath}/js/jquery/pager.js"></script>
+<script>
+    //地区选项栏-发起请求
+    $("#inputAreaCode").change(function () {
+        var url = "${applicationScope.contextPath}/search?${queryStringWithOutAreaCode}";
+        var $form = $("#searchFormWithAreaCode");
+        var areaCode = $form.find("#inputAreaCode").val();
+        url = url + "&areaCode=" + areaCode;
+        window.location = url;
+    });
+    //科室选项栏-发起请求
+    $("#inputDeptClassCode").change(function () {
+        var url = "${applicationScope.contextPath}/search?${queryStringWithOutDeptClassCode}";
+        var $form = $("#searchFormWithDepClassCode");
+        var deptClassCode = $form.find("#inputDeptClassCode").val();
+        url = url + "&deptClassCode=" + deptClassCode;
+        window.location = url;
+    });
+
+    $("#searchSubmit").click(function(){
+       var url = "${applicationScope.contextPath}/search?${queryStringWithOutKeyWord}";
+        var keyWord = $("#searchInputKeyWord").val();
+        url = url + "&keyWord=" + keyWord;
+        window.location = url;
+    });
+    //查找结果分页
+    $("#generalSearchPager").pager({
+        pagenumber: ${doctorBySearchPaging.pn},
+        pagecount: ${doctorBySearchPaging.totalPages},
+        buttonClickCallback: function (pn) {
+            var url = "${applicationScope.contextPath}/search?${queryStringWithOutPn}&pn="+pn;
+            window.location = url;
+        }
+    });
+</script>
 </html>

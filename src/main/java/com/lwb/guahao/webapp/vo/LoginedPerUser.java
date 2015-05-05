@@ -21,11 +21,11 @@ public class LoginedPerUser {
 
     private String password; //账户密码-密文
 
-    private Integer accountStatusCode; //账户状态 参见：Constants.AccountStatus
+    private String accountStatusCode; //账户状态 参见：Constants.AccountStatus
 
-    private Date createDateTime; //账户创建日期时间
+    private String createDateTime; //账户创建日期时间
 
-    private Date latestLoginDateTime; //最近一次登录的日期时间
+    private String latestLoginDateTime; //最近一次登录的日期时间
 
     private String idCard; //身份证号码
 
@@ -40,11 +40,11 @@ public class LoginedPerUser {
     /* ---------相对于 PerUser 新增的字段 -----------*/
     private String accountStatusName; //账户状态 参见：Constants.AccountStatus
 
-    private Integer age; //年龄
+    private String age; //年龄
 
     private String sex; //性别
 
-    private Integer areaCode; //常住户口所在县（市、旗、区）6位数字
+    private String areaCode; //常住户口所在县（市、旗、区）6位数字
 
     private String areaName; //常住户口所在县（市、旗、区）全限定名
 
@@ -52,33 +52,38 @@ public class LoginedPerUser {
         LoginedPerUser loginedPerUser = new LoginedPerUser();
         BeanUtils.copyProperties(perUser,loginedPerUser);
 
-        loginedPerUser.setAccountStatusName(ConstantsMap.accountStatusMap.get(loginedPerUser.getAccountStatusCode()));//账号状态-名称
+        loginedPerUser.setAccountStatusCode(perUser.getAccountStatusCode() == null ? null : perUser.getAccountStatusCode().toString());
+        loginedPerUser.setAccountStatusName(ConstantsMap.accountStatusMap.get(perUser.getAccountStatusCode()));//账号状态-名称
         /*
          *从身份证号码提前信息。身份证号码共18位，从左至右依次为：六位数字地址码，八位数字出生日期码，三位数字顺序码和一位数字校验码。
          */
-        String areaCodeStr = loginedPerUser.getIdCard().substring(0,6);//地址码-身份证号码第1~6位
-        int areaCode = Integer.parseInt(areaCodeStr);
-        loginedPerUser.setAreaCode(areaCode);
+        String areaCodeStr = loginedPerUser.getIdCard().substring(0, 6);//地址码-身份证号码第1~6位
+        loginedPerUser.setAreaCode(areaCodeStr);
 
+        int areaCode = Integer.parseInt(areaCodeStr);
         String cityName = AreaUtil.getAreaName(areaCode);
         String provName = AreaUtil.getAreaName(AreaUtil.getProvinceCode(areaCode));
         loginedPerUser.setAreaName(provName.concat(cityName));//设置地区全限定名
 
         String birthDateStr = loginedPerUser.getIdCard().substring(6,14);//出生日期-身份证号码第7~14位
-        loginedPerUser.setAge(DateUtils.getAge(birthDateStr, "yyyyMMdd"));
+        loginedPerUser.setAge(DateUtils.getAge(birthDateStr, "yyyyMMdd") + "");
 
         String sexCodeStr = loginedPerUser.getIdCard().substring(14,17);//性别-身份证号码第15~17位
         int sexCode = Integer.parseInt(sexCodeStr);
         loginedPerUser.setSex((sexCode%2 == 0) ? "女":"男");//顺序码的奇数分配给男性，偶数分配给女性。
 
+        //日期时间
+        loginedPerUser.setCreateDateTime(perUser.getCreateDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(perUser.getCreateDateTime()));
+        loginedPerUser.setLatestLoginDateTime(perUser.getLatestLoginDate() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(perUser.getLatestLoginDate()));
+
         return loginedPerUser;
     }
 
-    public Integer getAreaCode() {
+    public String getAreaCode() {
         return areaCode;
     }
 
-    public void setAreaCode(Integer areaCode) {
+    public void setAreaCode(String areaCode) {
         this.areaCode = areaCode;
     }
 
@@ -98,19 +103,19 @@ public class LoginedPerUser {
         this.accountStatusName = accountStatusName;
     }
 
-    public Integer getAccountStatusCode() {
+    public String getAccountStatusCode() {
         return accountStatusCode;
     }
 
-    public void setAccountStatusCode(Integer accountStatusCode) {
+    public void setAccountStatusCode(String accountStatusCode) {
         this.accountStatusCode = accountStatusCode;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
@@ -120,14 +125,6 @@ public class LoginedPerUser {
 
     public void setAvatarPath(String avatarPath) {
         this.avatarPath = avatarPath;
-    }
-
-    public Date getCreateDateTime() {
-        return createDateTime;
-    }
-
-    public void setCreateDateTime(Date createDateTime) {
-        this.createDateTime = createDateTime;
     }
 
     public String getEmail() {
@@ -154,11 +151,19 @@ public class LoginedPerUser {
         this.idCard = idCard;
     }
 
-    public Date getLatestLoginDateTime() {
+    public String getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(String createDateTime) {
+        this.createDateTime = createDateTime;
+    }
+
+    public String getLatestLoginDateTime() {
         return latestLoginDateTime;
     }
 
-    public void setLatestLoginDateTime(Date latestLoginDateTime) {
+    public void setLatestLoginDateTime(String latestLoginDateTime) {
         this.latestLoginDateTime = latestLoginDateTime;
     }
 

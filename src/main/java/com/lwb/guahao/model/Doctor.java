@@ -37,8 +37,8 @@ public class Doctor implements Serializable{
     @Column
     private Integer age; //年龄
 
-    @Column(nullable = false, length = 1)
-    private String sex; //性别
+    @Column(nullable = false)
+    private Integer sex; //性别
 
     @Column(length = 50)
     private String title; //医生头衔/级别：医师、主治医生、教授等等。
@@ -62,7 +62,7 @@ public class Doctor implements Serializable{
     private Date latestLoginDate; //最近一次登录的日期时间
 
     @Column
-    private Date editDateTime; //被修改的日期时间
+    private Date modifyDateTime; //被修改的日期时间
 
     @Column(nullable = false)
     private Integer hospitalId; //医院id
@@ -170,12 +170,12 @@ public class Doctor implements Serializable{
         this.latestLoginDate = latestLoginDate;
     }
 
-    public Date getEditDateTime() {
-        return editDateTime;
+    public Date getModifyDateTime() {
+        return modifyDateTime;
     }
 
-    public void setEditDateTime(Date editDateTime) {
-        this.editDateTime = editDateTime;
+    public void setModifyDateTime(Date modifyDateTime) {
+        this.modifyDateTime = modifyDateTime;
     }
 
     public String getName() {
@@ -202,11 +202,11 @@ public class Doctor implements Serializable{
         this.price = price;
     }
 
-    public String getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 

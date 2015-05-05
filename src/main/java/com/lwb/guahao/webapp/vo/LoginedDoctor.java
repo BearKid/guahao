@@ -1,10 +1,9 @@
 package com.lwb.guahao.webapp.vo;
 
 import com.lwb.guahao.common.constants.ConstantsMap;
+import com.lwb.guahao.common.util.DateUtils;
 import com.lwb.guahao.model.Doctor;
 import org.springframework.beans.BeanUtils;
-
-import java.util.Date;
 
 /**
  * User: Lu Weibiao
@@ -15,25 +14,25 @@ import java.util.Date;
  * 登录态的医生账号相关信息
  */
 public class LoginedDoctor {
-    private Integer id;
+    private String id;
 
     private String accountName; //用于登陆的账户名
 
     private String password; //账户密码
 
-    private Integer accountStatusCode; //账户状态 参见：Constants.AccountStatus
+    private String accountStatusCode; //账户状态 参见：Constants.AccountStatus
 
-    private Date createDate; //账户创建日期时间
+    private String createDateTime; //账户创建日期时间
 
     private String name; //医生名称
 
-    private Integer age; //年龄
+    private String age; //年龄
 
     private String sex; //性别
 
     private String title; //医生头衔/级别：医师、主治医生、教授等等。
 
-    private Double price; //默认挂号费
+    private String price; //默认挂号费
 
     private String goodAtTags; //擅长标签列表
 
@@ -41,13 +40,13 @@ public class LoginedDoctor {
 
     private String avatarPath; //头像物理存储路径
 
-    private Integer deptClassCode; //科室类目-编号 参见：ConstantsMap.deptClassMap
+    private String deptClassCode; //科室类目-编号 参见：ConstantsMap.deptClassMap
 
-    private Date latestLoginDate; //最近一次登录的日期时间
+    private String latestLoginDateTime; //最近一次登录的日期时间
 
-    private Date modifiedDate; //被修改的日期时间
+    private String modifyDateTime; //被修改的日期时间
 
-    private Integer hospitalId; //医院id
+    private String hospitalId; //医院id
 
     /*-------相较于Doctor 新增的字段----------*/
     private String deptClassName; //科室类目-名称 参见：ConstantsMap.deptClassMap
@@ -57,16 +56,34 @@ public class LoginedDoctor {
         LoginedDoctor loginedDoctor = new LoginedDoctor();
         BeanUtils.copyProperties(doctor,loginedDoctor);
 
-        loginedDoctor.setDeptClassName(ConstantsMap.deptClassMap.get(loginedDoctor.getDeptClassCode()));
-        loginedDoctor.setAccountStatusName(ConstantsMap.accountStatusMap.get(loginedDoctor.getAccountStatusCode()));
+        loginedDoctor.setId(doctor.getId() == null ? null : doctor.getId().toString());
+        loginedDoctor.setAccountStatusCode(doctor.getAccountStatusCode() == null ? null : doctor.getAccountStatusCode().toString());
+        loginedDoctor.setPrice(doctor.getPrice() == null ? null : doctor.getPrice().toString());
+        loginedDoctor.setAge(doctor.getAge() == null ? null : doctor.getAge().toString());
+        loginedDoctor.setDeptClassCode(doctor.getDeptClassCode() == null ? null : doctor.getDeptClassCode().toString());
+        loginedDoctor.setHospitalId(doctor.getHospitalId() == null ? null : doctor.getHospitalId().toString());
+        loginedDoctor.setDeptClassName(ConstantsMap.deptClassMap.get(doctor.getDeptClassCode()));
+        loginedDoctor.setAccountStatusName(ConstantsMap.accountStatusMap.get(doctor.getAccountStatusCode()));
+        //日期时间
+        loginedDoctor.setCreateDateTime(doctor.getCreateDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(doctor.getCreateDateTime()));
+        loginedDoctor.setModifyDateTime(doctor.getModifyDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(doctor.getModifyDateTime()));
+        loginedDoctor.setLatestLoginDateTime(doctor.getLatestLoginDate() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(doctor.getLatestLoginDate()));
         return loginedDoctor;
     }
 
-    public Integer getAccountStatusCode() {
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getAccountStatusCode() {
         return accountStatusCode;
     }
 
-    public void setAccountStatusCode(Integer accountStatusCode) {
+    public void setAccountStatusCode(String accountStatusCode) {
         this.accountStatusCode = accountStatusCode;
     }
 
@@ -78,51 +95,11 @@ public class LoginedDoctor {
         this.accountStatusName = accountStatusName;
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getLatestLoginDate() {
-        return latestLoginDate;
-    }
-
-    public void setLatestLoginDate(Date latestLoginDate) {
-        this.latestLoginDate = latestLoginDate;
-    }
-
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-
-    public String getDeptClassName() {
-        return deptClassName;
-    }
-
-    public void setDeptClassName(String deptClassName) {
-        this.deptClassName = deptClassName;
-    }
-
-    public String getAccountName() {
-        return accountName;
-    }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    }
-
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
@@ -142,12 +119,28 @@ public class LoginedDoctor {
         this.brief = brief;
     }
 
-    public Integer getDeptClassCode() {
+    public String getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(String createDateTime) {
+        this.createDateTime = createDateTime;
+    }
+
+    public String getDeptClassCode() {
         return deptClassCode;
     }
 
-    public void setDeptClassCode(Integer deptClassCode) {
+    public void setDeptClassCode(String deptClassCode) {
         this.deptClassCode = deptClassCode;
+    }
+
+    public String getDeptClassName() {
+        return deptClassName;
+    }
+
+    public void setDeptClassName(String deptClassName) {
+        this.deptClassName = deptClassName;
     }
 
     public String getGoodAtTags() {
@@ -158,20 +151,36 @@ public class LoginedDoctor {
         this.goodAtTags = goodAtTags;
     }
 
-    public Integer getHospitalId() {
+    public String getHospitalId() {
         return hospitalId;
     }
 
-    public void setHospitalId(Integer hospitalId) {
+    public void setHospitalId(String hospitalId) {
         this.hospitalId = hospitalId;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getLatestLoginDateTime() {
+        return latestLoginDateTime;
+    }
+
+    public void setLatestLoginDateTime(String latestLoginDateTime) {
+        this.latestLoginDateTime = latestLoginDateTime;
+    }
+
+    public String getModifyDateTime() {
+        return modifyDateTime;
+    }
+
+    public void setModifyDateTime(String modifyDateTime) {
+        this.modifyDateTime = modifyDateTime;
     }
 
     public String getName() {
@@ -190,11 +199,11 @@ public class LoginedDoctor {
         this.password = password;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

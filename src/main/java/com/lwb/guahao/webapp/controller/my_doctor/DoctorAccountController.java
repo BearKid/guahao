@@ -1,4 +1,4 @@
-package com.lwb.guahao.webapp.controller.doctor;
+package com.lwb.guahao.webapp.controller.my_doctor;
 
 import com.lwb.guahao.webapp.service.DoctorService;
 import com.lwb.guahao.webapp.service.LoginService;
@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletRequest;
  * User: Lu Weibiao
  * Date: 2015/3/8 1:20
  */
-@Controller
+@Controller(value = "myDocotorAccountController")
 public class DoctorAccountController {
     @Resource
     private LoginService loginService;
     @Resource
     private DoctorService doctorService;
 
-    @RequestMapping(value = "doctor/logout")
+    @RequestMapping(value = "/myDoctor/logout")
     public String logout(HttpServletRequest request, Model model){
         loginService.doctorLogout(request);
         model.addAttribute("redirectUrl","/");

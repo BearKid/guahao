@@ -1,13 +1,11 @@
-package com.lwb.guahao.webapp.controller;
+package com.lwb.guahao.webapp.controller.pub;
 
 import com.lwb.guahao.common.Paging;
 import com.lwb.guahao.common.constants.Constants;
-import com.lwb.guahao.common.util.AreaUtil;
-import com.lwb.guahao.common.util.DeptClassUtil;
 import com.lwb.guahao.webapp.component.PagingComponent;
 import com.lwb.guahao.webapp.service.SearchService;
-import com.lwb.guahao.webapp.vo.search.DoctorBySearch;
-import com.lwb.guahao.webapp.vo.search.HospitalBySearch;
+import com.lwb.guahao.webapp.vo.DoctorVo;
+import com.lwb.guahao.webapp.vo.HospitalVo;
 import com.lwb.guahao.webapp.vo.search.SearchQo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,15 +38,20 @@ public class SearchController {
         //组装查询条件
         SearchQo searchQo = new SearchQo();
         searchQo.setKeyWord(request.getParameter("keyWord"));
-        searchQo.setAreaCode(Integer.valueOf(request.getParameter("areaCode")));
-        searchQo.setDeptClassCode(Integer.valueOf(request.getParameter("keyWord")));
-        Integer pn = Integer.valueOf(request.getParameter("pn"));
-        searchQo.setPn(pn);
+
+        String areaCodeStr = request.getParameter("areaCode");
+        searchQo.setAreaCode(StringUtils.isEmpty(areaCodeStr) ? null : Integer.valueOf(areaCodeStr));
+
+        String deptClassCodeStr = request.getParameter("deptClassCode");
+        searchQo.setDeptClassCode(StringUtils.isEmpty(deptClassCodeStr) ? null : Integer.valueOf(deptClassCodeStr));
+
+        String pnStr = request.getParameter("pn");
+        searchQo.setPn(StringUtils.isEmpty(pnStr) ? null : Integer.valueOf(pnStr));
         searchQo.setPageSize(Constants.DEFAULT_PAGE_SIZE);
 
         //条件查询
-        Paging<DoctorBySearch> doctorBySearchPaging = searchService.getDoctorBySearchPaging(searchQo);
-        Paging<HospitalBySearch> hospitalBySearchPaging = searchService.getHospitalBySearchPaging(searchQo);
+        Paging<DoctorVo> doctorBySearchPaging = searchService.getDoctorPagingBySearch(searchQo);
+        Paging<HospitalVo> hospitalBySearchPaging = searchService.getHospitalPagingBySearch(searchQo);
 
         String queryStringWithOutPn = pagingComponent.getQueryStringWithoutPn(request);
 
@@ -59,15 +62,13 @@ public class SearchController {
         model.addAttribute("queryStringWithOutAreaCode", getQueryStringWithOutAreaCode(request));
         model.addAttribute("queryStringWithOutDeptClassCode", getQueryStringWithOutDeptClassCode(request));
         model.addAttribute("queryStringWithOutKeyWord", getQueryStringWithOutKeyWord(request));
-        model.addAttribute("areaList", AreaUtil.areaList);
-        model.addAttribute("deptClassList", DeptClassUtil.deptClassList);
         return "/search/generalSearch";
     }
 
     private Object getQueryStringWithOutKeyWord(HttpServletRequest request) {
         String queryString = request.getQueryString();
         if(!StringUtils.isEmpty(queryString)) {
-            Matcher matcher = Pattern.compile("keyWord=\\d+").matcher(queryString);
+            Matcher matcher = Pattern.compile("(keyWord=.*?&)|(&keyWord=.*?$)").matcher(queryString);
             queryString = matcher.replaceFirst("");
         }
         return queryString;
@@ -76,7 +77,7 @@ public class SearchController {
     private String getQueryStringWithOutDeptClassCode(HttpServletRequest request) {
         String queryString = request.getQueryString();
         if(!StringUtils.isEmpty(queryString)) {
-            Matcher matcher = Pattern.compile("deptClassCode=\\d+").matcher(queryString);
+            Matcher matcher = Pattern.compile("(deptClassCode=\\d+?&)|(&deptClassCode=\\d+?$)").matcher(queryString);
             queryString = matcher.replaceFirst("");
         }
         return queryString;
@@ -85,7 +86,7 @@ public class SearchController {
     private String getQueryStringWithOutAreaCode(HttpServletRequest request) {
         String queryString = request.getQueryString();
         if(!StringUtils.isEmpty(queryString)) {
-            Matcher matcher = Pattern.compile("areaCode=\\d+").matcher(queryString);
+            Matcher matcher = Pattern.compile("(areaCode=\\d+?&)|(&areaCode=\\d+?$)").matcher(queryString);
             queryString = matcher.replaceFirst("");
         }
         return queryString;

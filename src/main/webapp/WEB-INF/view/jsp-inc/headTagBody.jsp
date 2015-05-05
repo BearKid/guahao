@@ -18,10 +18,12 @@
 <%--<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.js"></script>--%>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-<script src="http://malsup.github.io/jquery.form.js"></script>
 <!-- JBox -->
 <script src="http://code.jboxcdn.com/0.3.2/jBox.min.js"></script>
 <link href="http://code.jboxcdn.com/0.3.2/jBox.css" rel="stylesheet">
+
+<script src="http://malsup.github.io/jquery.form.js"></script>
+
 <!--本地js库-->
 <script src="${applicationScope.contextPath}/js/common.map.js"></script>
 <script src="${applicationScope.contextPath}/js/common.js"></script>

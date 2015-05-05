@@ -1,4 +1,4 @@
-package com.lwb.guahao.webapp.controller;
+package com.lwb.guahao.webapp.controller.pub;
 
 import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.util.FieldValidationUtil;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,78 +42,81 @@ public class LoginController {
      */
     @RequestMapping(value = "hospital", method = RequestMethod.POST)
     public void doHospitalLogin(HttpServletRequest request, Model model, String accountName, String password, String redirectUrl) {
-        Map errMsg = new HashMap();
+        String msg = "";
         if (!FieldValidationUtil.isEmail(accountName)) {
-            errMsg.put("accountName", "账号邮箱不合法");
+            msg += "账号邮箱不合法" + System.lineSeparator();
         }
         if (StringUtils.isEmpty(password)) {
-            errMsg.put("password", "密码不能为空");
+            msg += "密码不能为空" + System.lineSeparator();;
         }
-        if (!errMsg.isEmpty()) {
-            model.addAttribute("errMsg", errMsg);
+        if (!StringUtils.isEmpty(msg)) {
+            model.addAttribute("ret", ApiRet.RET_FAIL);
+            model.addAttribute("msg", msg);
             return;
         }
         //尝试登录
         LoginedHospital loginedHospital = loginService.hospitalLogin(request, accountName, password);
         if (loginedHospital == null) {
-            errMsg.put("login", "账号不存在或密码输入错误");
+            msg = "账号不存在或密码输入错误";
             model.addAttribute("ret", ApiRet.RET_FAIL);
-            model.addAttribute("msg", errMsg);
+            model.addAttribute("msg", msg);
         } else {
             model.addAttribute("ret",ApiRet.RET_SUCCESS);
-            model.addAttribute("redirectUrl", (redirectUrl == null) ? webPageComponent.getAppContextPath() + "/hospital/index" : redirectUrl);
+            model.addAttribute("redirectUrl", (redirectUrl == null) ? webPageComponent.getAppContextPath() + "/myHospital/index" : redirectUrl);
         }
     }
 
     @RequestMapping(value = "per", method = RequestMethod.POST)
     public void doPerUserLogin(HttpServletRequest request, Model model, String accountName, String password, String redirectUrl) {
-        Map errMsg = new HashMap();
+        String msg = "";
         if (StringUtils.isEmpty(accountName)) {
-            errMsg.put("account", "请输入账号");
+            msg += "请输入账号" + System.lineSeparator();
         } else if (!FieldValidationUtil.isMobilePhone(accountName) && !(FieldValidationUtil.isEmail(accountName))) {
-            errMsg.put("account", "请输入邮箱或手机号码");
+            msg += "请输入邮箱或手机号码" + System.lineSeparator();
         }
         if (StringUtils.isEmpty(password)) {
-            errMsg.put("password", "密码不能为空");
+            msg += "密码不能为空" + System.lineSeparator();
         }
-        if (!errMsg.isEmpty()) {
-            model.addAttribute("errMsg", errMsg);
+        if (!StringUtils.isEmpty(msg)) {
+            model.addAttribute("ret", ApiRet.RET_FAIL);
+            model.addAttribute("msg", msg);
             return;
         }
         //尝试登录
         LoginedPerUser loginedUser = loginService.perUserLogin(request, accountName, password);
         if (loginedUser == null) {
-            errMsg.put("login", "账号或密码输入错误");
+            msg = "账号不存在或密码输入错误";
             model.addAttribute("ret",ApiRet.RET_FAIL);
-            model.addAttribute("msg", errMsg);
+            model.addAttribute("msg", msg);
         } else {
             model.addAttribute("ret",ApiRet.RET_SUCCESS);
-            model.addAttribute("redirectUrl", (redirectUrl == null) ? webPageComponent.getAppContextPath() + "/per/index" : redirectUrl);
+            model.addAttribute("redirectUrl", (redirectUrl == null) ? webPageComponent.getAppContextPath() + "/myPer/index" : redirectUrl);
         }
     }
 
     @RequestMapping(value = "doctor", method = RequestMethod.POST)
     public void doDoctorLogin(HttpServletRequest request, Model model, String accountName, String password, String redirectUrl) {
-        Map errMsg = new HashMap();
+        String msg = "";
         if (StringUtils.isEmpty(accountName)) {
-            errMsg.put("accountName", "请输入账号");
+            msg += "请输入账号" + System.lineSeparator();
         }
         if (StringUtils.isEmpty(password)) {
-            errMsg.put("password", "密码不能为空");
+            msg += "密码不能为空"+ System.lineSeparator();
         }
-        if (!errMsg.isEmpty()) {
-            model.addAttribute("errMsg", errMsg);
+        if (!StringUtils.isEmpty(msg)) {
+            model.addAttribute("ret", ApiRet.RET_FAIL);
+            model.addAttribute("msg", msg);
             return;
         }
         //尝试登录
         LoginedDoctor loginedDoctor = loginService.doctorLogin(request, accountName, password);
         if (loginedDoctor == null) {
-            errMsg.put("login", "账号或密码输入错误");
+            msg += "账号不存在或密码输入错误";
             model.addAttribute("ret",ApiRet.RET_FAIL);
-            model.addAttribute("errMsg", errMsg);
+            model.addAttribute("msg", msg);
         } else {
             model.addAttribute("ret",ApiRet.RET_SUCCESS);
-            model.addAttribute("redirectUrl", (redirectUrl == null) ? webPageComponent.getAppContextPath() + "/doctor/index" : redirectUrl);
+            model.addAttribute("redirectUrl", (redirectUrl == null) ? webPageComponent.getAppContextPath() + "/myDoctor/index" : redirectUrl);
         }
     }
 }

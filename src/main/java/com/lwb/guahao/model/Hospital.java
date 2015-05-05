@@ -22,7 +22,7 @@ public class Hospital implements Serializable{
     @Column(nullable = false)
     private Date createDateTime; //账户创建日期时间
 
-    @Column
+    @Column(nullable = true)
     private Date latestLoginDateTime; //最近一次登录的日期时间
 
     @Column(nullable = false)
@@ -49,8 +49,8 @@ public class Hospital implements Serializable{
     @Column(length = 1000)
     private String avatarPath; //头像物理存储路径
 
-    @Column
-    private Date modifiedDate; //Hospital被修改的日期时间
+    @Column(nullable = true)
+    private Date modifyDateTime; //Hospital被修改的日期时间
 
     public Integer getAccountStatusCode() {
         return accountStatusCode;
@@ -132,12 +132,12 @@ public class Hospital implements Serializable{
         this.linkman = linkman;
     }
 
-    public Date getModifiedDate() {
-        return modifiedDate;
+    public Date getModifyDateTime() {
+        return modifyDateTime;
     }
 
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+    public void setModifyDateTime(Date modifyDateTime) {
+        this.modifyDateTime = modifyDateTime;
     }
 
     public String getName() {

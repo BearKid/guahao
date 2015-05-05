@@ -1,6 +1,7 @@
 package com.lwb.guahao.webapp.controller.inc;
 
 import com.lwb.guahao.common.constants.Constants;
+import com.lwb.guahao.common.util.AreaUtil;
 import com.lwb.guahao.common.util.DeptClassUtil;
 import com.lwb.guahao.webapp.service.LoginService;
 import com.lwb.guahao.webapp.vo.LoginedDoctor;
@@ -39,21 +40,21 @@ public class CommonIncController {
                     if (perUser != null) {
                         accountInfo.put("accountTypeName", "个人");
                         accountInfo.put("name", perUser.getName());
-                        accountInfo.put("accountContextPath", "/per");
+                        accountInfo.put("accountContextPath", "/myPer");
                         break;
                     }
                     LoginedDoctor doctor = loginService.getLoginedDoctor(request);
                     if (doctor != null) {
                         accountInfo.put("accountTypeName", "医生");
                         accountInfo.put("name", doctor.getName());
-                        accountInfo.put("accountContextPath", "/doctor");
+                        accountInfo.put("accountContextPath", "/myDoctor");
                         break;
                     }
                     LoginedHospital hospital = loginService.getLoginedHospital(request);
                     if (hospital != null) {
                         accountInfo.put("accountTypeName", "医院");
                         accountInfo.put("name", hospital.getName());
-                        accountInfo.put("accountContextPath", "/hospital");
+                        accountInfo.put("accountContextPath", "/myHospital");
                         break;
                     }
                     break;
@@ -63,7 +64,7 @@ public class CommonIncController {
                     if (perUser != null) {
                         accountInfo.put("accountTypeName", "个人");
                         accountInfo.put("name", perUser.getName());
-                        accountInfo.put("accountContextPath", "/per");
+                        accountInfo.put("accountContextPath", "/myPer");
                     }
                     break;
                 }
@@ -72,7 +73,7 @@ public class CommonIncController {
                     if (doctor != null) {
                         accountInfo.put("accountTypeName", "医生");
                         accountInfo.put("name", doctor.getName());
-                        accountInfo.put("accountContextPath", "/doctor");
+                        accountInfo.put("accountContextPath", "/myDoctor");
                     }
                     break;
                 }
@@ -81,7 +82,7 @@ public class CommonIncController {
                     if (hospital != null) {
                         accountInfo.put("accountTypeName", "医院");
                         accountInfo.put("name", hospital.getName());
-                        accountInfo.put("accountContextPath", "/hospital");
+                        accountInfo.put("accountContextPath", "/myHospital");
                     }
                     break;
                 }
@@ -92,9 +93,16 @@ public class CommonIncController {
         model.addAttribute("accountInfo", accountInfo);
         return "/../jsp-inc/header";
     }
+
     @RequestMapping(value = "/inc/common/deptClassSelectBox")
     public String deptClassSelectBox(HttpServletRequest request, Model model) {
         model.addAttribute("deptClassList", DeptClassUtil.deptClassList);
         return "/../jsp-inc/common/deptClassSelectBox";
+    }
+
+    @RequestMapping(value = "/inc/common/areaSelectBox")
+    public String areaSelectBox(HttpServletRequest request, Model model) {
+        model.addAttribute("areaList", AreaUtil.areaList);
+        return "/../jsp-inc/common/areaSelectBox";
     }
 }

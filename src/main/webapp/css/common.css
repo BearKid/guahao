@@ -77,7 +77,7 @@ button.btn-close {
     background-color: #428bca;
 }
 
-.main {
+#main,.main {
     /*padding: 5px 25px;*/
     padding-right: 40px;
     padding-left: 40px;
@@ -86,7 +86,7 @@ button.btn-close {
 #loginFormsWrapper {
     display: block;
     padding: 15px;
-    border: 1px solid #eee;
+    border: 1px solid #ccc;
     border-radius: 0px 0px 5px 5px;
 }
 #loginFormsWrapper form .form-control{
@@ -94,6 +94,9 @@ button.btn-close {
 }
 #loginFormsWrapper form .btn[type="submit"]{
     margin-top: 15px;
+}
+#loginFormsWrapper .loginForm .loginBtn{
+    margin-top: 20px;
 }
 
 /* 账号模板 START */

@@ -1,7 +1,9 @@
 package com.lwb.guahao.webapp.vo;
 
 import com.lwb.guahao.common.constants.ConstantsMap;
+import com.lwb.guahao.common.util.SexUtil;
 import com.lwb.guahao.model.Doctor;
+import com.lwb.guahao.model.Hospital;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 
@@ -46,12 +48,14 @@ public class DoctorVo {
 
     private String latestLoginDate; //最近一次登录的日期时间
 
-    private String editDateTime; //被修改的日期时间
+    private String ModifyDateTime; //被修改的日期时间
 
     private Integer hospitalId; //医院id
 
     /*** 相较于 Doctor 增加的字段 **/
     private String deptClassName; //科室类目编号 参见：ConstantsMap.deptClassMap
+
+    private HospitalVo hospital; //医院
 
     /**
      * model转vo
@@ -59,15 +63,26 @@ public class DoctorVo {
      * @return
      */
     public static DoctorVo parse(Doctor doctor){
+        if(doctor == null) return null;
         DoctorVo doctorVo = new DoctorVo();
         BeanUtils.copyProperties(doctor,doctorVo);
+        doctorVo.setSex(SexUtil.getSexName(doctor.getSex()));
+        doctorVo.setDeptClassName(ConstantsMap.deptClassMap.get(doctor.getDeptClassCode()));
+
         //日期时间格式化
         doctorVo.setCreateDateTime(StringUtils.isEmpty(doctor.getLatestLoginDate()) ? "未知" : yearMonthDayTimeFormatter.format(doctor.getCreateDateTime()));
-        doctorVo.setEditDateTime(StringUtils.isEmpty(doctor.getEditDateTime()) ? "未知" : yearMonthDayTimeFormatter.format(doctor.getEditDateTime()));
+        doctorVo.setModifyDateTime(StringUtils.isEmpty(doctor.getModifyDateTime()) ? "未知" : yearMonthDayTimeFormatter.format(doctor.getModifyDateTime()));
         doctorVo.setLatestLoginDate(StringUtils.isEmpty(doctor.getLatestLoginDate()) ? "未知" : yearMonthDayTimeFormatter.format(doctor.getLatestLoginDate()));
-        doctorVo.setDeptClassName(ConstantsMap.deptClassMap.get(doctor.getDeptClassCode()));
+
         return doctorVo;
     }
+
+    public static DoctorVo parse(Doctor doctor, Hospital hospital){
+        DoctorVo doctorVo = parse(doctor);
+        doctorVo.setHospital(HospitalVo.parse(hospital));
+        return doctorVo;
+    }
+
     public static List<DoctorVo> parse(List<Doctor> doctors) {
         List<DoctorVo> doctorVos = new ArrayList<DoctorVo>(doctors.size());
         for(Doctor doctor : doctors){
@@ -188,12 +203,12 @@ public class DoctorVo {
         this.latestLoginDate = latestLoginDate;
     }
 
-    public String getEditDateTime() {
-        return editDateTime;
+    public String getModifyDateTime() {
+        return ModifyDateTime;
     }
 
-    public void setEditDateTime(String editDateTime) {
-        this.editDateTime = editDateTime;
+    public void setModifyDateTime(String modifyDateTime) {
+        this.ModifyDateTime = modifyDateTime;
     }
 
     public Integer getHospitalId() {
@@ -211,4 +226,13 @@ public class DoctorVo {
     public void setDeptClassName(String deptClassName) {
         this.deptClassName = deptClassName;
     }
+
+    public HospitalVo getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(HospitalVo hospital) {
+        this.hospital = hospital;
+    }
+
 }

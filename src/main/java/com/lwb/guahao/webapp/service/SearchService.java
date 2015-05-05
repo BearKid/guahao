@@ -5,10 +5,9 @@ import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.Hospital;
 import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.dao.HospitalDao;
-import com.lwb.guahao.webapp.vo.search.DoctorBySearch;
-import com.lwb.guahao.webapp.vo.search.HospitalBySearch;
+import com.lwb.guahao.webapp.vo.DoctorVo;
+import com.lwb.guahao.webapp.vo.HospitalVo;
 import com.lwb.guahao.webapp.vo.search.SearchQo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,19 +35,19 @@ public class SearchService {
      * @param searchQo
      * @return
      */
-    public Paging<DoctorBySearch> getDoctorBySearchPaging(SearchQo searchQo) {
+    public Paging<DoctorVo> getDoctorPagingBySearch(SearchQo searchQo) {
         Paging<Doctor> doctorPaging = doctorDao.getDoctorsPagingBy(searchQo);
 
         //视图转换
         List<Doctor> doctorList = doctorPaging.getItems();
-        List<DoctorBySearch> doctorBySearchList = new ArrayList<DoctorBySearch>(doctorList.size());
+        List<DoctorVo> doctorBySearchList = new ArrayList<DoctorVo>(doctorList.size());
         for(Doctor doctor : doctorList){
             Hospital hospital = hospitalDao.get(doctor.getHospitalId());
-            DoctorBySearch doctorBySearch = DoctorBySearch.parse(doctor,hospital);
+            DoctorVo doctorBySearch = DoctorVo.parse(doctor,hospital);
 
             doctorBySearchList.add(doctorBySearch);
         }
-        Paging<DoctorBySearch> doctorBySearchPaging = new Paging<DoctorBySearch>(doctorBySearchList, doctorPaging.getPn(), doctorPaging.getPageSize(), doctorPaging.getTotalSize());
+        Paging<DoctorVo> doctorBySearchPaging = new Paging<DoctorVo>(doctorBySearchList, doctorPaging.getPn(), doctorPaging.getPageSize(), doctorPaging.getTotalSize());
 
         return doctorBySearchPaging;
     }
@@ -58,17 +57,17 @@ public class SearchService {
      * @param searchQo
      * @return
      */
-    public Paging<HospitalBySearch> getHospitalBySearchPaging(SearchQo searchQo) {
+    public Paging<HospitalVo> getHospitalPagingBySearch(SearchQo searchQo) {
         Paging<Hospital> hospitalPaging = hospitalDao.getHospitalPagingBy(searchQo);
 
         //视图转换
         List<Hospital> hospitalList = hospitalPaging.getItems();
-        List<HospitalBySearch> hospitalBySearchList = new ArrayList<HospitalBySearch>(hospitalList.size());
+        List<HospitalVo> hospitalBySearchList = new ArrayList<HospitalVo>(hospitalList.size());
         for(Hospital hospital : hospitalList){
-            HospitalBySearch hospitalBySearch = HospitalBySearch.parse(hospital);
+            HospitalVo hospitalBySearch = HospitalVo.parse(hospital);
             hospitalBySearchList.add(hospitalBySearch);
         }
-        Paging<HospitalBySearch> hospitalBySearchPaging = new Paging<HospitalBySearch>(hospitalBySearchList, hospitalPaging.getPn(), hospitalPaging.getPageSize(), hospitalPaging.getTotalSize());
+        Paging<HospitalVo> hospitalBySearchPaging = new Paging<HospitalVo>(hospitalBySearchList, hospitalPaging.getPn(), hospitalPaging.getPageSize(), hospitalPaging.getTotalSize());
 
         return hospitalBySearchPaging;
     }

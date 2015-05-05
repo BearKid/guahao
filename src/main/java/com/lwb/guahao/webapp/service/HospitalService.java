@@ -55,7 +55,7 @@ public class HospitalService {
     public Hospital update(Hospital hospital){
         Hospital newHospital = new Hospital();
         BeanUtils.copyProperties(hospital, newHospital);//防止传入的hospital被修改
-        newHospital.setModifiedDate(new Date());
+        newHospital.setModifyDateTime(new Date());
         hospitalDao.update(newHospital);
         return newHospital;
     }
