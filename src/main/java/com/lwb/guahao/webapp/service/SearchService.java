@@ -7,7 +7,8 @@ import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.dao.HospitalDao;
 import com.lwb.guahao.webapp.vo.DoctorVo;
 import com.lwb.guahao.webapp.vo.HospitalVo;
-import com.lwb.guahao.webapp.vo.search.SearchQo;
+import com.lwb.guahao.qo.SearchQo;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 public class SearchService {
+    private final static Logger logger = Logger.getLogger(SearchService.class);
     @Resource
     private DoctorDao doctorDao;
     @Resource
@@ -35,6 +37,7 @@ public class SearchService {
      * @param searchQo
      * @return
      */
+    @Transactional(readOnly = true)
     public Paging<DoctorVo> getDoctorPagingBySearch(SearchQo searchQo) {
         Paging<Doctor> doctorPaging = doctorDao.getDoctorsPagingBy(searchQo);
 
@@ -57,6 +60,7 @@ public class SearchService {
      * @param searchQo
      * @return
      */
+    @Transactional(readOnly = true)
     public Paging<HospitalVo> getHospitalPagingBySearch(SearchQo searchQo) {
         Paging<Hospital> hospitalPaging = hospitalDao.getHospitalPagingBy(searchQo);
 

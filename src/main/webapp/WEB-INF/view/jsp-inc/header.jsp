@@ -35,15 +35,14 @@
                                 <li><a href="${applicationScope.contextPath}/register/per">个人注册</a></li>
                                 <li class="divider"></li>
                                 <li><a href="${applicationScope.contextPath}/register/hospital">医院注册</a></li>
-                                <li class="divider"></li>
-                                <li><a href="${applicationScope.contextPath}/register/doctor">医生注册</a></li>
                             </ul>
                     </li>
                     <li><a id="jsShowLoginFormsWrapper" href="#">登录</a></li>
                 </c:if>
             </ul>
-            <form class="navbar-form navbar-right">
-                <input type="text" class="form-control" placeholder="搜索...">
+            <form class="navbar-form navbar-right" action="${applicationScope.contextPath}/search" method="GET">
+                <input name="keyWord" type="text" class="form-control" placeholder="搜索...">
+                <button type="submit" style="display: none">提交</button>
             </form>
         </div>
     </div>

@@ -9,6 +9,7 @@ import com.lwb.guahao.common.util.DoubleUtils;
 import com.lwb.guahao.common.util.IntegerUtils;
 import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.DoctorPerTimeSchedule;
+import com.lwb.guahao.qo.DoctorDailyScheduleQo;
 import com.lwb.guahao.webapp.component.PagingComponent;
 import com.lwb.guahao.webapp.service.DoctorPerTimeScheduleService;
 import com.lwb.guahao.webapp.service.DoctorService;
@@ -19,6 +20,7 @@ import com.lwb.guahao.webapp.vo.DoctorDailyScheduleVo;
 import com.lwb.guahao.webapp.vo.DoctorVo;
 import com.lwb.guahao.webapp.vo.LoginedHospital;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -124,17 +127,10 @@ public class MyHospitalController {
         if (apiRet.getRet() != ApiRet.RET_FAIL) {
             Integer curHospitalId = loginService.getLoginedHospitalId(request);
             doctor.setHospitalId(curHospitalId);
-            ApiRet apiRetFromCreateDoctor = hospitalService.createDoctor(doctor);
-            apiRet.setRet(apiRetFromCreateDoctor.getRet());
-            if (apiRetFromCreateDoctor.getRet() == ApiRet.RET_FAIL) {
-                apiRet.setMsg("创建医生账号失败！");
-            } else if (apiRetFromCreateDoctor.getRet() == ApiRet.RET_SUCCESS) {
-                apiRet.setMsg("创建医生账号成功！");
-            }
+            apiRet = hospitalService.createDoctor(doctor);
         }
         model.addAttribute("ret", apiRet.getRet());
         model.addAttribute("msg", apiRet.getMsg());
-        model.addAttribute("data", apiRet.getData());
     }
 
     /**
@@ -142,13 +138,14 @@ public class MyHospitalController {
      *
      * @param request
      * @param model
-     * @param doctorId
+     * @param doctorIdStr
      * @param qoVo
      * @return
      */
-    @RequestMapping(value = "doctor/{id}/dailySchedules", method = RequestMethod.GET)
-    public String doctorDailySchedules(HttpServletRequest request, Model model, @PathVariable(value = "id") Integer doctorId, DoctorDailyScheduleQoVo qoVo) {
+    @RequestMapping(value = "doctor/{doctorIdStr}/dailySchedules", method = RequestMethod.GET)
+    public String doctorDailySchedules(HttpServletRequest request, Model model, @PathVariable String doctorIdStr, DoctorDailyScheduleQoVo qoVo) throws ParseException{
         Integer curHospitalId = loginService.getLoginedHospitalId(request);
+        Integer doctorId = Integer.valueOf(doctorIdStr);
         ApiRet apiRet = new ApiRet();
         String view = null;
         if (!hospitalService.hasThisDoctor(curHospitalId, doctorId)) {
@@ -156,8 +153,11 @@ public class MyHospitalController {
             apiRet.setMsg("没有访问权限");
             view = null;
         } else {
-            qoVo.setDoctorId(doctorId);
-            apiRet = doctorPerTimeScheduleService.getPagingBy(qoVo);
+            qoVo.setDoctorId(doctorIdStr);
+            DoctorDailyScheduleQo qo = DoctorDailyScheduleQo.parse(qoVo);
+
+            apiRet = doctorPerTimeScheduleService.getPagingBy(qo);
+
             model.addAttribute("doctorDailyScheduleQo", qoVo);
             model.addAttribute("doctorDailySchedulePaging", (Paging<DoctorDailyScheduleVo>) apiRet.getData());
             model.addAttribute("queryStringWithoutPn", pagingComponent.getQueryStringWithoutPn(request));
@@ -181,13 +181,13 @@ public class MyHospitalController {
         ApiRet apiRet = new ApiRet();
         try {
             /*根据传入参数构建doctorPerTimeSchedule List*/
+            String scheduleDay = request.getParameter("scheduleDay");
             String[] doctorPerTimeScheduleIdArr = request.getParameterValues("doctorPerTimeScheduleId");
             String[] startTimeArr = request.getParameterValues("startTime");
             String[] endTimeArr = request.getParameterValues("endTime");
             String[] totalSourceArr = request.getParameterValues("totalSource");
             String priceStr = request.getParameter("price");
-            Double price = DoubleUtils.parseString(priceStr,0.0);
-            String scheduleDay = request.getParameter("scheduleDay");
+            Double price = DoubleUtils.parseString(priceStr, 0.0);
             String doctorId = request.getParameter("doctorId");
             int size = doctorPerTimeScheduleIdArr.length;
             List<DoctorPerTimeSchedule> doctorPerTimeScheduleList = new ArrayList<DoctorPerTimeSchedule>(size);
@@ -211,7 +211,7 @@ public class MyHospitalController {
             apiRet = doctorPerTimeScheduleService.saveOrUpdate(doctorPerTimeScheduleList);
 
         } catch (Exception e) {
-            logger.error("doctorDailyScheduleSaveOrUpdate", e);
+            logger.error("保存失败",e);
             apiRet.setRet(ApiRet.RET_FAIL);
             apiRet.setMsg("保存失败");
         }

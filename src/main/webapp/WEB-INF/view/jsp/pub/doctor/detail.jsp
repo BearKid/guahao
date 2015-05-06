@@ -198,8 +198,10 @@
             </c:forEach>
         </c:if>
     </table>
+    <div id="doctorDailySchedulePager"></div>
 </div>
 </body>
+<script src="${applicationScope.contextPath}/js/jquery/pager.js"></script>
 <script>
 
     //展开、收起某天排班详情
@@ -229,8 +231,8 @@
         pagenumber: ${doctorDailySchedulePaging.pn},
         pagecount: ${doctorDailySchedulePaging.totalPages},
         buttonClickCallback: function (pn) {
-            var url = "${applicationScope.contextPath}/hospital/doctor/${doctorDailyScheduleQo.doctorId}/dailySchedules/${queryStringWithoutPn}&pn=" + pn;
-            Hospital.loadHtmlByUrl(url, null);
+            var url = "${applicationScope.contextPath}/doctor/${doctor.id}/detail?${queryStringWithoutPn}&pn=" + pn;
+            window.location = url;
         }
     });
 

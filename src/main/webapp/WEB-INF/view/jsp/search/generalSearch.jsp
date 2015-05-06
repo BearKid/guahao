@@ -40,9 +40,11 @@
             margin-right: 10px;
         }
         #docotorBySearchPaging .doctor,#hospitalBySearchPaging .hospital{
-            border-bottom: 1px solid #F2F2F2;
-            padding: 10px 5px;
+            border-bottom: 1px solid #e4e4e4;
+            border-radius: 5px;
+            padding: 10px;
             margin-bottom: 20px;
+            margin-top: 20px;
         }
         .doctor .row1, .doctor .row2{
             margin-bottom: 10px;
@@ -60,9 +62,9 @@
             padding: 2px 5px;
         }
         .doctor .goodAtTag {
-            border: 1px solid #E4E4E4;
-            background-color: #F2F2F2;
-            color: #666;
+            background-color: #FF9966;
+            border-radius: 5px;
+            color: #fff;
             padding: 2px 5px;
             margin-right: 5px;
         }
@@ -139,7 +141,7 @@
                     <span class="goodAtTag">${goodAt}</span>
                 </c:forEach>
             </div>
-            <div class="doctorBrief row3">${doctor.brief}</div>
+            <div class="doctorBrief row3"><b>简介：</b>${doctor.brief}</div>
         </div>
     </div>
 </c:forEach>
@@ -154,7 +156,7 @@
                     <a class="name" href="${applicationScope.contextPath}/hospital/${hospital.id}/detail">${hospital.name}</a>
                     &nbsp;&nbsp;${hospital.areaName}&nbsp;&nbsp;地址：${hospital.address}
                 </div>
-                <div class="brief row2">${hospital.brief}</div>
+                <div class="brief row2"><b>简介：</b>${hospital.brief}</div>
             </div>
         </div>
     </c:forEach>

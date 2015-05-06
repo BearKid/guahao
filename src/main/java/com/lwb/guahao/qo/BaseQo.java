@@ -6,12 +6,12 @@ import com.lwb.guahao.common.constants.Constants;
  * @autor: Lu Weibiao
  * Date: 2015/3/25 19:02
  */
-public class BaseQo {
+public abstract class BaseQo {
     Integer pn;
     Integer pageSize = Constants.DEFAULT_PAGE_SIZE;
 
     public Integer getFirstIndex(){
-        return (pn-1)*pageSize;
+        return (pn - 1) * pageSize;
     }
 
     public Integer getPn() {

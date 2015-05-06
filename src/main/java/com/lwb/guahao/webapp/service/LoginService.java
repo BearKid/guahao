@@ -12,6 +12,7 @@ import com.lwb.guahao.webapp.dao.PerUserDao;
 import com.lwb.guahao.webapp.vo.LoginedDoctor;
 import com.lwb.guahao.webapp.vo.LoginedHospital;
 import com.lwb.guahao.webapp.vo.LoginedPerUser;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ import java.util.Date;
 @Service
 @Transactional
 public class LoginService {
+    private final static Logger logger = Logger.getLogger(LoginService.class);
     @Resource
     private HttpSessionDao httpSessionDao;
     @Resource

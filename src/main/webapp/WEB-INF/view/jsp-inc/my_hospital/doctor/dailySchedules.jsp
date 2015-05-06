@@ -87,7 +87,7 @@
                                         <td width="15%"><span>/</span></td>
                                         <td width="15%">
                                             <span>/</span>
-                                            <input name="price" type="text" value="" style="display:none;width: 100% "/>
+                                            <input name="price" type="text" value="${doctorDailySchedule.price}" style="display:none;width: 100% "/>
                                         </td>
                                         <td>
                                             <a class="doctorPerTimeScheduleInputAdd" href="#" data-doctor-daily-schedule-id="${doctorDailySchedule.id}">新增</a>
@@ -237,7 +237,6 @@ ${applicationScope.contextPath}/myHospital/doctor/${doctorDailyScheduleQo.doctor
 
         if($doctorDailyScheduleList.css("display") === "none"){
             $doctorDailyScheduleList.show();
-
             //可能是从修改面板切换到详情面板
             var $doctorPerTimeScheduleInputList = $("#doctorPerTimeScheduleInputList-" + doctorDailyScheduleId);
             if($doctorPerTimeScheduleInputList.css("display") !== "none") {
@@ -247,6 +246,8 @@ ${applicationScope.contextPath}/myHospital/doctor/${doctorDailyScheduleQo.doctor
                 $("#doctorDailySchedulePriceInput-" + doctorDailyScheduleId).hide();
                 $("#doctorDailySchedulePrice-" + doctorDailyScheduleId).show();
             }
+            $this.text("收起");
+
         } else{
             $doctorDailyScheduleList.hide();
             $this.text("详情");
@@ -295,14 +296,12 @@ ${applicationScope.contextPath}/myHospital/doctor/${doctorDailyScheduleQo.doctor
     $(".doctorDailyScheduleSave").click(function () {
         var $this = $(this);
         var doctorDailyScheduleId = $this.data("doctorDailyScheduleId");
-        var doctorDailyScheduleSaveForm = $this.parents(".doctorDailyScheduleSaveForm");
         Hospital.getJsonByForm("#doctorDailyScheduleSaveForm-" + doctorDailyScheduleId, function (data) {
             $ModalBox.open(data.msg);
             if (data.ret == API_RET_SUCCESS) {
                 setTimeout(function () {
                     $ModalBox.close();
                     var url = $("#doctorDailyScheduleCurUrl").text();
-                    console.log(url);
                     Hospital.loadHtmlByUrl(url, null);
                 }, 1000);
             }

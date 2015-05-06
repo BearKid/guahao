@@ -1,5 +1,6 @@
 package com.lwb.guahao.webapp.dao;
 
+import com.lwb.guahao.common.constants.Constants;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -152,7 +153,7 @@ public abstract class BaseHibernateDao<T> {
                 if (firstRow != -1) {
                     query.setFirstResult(firstRow);
                 }
-                if (maxRow != -1) {
+                if (maxRow != Constants.INFINITE_PAGE_SIZE) {
                     query.setMaxResults(maxRow);
                 }
                 return query.list();
@@ -201,7 +202,7 @@ public abstract class BaseHibernateDao<T> {
      * @param params //数组类型
      * @return
      */
-    private Query setParameters(Query query, Object[] params) {
+    protected Query setParameters(Query query, Object[] params) {
         int i = 0;
         for (Object param : params) {
             query.setParameter(i, param);
@@ -218,7 +219,7 @@ public abstract class BaseHibernateDao<T> {
      * @param params //List类型
      * @return
      */
-    private Query setParameters(Query query, List params) {
+    protected Query setParameters(Query query, List params) {
         int i = 0;
         for (Object param : params) {
             query.setParameter(i, param);

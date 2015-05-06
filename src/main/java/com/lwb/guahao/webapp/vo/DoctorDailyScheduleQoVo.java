@@ -9,34 +9,25 @@ import com.lwb.guahao.qo.DoctorDailyScheduleQo;
  * 医生每天排班查询对象VO
  */
 public class DoctorDailyScheduleQoVo {
-    Integer doctorId;
+    String doctorId;
     String startDay;
     String endDay;
     String ignoreNoScheduleDay;
+    String pn;
+    String pageSize;
 
     public static DoctorDailyScheduleQoVo parse(DoctorDailyScheduleQo qo) {
         DoctorDailyScheduleQoVo vo = new DoctorDailyScheduleQoVo();
-        Integer doctorId = null;
+        String  doctorId = null;
         String startDay = null;
         String endDay = null;
         String ignoreNoScheduleDate = null;
-        try{
-            doctorId = qo.getDoctorId();
-        } catch (Exception e){
-            System.out.println(DoctorDailyScheduleQo.class + " - doctorId");
-        }
-        try{
-            startDay = DateUtils.ISODateFormatter.format(qo.getStartDay());
-        } catch (Exception e){
-            System.out.println(DoctorDailyScheduleQo.class + " - startDay");
-        }
-        try{
-            endDay = DateUtils.ISODateFormatter.format(qo.getEndDay());
-        } catch (Exception e){
-            System.out.println(DoctorDailyScheduleQo.class + " - endDay");
-        }
 
-        ignoreNoScheduleDate = qo.getIgnoreNoScheduleDay() ? "true" :"false";
+        doctorId = (qo.getDoctorId() == null) ? null : qo.getDoctorId().toString();
+        startDay = DateUtils.ISODateFormatter.format(qo.getStartDay());
+        endDay = DateUtils.ISODateFormatter.format(qo.getEndDay());
+        ignoreNoScheduleDate = (qo.getIgnoreNoScheduleDay() == null) ? Boolean.FALSE.toString() : qo.getIgnoreNoScheduleDay().toString();
+
         vo.setDoctorId(doctorId);
         vo.setStartDay(startDay);
         vo.setEndDay(endDay);
@@ -44,11 +35,11 @@ public class DoctorDailyScheduleQoVo {
         return vo;
     }
 
-    public Integer getDoctorId() {
+    public String  getDoctorId() {
         return doctorId;
     }
 
-    public void setDoctorId(Integer doctorId) {
+    public void setDoctorId(String doctorId) {
         this.doctorId = doctorId;
     }
 
@@ -74,5 +65,21 @@ public class DoctorDailyScheduleQoVo {
 
     public void setIgnoreNoScheduleDay(String ignoreNoScheduleDay) {
         this.ignoreNoScheduleDay = ignoreNoScheduleDay;
+    }
+
+    public String getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(String pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public String getPn() {
+        return pn;
+    }
+
+    public void setPn(String pn) {
+        this.pn = pn;
     }
 }

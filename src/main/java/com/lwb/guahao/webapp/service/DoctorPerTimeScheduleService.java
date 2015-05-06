@@ -4,14 +4,18 @@ import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.Paging;
 import com.lwb.guahao.common.constants.Constants;
 import com.lwb.guahao.common.util.DateUtils;
+import com.lwb.guahao.model.Doctor;
 import com.lwb.guahao.model.DoctorPerTimeSchedule;
 import com.lwb.guahao.qo.DoctorDailyScheduleQo;
+import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.dao.DoctorPerTimeScheduleDao;
 import com.lwb.guahao.webapp.vo.DoctorDailyScheduleQoVo;
 import com.lwb.guahao.webapp.vo.DoctorDailyScheduleVo;
 import com.lwb.guahao.webapp.vo.DoctorPerTimeScheduleVo;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -22,27 +26,26 @@ import java.util.*;
  * Date: 2015/3/23 20:56
  */
 @Service
+@Transactional
 public class DoctorPerTimeScheduleService {
+    private final static Logger logger = Logger.getLogger(DoctorPerTimeScheduleService.class);
     @Resource
     private DoctorPerTimeScheduleDao doctorPerTimeScheduleDao;
+    @Resource
+    private DoctorDao doctorDao;
 
     /**
      * 获取按天归类的排班分页
-     * @param doctorDailyScheduleQoVo
+     * @param doctorDailyScheduleQo
      * @return
      */
-    public ApiRet getPagingBy(DoctorDailyScheduleQoVo doctorDailyScheduleQoVo) {
+    @Transactional(readOnly = true)
+    public ApiRet getPagingBy(DoctorDailyScheduleQo doctorDailyScheduleQo) throws ParseException{
         ApiRet apiRet = new ApiRet();
 
-        DoctorDailyScheduleQo qo = DoctorDailyScheduleQo.parse(doctorDailyScheduleQoVo);
-        if(qo.getPn() == null){
-            qo.setPn(1);
-        }
-        if(qo.getPageSize() == null){
-            qo.setPageSize(Constants.DEFAULT_PAGE_SIZE);
-        }
-        Paging<DoctorPerTimeSchedule> doctorPerTimeSchedulePaging= doctorPerTimeScheduleDao.getPagingBy(qo);
-        List<DoctorDailyScheduleVo>  doctorDailyScheduleVoList = buildDoctorDailyScheduleVoList(doctorPerTimeSchedulePaging.getItems(),qo.getStartDay(),qo.getEndDay(),qo.getIgnoreNoScheduleDay());
+        Paging<DoctorPerTimeSchedule> doctorPerTimeSchedulePaging= doctorPerTimeScheduleDao.getPagingBy(doctorDailyScheduleQo);
+        Doctor doctor = doctorDao.get(doctorDailyScheduleQo.getDoctorId());
+        List<DoctorDailyScheduleVo>  doctorDailyScheduleVoList = buildDoctorDailyScheduleVoList(doctorPerTimeSchedulePaging.getItems(), doctor, doctorDailyScheduleQo);
         Paging<DoctorDailyScheduleVo> doctorDailyScheduleVoPaging = new Paging<DoctorDailyScheduleVo>(
                 doctorDailyScheduleVoList,
                 doctorPerTimeSchedulePaging.getPn(),
@@ -55,24 +58,32 @@ public class DoctorPerTimeScheduleService {
     }
 
     /**
-     * 构建按天归类的排班
-     * @param doctorPerTimeSchedulesList 明细排班记录集
-     * @param startDate 查询的开始日期
-     * @param endDate 查询的结束日期
-     * @param ignoreNoScheduleDate 是否忽略空记录的日期
+
+     * @param doctorPerTimeSchedulesList
      * @return
      */
-    private List<DoctorDailyScheduleVo> buildDoctorDailyScheduleVoList(List<DoctorPerTimeSchedule> doctorPerTimeSchedulesList,Date startDate, Date endDate, boolean ignoreNoScheduleDate) {
+    /**
+     * 构建按天归类的排班
+     * @param doctorPerTimeSchedulesList 明细排班记录集
+     * @param doctor 排班记录集所属的医生
+     * @param doctorDailyScheduleQo 排班查询条件
+     * @return
+     */
+    private List<DoctorDailyScheduleVo> buildDoctorDailyScheduleVoList(List<DoctorPerTimeSchedule> doctorPerTimeSchedulesList, Doctor doctor, DoctorDailyScheduleQo doctorDailyScheduleQo) {
+        Date startDate = doctorDailyScheduleQo.getStartDay();//查询的开始日期
+        Date endDate = doctorDailyScheduleQo.getEndDay();//查询的结束日期
+        boolean ignoreNoScheduleDate = doctorDailyScheduleQo.getIgnoreNoScheduleDay();//是否忽略空记录的日期
+
         if(doctorPerTimeSchedulesList == null) doctorPerTimeSchedulesList = new ArrayList<DoctorPerTimeSchedule>();
         Map<DateTime,List<DoctorPerTimeScheduleVo>> doctorDailyScheuleVoMap = new TreeMap<DateTime, List<DoctorPerTimeScheduleVo>>(new Comparator<DateTime>() {
             @Override
             public int compare(DateTime o1, DateTime o2) {
                 int ret = 0;
-                if(o1.isBefore(o2)) ret = 1;
-                else if(o1.isAfter(o2)) ret = -1;
+                if(o1.isBefore(o2)) ret = -1;
+                else if(o1.isAfter(o2)) ret = 1;
                 return ret;
             }
-        });//临时归类-每天排班映射 降序
+        });//临时归类-每天排班映射 升序
 
         /*按天归类排班*/
         for(DoctorPerTimeSchedule doctorPerTimeSchedule : doctorPerTimeSchedulesList){
@@ -111,12 +122,12 @@ public class DoctorPerTimeScheduleService {
                 totalSources += doctorPerTimeScheduleVo.getTotalSource();
                 oddSources += doctorPerTimeScheduleVo.getOddSource();
             }
-            Double price = 0.0;
-            Integer doctorId = null;
+            Double price;
             if(doctorPerTimeScheduleVoList!= null && !doctorPerTimeScheduleVoList.isEmpty()){
                 DoctorPerTimeScheduleVo doctorPerTimeScheduleVoTemp = doctorPerTimeScheduleVoList.get(0);
                 price = doctorPerTimeScheduleVoTemp.getPrice();
-                doctorId = doctorPerTimeScheduleVoTemp.getDoctorId();
+            } else{
+                price = doctor.getPrice();
             }
 
             DoctorDailyScheduleVo doctorDailyScheduleVo = new DoctorDailyScheduleVo();
@@ -125,12 +136,12 @@ public class DoctorPerTimeScheduleService {
             doctorDailyScheduleVo.setTotalSource(totalSources);
             doctorDailyScheduleVo.setOddSource(oddSources);
             doctorDailyScheduleVo.setPrice(price);
-            doctorDailyScheduleVo.setDoctorId(doctorId);
+            doctorDailyScheduleVo.setDoctorId(doctor.getId());
             doctorDailyScheduleVo.setDoctorPerTimeScheduleList(doctorPerTimeScheduleVoList);
 
             doctorDailyScheduleVoList.add(doctorDailyScheduleVo);
         }
-        /*降序排序每天排班的明细安排*/
+        /*升序排序每天排班的明细安排*/
         for(DoctorDailyScheduleVo doctorDailyScheduleVo : doctorDailyScheduleVoList){
             Collections.sort(doctorDailyScheduleVo.getDoctorPerTimeScheduleList(), new Comparator<DoctorPerTimeScheduleVo>() {
                 @Override
@@ -177,6 +188,15 @@ public class DoctorPerTimeScheduleService {
      */
     public ApiRet saveOrUpdate(List<DoctorPerTimeSchedule> doctorPerTimeScheduleList) {
         ApiRet apiRet = new ApiRet(ApiRet.RET_SUCCESS,"保存成功",null);
+        Date today = DateTime.now().withTimeAtStartOfDay().toDate();
+        for(DoctorPerTimeSchedule doctorPerTimeSchedule : doctorPerTimeScheduleList){
+            Date startDateTime = doctorPerTimeSchedule.getStartDateTime();
+            if(startDateTime == null || startDateTime.before(today)){
+                apiRet.setRet(ApiRet.RET_FAIL);
+                apiRet.setMsg("不能创建或修改旧的排班");
+                return apiRet;
+            }
+        }
         doctorPerTimeScheduleDao.saveOrUpdate(doctorPerTimeScheduleList);
         return apiRet;
     }

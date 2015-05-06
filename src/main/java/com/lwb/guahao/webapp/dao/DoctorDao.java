@@ -1,19 +1,16 @@
 package com.lwb.guahao.webapp.dao;
 
 import com.lwb.guahao.common.Paging;
+import com.lwb.guahao.common.constants.Constants;
+import com.lwb.guahao.model.Department;
 import com.lwb.guahao.model.Doctor;
-import com.lwb.guahao.webapp.vo.search.SearchQo;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.type.Type;
-import org.springframework.orm.hibernate3.HibernateCallback;
+import com.lwb.guahao.qo.SearchQo;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Lu Weibiao
@@ -21,7 +18,7 @@ import java.util.List;
  */
 @Repository
 public class DoctorDao extends BaseHibernateDao<Doctor> {
-    public Doctor uniqueByAccountAndPwd(String accountName, String pwd) {
+    public Doctor uniqueByAccountAndPwd(final String accountName, final String pwd) {
         String hql = "from Doctor as d where d.accountName = ? and d.password = ?";
         Object[] params = new Object[]{
                 accountName, pwd
@@ -29,7 +26,7 @@ public class DoctorDao extends BaseHibernateDao<Doctor> {
         return (Doctor) unique(hql, params);
     }
 
-    public Paging<Doctor> getDoctorsPagingBy(Integer hospitalId, String name, Integer deptClasCode, String accountName,
+    public Paging<Doctor> getDoctorsPagingBy(final Integer hospitalId, final String name, final Integer deptClasCode, final String accountName,
                                            final int pn, final int pageSize) {
         final String selectHql = "select d";
         final String countHql = "select count(*)";
@@ -69,15 +66,15 @@ public class DoctorDao extends BaseHibernateDao<Doctor> {
      * @param searchQo
      * @return
      */
-    public Paging<Doctor> getDoctorsPagingBy(SearchQo searchQo) {
+    public Paging<Doctor> getDoctorsPagingBy(final SearchQo searchQo) {
         Integer pn = searchQo.getPn();
         if(pn == null){
             pn = 1;
         }
 
         Integer pageSize = searchQo.getPageSize();
-        if(pageSize == null || pageSize < 1) {
-            throw new IllegalArgumentException("pageSize is illegal :[" + pageSize + "]");
+        if(pageSize == null){
+            pageSize = Constants.INFINITE_PAGE_SIZE;
         }
 
         final String selectHql = "select d";
@@ -97,6 +94,12 @@ public class DoctorDao extends BaseHibernateDao<Doctor> {
             params.add(deptClassCode);
         }
 
+        Integer hospitalId = searchQo.getHospitalId();
+        if(hospitalId != null){
+            fromHqlBuilder.append(" and d.hospitalId = ?");
+            params.add(hospitalId);
+        }
+
         String keyWord = searchQo.getKeyWord();
         if(!StringUtils.isEmpty(keyWord)){
             fromHqlBuilder.append(" and (d.name like ? or d.goodAtTags like ? or d.brief like ?)");
@@ -110,5 +113,39 @@ public class DoctorDao extends BaseHibernateDao<Doctor> {
         Paging<Doctor> doctorPaging = new Paging<Doctor>(doctorList,pn,pageSize,totalSize.intValue());
 
         return doctorPaging;
+    }
+
+    /**
+     * 获取指定医院的所有科室
+     * @param hospitalId
+     * @return
+     */
+    public List<Department> getDepartmentListOfAHospital(final Integer hospitalId) {
+        final String hql = "select new map(d.deptClassCode as deptClassCode, count(*) as doctorNum) from Doctor d where d.hospitalId = ? group by d.deptClassCode";
+        final Object[] params = new Object[]{
+                hospitalId
+        };
+
+        List<Map<String,Object>> mapList = (List<Map<String,Object>>)hibernateTemplate.find(hql,params);
+        List<Department> departmentList = new ArrayList<Department>(mapList.size());
+        for(Map<String,Object> row : mapList){
+            Department department = new Department();
+            department.setDeptClassCode((Integer)row.get("deptClassCode"));
+            department.setDoctorNum(((Long)row.get("doctorNum")).intValue());
+            department.setHospitalId(hospitalId);
+            departmentList.add(department);
+        }
+        return departmentList;
+    }
+
+    /**
+     * 判断指定的账号名是否存在
+     * @param accountName
+     * @return
+     */
+    public boolean existsAccountName(String accountName) {
+        String hql = "select d.id from Doctor d where d.accountName = ?";
+        Integer id = (Integer)unique(hql,new Object[]{accountName});
+        return id != null;
     }
 }

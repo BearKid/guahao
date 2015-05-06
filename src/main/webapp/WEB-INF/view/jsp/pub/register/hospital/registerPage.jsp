@@ -195,23 +195,11 @@
     $("#hospitalRegisterForm").submit(function () {
         $(this).ajaxSubmit({
             success: function (data) {
-                if (data.errMsg) {
-                    var errMsg = "";
-                    if (data.errMsg.unfinished) errMsg += data.errMsg.unfinished + "\n";
-                    else {
-                        if (data.errMsg.telPhone) {
-                            errMsg += data.errMsg.telPhone + "\n";
-                        }
-                        if (data.errMsg.rePwd) {
-                            errMsg += data.errMsg.rePwd + "\n";
-                        }
-                        if (data.errMsg.isRegistered) {
-                            errMsg += data.errMsg.isRegistered + "\n";
-                        }
-                    }
-                    alert(errMsg);
-                } else {
-                    window.location = data.redirectUrl;
+                $ModalBox.open(data.msg);
+                if(data.ret === API_RET_SUCCESS){
+                    setTimeout(function(){
+                        window.location = data.redirectUrl;
+                    },1000);
                 }
             }
         });

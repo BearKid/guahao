@@ -18,7 +18,7 @@ import static com.lwb.guahao.common.util.DateUtils.*;
  * @autor:Lu Weibiao Date: 2015/3/17 21:46
  */
 public class DoctorVo {
-    private Integer id;
+    private String id;
 
     private String accountName; //用于登陆的账户名
 
@@ -50,7 +50,7 @@ public class DoctorVo {
 
     private String ModifyDateTime; //被修改的日期时间
 
-    private Integer hospitalId; //医院id
+    private String hospitalId; //医院id
 
     /*** 相较于 Doctor 增加的字段 **/
     private String deptClassName; //科室类目编号 参见：ConstantsMap.deptClassMap
@@ -66,8 +66,11 @@ public class DoctorVo {
         if(doctor == null) return null;
         DoctorVo doctorVo = new DoctorVo();
         BeanUtils.copyProperties(doctor,doctorVo);
+
+        doctorVo.setId(doctor.getId() == null ? null : doctor.getId().toString());
         doctorVo.setSex(SexUtil.getSexName(doctor.getSex()));
         doctorVo.setDeptClassName(ConstantsMap.deptClassMap.get(doctor.getDeptClassCode()));
+        doctorVo.setHospitalId(doctor.getHospitalId() == null ? null : doctor.getHospitalId().toString());
 
         //日期时间格式化
         doctorVo.setCreateDateTime(StringUtils.isEmpty(doctor.getLatestLoginDate()) ? "未知" : yearMonthDayTimeFormatter.format(doctor.getCreateDateTime()));
@@ -91,11 +94,11 @@ public class DoctorVo {
         return doctorVos;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -211,11 +214,11 @@ public class DoctorVo {
         this.ModifyDateTime = modifyDateTime;
     }
 
-    public Integer getHospitalId() {
+    public String  getHospitalId() {
         return hospitalId;
     }
 
-    public void setHospitalId(Integer hospitalId) {
+    public void setHospitalId(String hospitalId) {
         this.hospitalId = hospitalId;
     }
 

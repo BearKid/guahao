@@ -1,5 +1,8 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
-/src/main/resources/rebel.xml
+src/main/resources/rebel.xml
+src/main/resources/profiles/product/
+src/test/
+logs/
 # Covers Maven
 target/
 *.iml

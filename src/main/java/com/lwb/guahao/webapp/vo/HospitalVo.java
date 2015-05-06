@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 public class HospitalVo {
     private String id;
 
-    private Integer accountStatusCode; //账户状态 参见：Constants.AccountStatus
+    private String accountStatusCode; //账户状态 参见：Constants.AccountStatus
     private String accountStatusName; //账户状态 参见：Constants.AccountStatus
 
     private String createDateTime; //账户创建日期时间
@@ -32,7 +32,7 @@ public class HospitalVo {
 
     private String name; //医院名称
 
-    private Integer areaCode; //医院地区-地区代码 参见ConstantsMap.areaMap
+    private String areaCode; //医院地区-地区代码 参见ConstantsMap.areaMap
     private String areaName; //医院地区
 
     private String address; //医院详细地址
@@ -46,12 +46,17 @@ public class HospitalVo {
      * @param source
      * @return
      */
-    public final static HospitalVo parse(Hospital source){
+    public final static HospitalVo parse(final Hospital source){
         if(source == null) return null;
         HospitalVo target = new HospitalVo();
         BeanUtils.copyProperties(source, target);
 
+        target.setId(source.getId() == null ? null : source.getId().toString());
+
+        target.setAccountStatusCode(source.getAccountStatusCode() == null ? "未知" : source.getAccountStatusCode().toString());
         target.setAccountStatusName(ConstantsMap.accountStatusMap.get(source.getAccountStatusCode()));
+
+        target.setAreaCode(source.getAreaCode() == null ? "未知" : source.getAreaCode().toString());
         target.setAreaName(AreaUtil.getAreaName(source.getAreaCode()));
 
         //日期时间
@@ -61,11 +66,11 @@ public class HospitalVo {
         return target;
     }
 
-    public Integer getAccountStatusCode() {
+    public String getAccountStatusCode() {
         return accountStatusCode;
     }
 
-    public void setAccountStatusCode(Integer accountStatusCode) {
+    public void setAccountStatusCode(String accountStatusCode) {
         this.accountStatusCode = accountStatusCode;
     }
 
@@ -85,11 +90,11 @@ public class HospitalVo {
         this.address = address;
     }
 
-    public Integer getAreaCode() {
+    public String getAreaCode() {
         return areaCode;
     }
 
-    public void setAreaCode(Integer areaCode) {
+    public void setAreaCode(String areaCode) {
         this.areaCode = areaCode;
     }
 

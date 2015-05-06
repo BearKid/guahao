@@ -8,7 +8,8 @@ package com.lwb.guahao.common.constants;
  * 常量
  */
 public class Constants {
-    public static final int DEFAULT_PAGE_SIZE = 10;//结果集分页大小
+    public static final int DEFAULT_PAGE_SIZE = 10;//默认结果集分页大小
+    public static final int INFINITE_PAGE_SIZE = -1;//结果集分页大小-一页显示全部
 
     //性别类型
     public static final class SexType{

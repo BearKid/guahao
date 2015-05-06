@@ -60,10 +60,11 @@
     //提交注册表单
     $("#perRegisterFormSubmit").click(function () {
         PerUser.getJsonByForm("#perRegisterForm",function(data){
+            $ModalBox.open(data.msg);
             if(data.ret === API_RET_SUCCESS){
-                window.location = data.redirectUrl;
-            } else {
-                $ModalBox.open(data.msg);
+                setTimeout(function(){
+                    window.location = data.redirectUrl;
+                },1000);
             }
         });
     });

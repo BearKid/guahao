@@ -6,7 +6,8 @@ import com.lwb.guahao.webapp.component.PagingComponent;
 import com.lwb.guahao.webapp.service.SearchService;
 import com.lwb.guahao.webapp.vo.DoctorVo;
 import com.lwb.guahao.webapp.vo.HospitalVo;
-import com.lwb.guahao.webapp.vo.search.SearchQo;
+import com.lwb.guahao.qo.SearchQo;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -27,6 +28,7 @@ import java.util.regex.Pattern;
 @Controller
 @RequestMapping(value="/search")
 public class SearchController {
+    private final static Logger logger = Logger.getLogger(SearchController.class);
     @Resource
     private SearchService searchService;
 
@@ -68,7 +70,7 @@ public class SearchController {
     private Object getQueryStringWithOutKeyWord(HttpServletRequest request) {
         String queryString = request.getQueryString();
         if(!StringUtils.isEmpty(queryString)) {
-            Matcher matcher = Pattern.compile("(keyWord=.*?&)|(&keyWord=.*?$)").matcher(queryString);
+            Matcher matcher = Pattern.compile("(keyWord=.*?&)|(&?keyWord=.*?$)").matcher(queryString);
             queryString = matcher.replaceFirst("");
         }
         return queryString;
@@ -77,7 +79,7 @@ public class SearchController {
     private String getQueryStringWithOutDeptClassCode(HttpServletRequest request) {
         String queryString = request.getQueryString();
         if(!StringUtils.isEmpty(queryString)) {
-            Matcher matcher = Pattern.compile("(deptClassCode=\\d+?&)|(&deptClassCode=\\d+?$)").matcher(queryString);
+            Matcher matcher = Pattern.compile("(deptClassCode=\\d+?&)|(&?deptClassCode=\\d+?$)").matcher(queryString);
             queryString = matcher.replaceFirst("");
         }
         return queryString;
@@ -86,7 +88,7 @@ public class SearchController {
     private String getQueryStringWithOutAreaCode(HttpServletRequest request) {
         String queryString = request.getQueryString();
         if(!StringUtils.isEmpty(queryString)) {
-            Matcher matcher = Pattern.compile("(areaCode=\\d+?&)|(&areaCode=\\d+?$)").matcher(queryString);
+            Matcher matcher = Pattern.compile("(areaCode=\\d+?&)|(&?areaCode=\\d+?$)").matcher(queryString);
             queryString = matcher.replaceFirst("");
         }
         return queryString;

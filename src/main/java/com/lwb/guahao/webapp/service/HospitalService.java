@@ -11,6 +11,8 @@ import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.dao.DoctorPerTimeScheduleDao;
 import com.lwb.guahao.webapp.dao.HospitalDao;
 import com.lwb.guahao.webapp.vo.DoctorVo;
+import com.lwb.guahao.webapp.vo.HospitalVo;
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,26 +28,33 @@ import java.util.List;
 @Service
 @Transactional
 public class HospitalService {
+    private final static Logger logger = Logger.getLogger(HospitalService.class);
     @Resource
     private HospitalDao hospitalDao;
     @Resource
     private DoctorDao doctorDao;
     @Resource
     private DoctorPerTimeScheduleDao doctorPerTimeScheduleDao;
+    @Resource
+    private DoctorService doctorService;
 
     /**
      * 注册新的医院账户
      * @param hospital
      * @return
      */
-    public Hospital register(Hospital hospital){
+    public ApiRet<Hospital> register(Hospital hospital){
+        ApiRet<Hospital> apiRet = new ApiRet<Hospital>();
         Hospital newUser = new Hospital();
         BeanUtils.copyProperties(hospital,newUser);//防止传入的hospital被修改
         newUser.setPassword(SecurityUtil.password(hospital.getPassword()));
         newUser.setCreateDateTime(new Date());
         newUser.setAccountStatusCode(Constants.AccountStatus.UN_VERIFIED);
         hospitalDao.save(newUser);
-        return newUser;
+        apiRet.setRet(ApiRet.RET_SUCCESS);
+        apiRet.setMsg("注册成功");
+        apiRet.setData(newUser);
+        return apiRet;
     }
 
     /**
@@ -77,6 +86,7 @@ public class HospitalService {
      * @param accountName
      * @return
      */
+    @Transactional(readOnly = true)
     public Paging<DoctorVo> getDoctorPaging(Integer hospitalId, String name, Integer deptClassCode, String accountName, Integer pn) {
         Paging<DoctorVo> doctorVoPaging = null;
         if(pn == null){
@@ -94,13 +104,22 @@ public class HospitalService {
      * @return
      */
     public ApiRet<Doctor> createDoctor(Doctor doctorToSave) {
-        Doctor doctor = new Doctor();
-        BeanUtils.copyProperties(doctorToSave,doctor);
-        doctor.setCreateDateTime(new Date());
-        doctor.setPassword(SecurityUtil.password(doctor.getPassword()));
-        doctor.setAccountStatusCode(Constants.AccountStatus.NORMAL);
-        doctorDao.save(doctor);
-        return new ApiRet<Doctor>(doctor);
+        ApiRet<Doctor> apiRet = new ApiRet<Doctor>();
+        if(!doctorService.isRegistered(doctorToSave)) {
+            Doctor doctor = new Doctor();
+            BeanUtils.copyProperties(doctorToSave, doctor);
+            doctor.setCreateDateTime(new Date());
+            doctor.setPassword(SecurityUtil.password(doctor.getPassword()));
+            doctor.setAccountStatusCode(Constants.AccountStatus.NORMAL);
+            doctorDao.save(doctor);
+            apiRet.setRet(ApiRet.RET_SUCCESS);
+            apiRet.setMsg("创建成功");
+            apiRet.setData(doctor);
+        } else {
+            apiRet.setRet(ApiRet.RET_FAIL);
+            apiRet.setMsg("账号名已被占用");
+        }
+        return apiRet;
     }
 
     /**
@@ -109,6 +128,7 @@ public class HospitalService {
      * @param doctorId
      * @return
      */
+    @Transactional(readOnly = true)
     public boolean hasThisDoctor(Integer hospitalId, Integer doctorId) {
         Doctor doctor = doctorDao.get(doctorId);
         return hospitalId.equals(doctor.getHospitalId());
@@ -120,6 +140,7 @@ public class HospitalService {
      * @param doctorPerTimeScheduleId
      * @return
      */
+    @Transactional(readOnly = true)
     public boolean hasThisPerTimeSchedule(Integer hospitalId, Integer doctorPerTimeScheduleId) {
         boolean hasThisPerTimeSchedule;
         DoctorPerTimeSchedule doctorPerTimeSchedule = doctorPerTimeScheduleDao.get(doctorPerTimeScheduleId);
@@ -131,5 +152,17 @@ public class HospitalService {
             hasThisPerTimeSchedule = hospitalId.equals(doctor.getHospitalId());
         }
         return hasThisPerTimeSchedule;
+    }
+
+    /**
+     * 获取用户视图层医院信息Hospital
+     * @param hospitalId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public HospitalVo getHospital(Integer hospitalId) {
+        Hospital hospital = hospitalDao.get(hospitalId);
+        HospitalVo hospitalVo = HospitalVo.parse(hospital);
+        return hospitalVo;
     }
 }

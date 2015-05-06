@@ -2,13 +2,11 @@ package com.lwb.guahao.webapp.dao;
 
 import com.lwb.guahao.common.Paging;
 import com.lwb.guahao.model.Hospital;
-import com.lwb.guahao.webapp.vo.search.SearchQo;
+import com.lwb.guahao.qo.SearchQo;
 import org.apache.log4j.Logger;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 

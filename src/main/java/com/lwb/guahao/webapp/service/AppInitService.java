@@ -39,7 +39,7 @@ public class AppInitService {
             hospital.setTelPhone("0769-86413795");
             hospital.setBrief("东莞神马镇牛逼村掉咋天大厦，技术牛逼，你的第一选择。");
             hospital.setAccountStatusCode(Constants.AccountStatus.UN_VERIFIED);
-            Hospital newHospital = hospitalService.register(hospital);
+            Hospital newHospital = hospitalService.register(hospital).getData();
             //医生账号
             Doctor doctor = new Doctor();
             doctor.setAccountName("lwb");
@@ -51,7 +51,7 @@ public class AppInitService {
             doctor.setPrice(20.0);
             doctor.setGoodAtTags("腻害,牛逼,十年经验");
             doctor.setBrief("简介简介简介简介简介简介");
-            doctor.setDeptClassCode(1000);
+            doctor.setDeptClassCode(1001);
             doctor.setHospitalId(newHospital.getId());
 //            doctor.setHospital(newHospital);
             doctorService.register(doctor);

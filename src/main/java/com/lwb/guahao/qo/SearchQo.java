@@ -1,4 +1,4 @@
-package com.lwb.guahao.webapp.vo.search;
+package com.lwb.guahao.qo;
 
 /**
  * <p></p>
@@ -10,6 +10,7 @@ package com.lwb.guahao.webapp.vo.search;
 public class SearchQo {
     private Integer areaCode;
     private Integer deptClassCode;
+    private Integer hospitalId;
     private String keyWord;
     private Integer pn;
     private Integer pageSize;
@@ -28,6 +29,14 @@ public class SearchQo {
 
     public void setDeptClassCode(Integer deptClassCode) {
         this.deptClassCode = deptClassCode;
+    }
+
+    public Integer getHospitalId() {
+        return hospitalId;
+    }
+
+    public void setHospitalId(Integer hospitalId) {
+        this.hospitalId = hospitalId;
     }
 
     public String getKeyWord() {

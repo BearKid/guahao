@@ -62,6 +62,8 @@ public class DeptClassUtil {
             }
         }
     }
+
+
     /**
      * 科室类目Comparator - 按代码大小从小到大排序
      */
@@ -74,19 +76,56 @@ public class DeptClassUtil {
         }
     }
 
+    /**
+     * 获取科室名
+     * @param deptClassCode
+     * @return
+     */
     public static String getDeptClassName(int deptClassCode) {
         return ConstantsMap.deptClassMap.get(deptClassCode);
     }
 
+    /**
+     * 获取顶级科室编号
+     * @param deptClassCode
+     * @return
+     */
     private static int getFirstDeptClassCode(int deptClassCode) {
         return (deptClassCode / FIRST_DEPT_CLASS_MASK) * FIRST_DEPT_CLASS_MASK;
     }
 
-    private static boolean isSecondDeptClass(Integer deptClassCode) {
+    /**
+     * 获取上一级科室编号
+     * 如果为顶级科室，则返回null
+     * @param deptClassCode
+     * @return
+     */
+    public static Integer getParentDeptClassCode(Integer deptClassCode) {
+        if(isSecondDeptClass(deptClassCode)){
+            return getFirstDeptClassCode(deptClassCode);
+        } else if(isFirstDeptClass(deptClassCode)){
+            return null;
+        } else{
+            throw new IllegalArgumentException("无效的科室编号");
+        }
+    }
+
+    /**
+     * 判断是否为二级科室
+     * @param deptClassCode
+     * @return
+     */
+    public static boolean isSecondDeptClass(Integer deptClassCode) {
         return ((deptClassCode % FIRST_DEPT_CLASS_MASK) != 0) && ((deptClassCode % SECOND_DEPT_CLASS_MASK) == 0);
     }
 
-    private static boolean isFirstDeptClass(Integer deptClassCode) {
+    /**
+     * 判断是否为顶级科室
+     * @param deptClassCode
+     * @return
+     */
+    public static boolean isFirstDeptClass(Integer deptClassCode) {
         return (deptClassCode % FIRST_DEPT_CLASS_MASK) == 0;
     }
+
 }

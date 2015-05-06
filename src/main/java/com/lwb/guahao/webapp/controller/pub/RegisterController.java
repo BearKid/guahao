@@ -40,7 +40,7 @@ public class RegisterController {
     @RequestMapping(value = "hospital", method = RequestMethod.GET)
     public String hospitalRegisterPage(Model model){
         model.addAttribute("areaList", AreaUtil.areaList);
-        return "hospital/registerPage";
+        return "/pub/register/hospital/registerPage";
     }
 
     /**
@@ -53,7 +53,7 @@ public class RegisterController {
      */
     @RequestMapping(value = "hospital", method = RequestMethod.POST)
     public void doHospitalRegister(Hospital hospitalForm, String rePwd, HttpServletRequest request, Model model){
-        Map errMsg = new HashMap<String,String>();
+        String msg = "";
         if(!StringUtils.hasText(hospitalForm.getEmail()) //字段验证
                 || !StringUtils.hasText(hospitalForm.getName())
                 || !StringUtils.hasText(hospitalForm.getAddress())
@@ -64,26 +64,30 @@ public class RegisterController {
                 || !StringUtils.hasText(rePwd)
                 || hospitalForm.getAreaCode() == null
                 ){
-            errMsg.put("unfinished","请将信息填写完整");
+            msg += "请将信息填写完整" + System.lineSeparator();
         } else{
             if(!FieldValidationUtil.isTelPhone(hospitalForm.getTelPhone())){
-                errMsg.put("telPhone","无效号码");
+                msg += "无效国定电话号码" + System.lineSeparator();
             }
             if(!rePwd.equals(hospitalForm.getPassword())){
-                errMsg.put("rePwd","重复输入密码错误");
+                msg += "重复输入密码错误" + System.lineSeparator();
             }
             if(hospitalService.isRegistered(hospitalForm.getEmail())){
-                errMsg.put("isRegistered","邮箱已经被注册");
+                msg += "邮箱已经被注册" + System.lineSeparator();
             }
         }
-        if(errMsg.isEmpty()){
-            Hospital newHospital = hospitalService.register(hospitalForm);
-            System.out.println(this.getClass() + ":" + hospitalForm.getEmail() + " " + hospitalForm.getPassword());
+        ApiRet apiRet = new ApiRet();
+        if(StringUtils.isEmpty(msg)) {
+            apiRet = hospitalService.register(hospitalForm);
+            Hospital newHospital = (Hospital)apiRet.getData();
             loginService.hospitalLogin(request,newHospital.getEmail(), hospitalForm.getPassword());//注意传入的密码应该为明文密码
-            model.addAttribute("redirectUrl","/hospital/index");
+            model.addAttribute("redirectUrl","/myHospital/index");
         } else{
-            model.addAttribute("errMsg",errMsg);
+            apiRet.setRet(ApiRet.RET_FAIL);
+            apiRet.setMsg(msg);
         }
+        model.addAttribute("ret",apiRet.getRet());
+        model.addAttribute("msg",apiRet.getMsg());
     }
 
     /**
@@ -92,7 +96,7 @@ public class RegisterController {
      */
     @RequestMapping(value = "per", method = RequestMethod.GET)
     public String perUserRegisterPage(){
-        return "per/registerPage";
+        return "/pub/register/per/registerPage";
     }
 
     @RequestMapping(value = "per", method = RequestMethod.POST)
@@ -108,15 +112,13 @@ public class RegisterController {
                 && (StringUtils.isEmpty(perUserForm.getMobilePhone()) || FieldValidationUtil.isMobilePhone(perUserForm.getMobilePhone()));
 
         if(isValid){
-            PerUser newUser = perUserService.register(perUserForm);
-            if(newUser == null){
-                apiRet.setRet(ApiRet.RET_FAIL);
-                apiRet.setMsg("账号已注册");
-            } else {
+            apiRet = perUserService.register(perUserForm);
+            if(apiRet.getRet() == ApiRet.RET_SUCCESS){
+                PerUser newUser = (PerUser)apiRet.getData();
                 apiRet.setRet(ApiRet.RET_SUCCESS);
                 String account = !StringUtils.isEmpty(newUser.getEmail()) ? newUser.getEmail() : newUser.getMobilePhone();
                 loginService.perUserLogin(request, account, perUserForm.getPassword());//注意传入的密码应该为明文密码
-                model.addAttribute("redirectUrl", "/per/index");
+                model.addAttribute("redirectUrl", "/myPer/index");
             }
         } else {
             apiRet.setRet(ApiRet.RET_FAIL);
