@@ -1,6 +1,6 @@
-package com.lwb.guahao.common.util;
+package com.lwb.guahao.common.option.util;
 
-import com.lwb.guahao.common.constants.ConstantsMap;
+import com.lwb.guahao.common.option.OptionMap;
 
 /**
  * User: Lu Weibiao
@@ -8,6 +8,6 @@ import com.lwb.guahao.common.constants.ConstantsMap;
  */
 public class SexUtil {
     public static String getSexName(Integer sexCode){
-        return ConstantsMap.sexMap.get(sexCode);
+        return OptionMap.sexMap.get(sexCode);
     }
 }

@@ -1,8 +1,7 @@
 package com.lwb.guahao.webapp.service;
 
-import com.lwb.guahao.common.util.DeptClassUtil;
-import com.lwb.guahao.model.Department;
-import com.lwb.guahao.model.Doctor;
+import com.lwb.guahao.common.option.util.DeptClassUtil;
+import com.lwb.guahao.common.model.Department;
 import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.vo.DepartmentVo;
 import org.apache.log4j.Logger;
@@ -12,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * User: Lu Weibiao

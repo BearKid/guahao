@@ -1,4 +1,4 @@
-package com.lwb.guahao.common;
+package com.lwb.guahao.common.option;
 
 /**
  * Created by Lu Weibiao on 2015/2/18 21:59.

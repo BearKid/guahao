@@ -1,16 +1,11 @@
 package com.lwb.guahao.webapp.dao;
 
 import com.lwb.guahao.common.Paging;
-import com.lwb.guahao.model.DoctorPerTimeSchedule;
-import com.lwb.guahao.qo.DoctorDailyScheduleQo;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
+import com.lwb.guahao.common.model.DoctorPerTimeSchedule;
+import com.lwb.guahao.common.qo.DoctorDailyScheduleQo;
 import org.joda.time.DateTime;
-import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Repository;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

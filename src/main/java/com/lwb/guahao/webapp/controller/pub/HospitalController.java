@@ -1,15 +1,15 @@
 package com.lwb.guahao.webapp.controller.pub;
 
 import com.lwb.guahao.common.Paging;
-import com.lwb.guahao.common.constants.Constants;
-import com.lwb.guahao.common.util.DeptClassUtil;
+import com.lwb.guahao.common.Constants;
+import com.lwb.guahao.common.option.util.DeptClassUtil;
 import com.lwb.guahao.webapp.service.DepartmentService;
 import com.lwb.guahao.webapp.service.HospitalService;
 import com.lwb.guahao.webapp.service.SearchService;
 import com.lwb.guahao.webapp.vo.DepartmentVo;
 import com.lwb.guahao.webapp.vo.DoctorVo;
 import com.lwb.guahao.webapp.vo.HospitalVo;
-import com.lwb.guahao.qo.SearchQo;
+import com.lwb.guahao.common.qo.SearchQo;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

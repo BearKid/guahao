@@ -1,9 +1,9 @@
 package com.lwb.guahao.webapp.service;
 
 import com.lwb.guahao.common.ApiRet;
-import com.lwb.guahao.common.constants.Constants;
+import com.lwb.guahao.common.Constants;
 import com.lwb.guahao.common.util.SecurityUtil;
-import com.lwb.guahao.model.PerUser;
+import com.lwb.guahao.common.model.PerUser;
 import com.lwb.guahao.webapp.dao.PerUserDao;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;

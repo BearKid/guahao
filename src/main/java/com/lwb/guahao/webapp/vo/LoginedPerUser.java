@@ -5,13 +5,11 @@ package com.lwb.guahao.webapp.vo;
  * Date: 2015/3/7 16:38
  */
 
-import com.lwb.guahao.common.constants.ConstantsMap;
-import com.lwb.guahao.common.util.AreaUtil;
-import com.lwb.guahao.common.util.DateUtils;
-import com.lwb.guahao.model.PerUser;
+import com.lwb.guahao.common.option.OptionMap;
+import com.lwb.guahao.common.option.util.AreaUtil;
+import com.lwb.guahao.common.util.lang.DateUtils;
+import com.lwb.guahao.common.model.PerUser;
 import org.springframework.beans.BeanUtils;
-
-import java.util.Date;
 
 /**
  * 登录态下个人相关组合信息
@@ -53,7 +51,7 @@ public class LoginedPerUser {
         BeanUtils.copyProperties(perUser,loginedPerUser);
 
         loginedPerUser.setAccountStatusCode(perUser.getAccountStatusCode() == null ? null : perUser.getAccountStatusCode().toString());
-        loginedPerUser.setAccountStatusName(ConstantsMap.accountStatusMap.get(perUser.getAccountStatusCode()));//账号状态-名称
+        loginedPerUser.setAccountStatusName(OptionMap.accountStatusMap.get(perUser.getAccountStatusCode()));//账号状态-名称
         /*
          *从身份证号码提前信息。身份证号码共18位，从左至右依次为：六位数字地址码，八位数字出生日期码，三位数字顺序码和一位数字校验码。
          */

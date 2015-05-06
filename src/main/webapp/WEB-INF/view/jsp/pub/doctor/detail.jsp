@@ -2,7 +2,7 @@
   User: Lu Weibiao
   Date: 2015/5/4 22:44
 --%>
-<%@ page import="com.lwb.guahao.common.constants.Constants" %>
+<%@ page import="com.lwb.guahao.common.Constants" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>

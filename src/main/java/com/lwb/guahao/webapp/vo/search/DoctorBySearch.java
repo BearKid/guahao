@@ -1,12 +1,9 @@
 package com.lwb.guahao.webapp.vo.search;
 
-import com.lwb.guahao.common.util.AreaUtil;
-import com.lwb.guahao.common.util.DeptClassUtil;
-import com.lwb.guahao.common.util.SexUtil;
-import com.lwb.guahao.model.Doctor;
-import com.lwb.guahao.model.Hospital;
-import com.lwb.guahao.webapp.vo.HospitalVo;
-import org.springframework.util.StringUtils;
+import com.lwb.guahao.common.option.util.DeptClassUtil;
+import com.lwb.guahao.common.option.util.SexUtil;
+import com.lwb.guahao.common.model.Doctor;
+import com.lwb.guahao.common.model.Hospital;
 
 /**
  * <p></p>
@@ -30,7 +27,7 @@ public class DoctorBySearch {
 
     private String avatarPath; //头像物理存储路径
 
-    private String deptClassName; //科室类目编号 参见：ConstantsMap.deptClassMap
+    private String deptClassName; //科室类目编号 参见：OptionMap.deptClassMap
 
     private String hospitalId; //医院id
 

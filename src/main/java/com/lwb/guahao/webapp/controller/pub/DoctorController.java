@@ -2,24 +2,21 @@ package com.lwb.guahao.webapp.controller.pub;
 
 import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.Paging;
-import com.lwb.guahao.qo.DoctorDailyScheduleQo;
+import com.lwb.guahao.common.qo.DoctorDailyScheduleQo;
 import com.lwb.guahao.webapp.component.PagingComponent;
 import com.lwb.guahao.webapp.service.DoctorPerTimeScheduleService;
 import com.lwb.guahao.webapp.service.DoctorService;
 import com.lwb.guahao.webapp.vo.DoctorDailyScheduleQoVo;
 import com.lwb.guahao.webapp.vo.DoctorDailyScheduleVo;
 import com.lwb.guahao.webapp.vo.DoctorVo;
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
-import java.util.Date;
 
 /**
  * User: Lu Weibiao

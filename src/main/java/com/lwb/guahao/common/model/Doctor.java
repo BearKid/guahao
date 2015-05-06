@@ -1,4 +1,4 @@
-package com.lwb.guahao.model;
+package com.lwb.guahao.common.model;
 
 /**
  * Created by Lu Weibiao on 2015/2/16 15:47.
@@ -56,7 +56,7 @@ public class Doctor implements Serializable{
     private String avatarPath; //头像物理存储路径
 
     @Column(nullable = false)
-    private Integer deptClassCode; //科室类目编号 参见：ConstantsMap.deptClassMap
+    private Integer deptClassCode; //科室类目编号 参见：OptionMap.deptClassMap
 
     @Column
     private Date latestLoginDate; //最近一次登录的日期时间

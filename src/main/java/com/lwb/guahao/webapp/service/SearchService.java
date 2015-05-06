@@ -1,13 +1,13 @@
 package com.lwb.guahao.webapp.service;
 
 import com.lwb.guahao.common.Paging;
-import com.lwb.guahao.model.Doctor;
-import com.lwb.guahao.model.Hospital;
+import com.lwb.guahao.common.model.Doctor;
+import com.lwb.guahao.common.model.Hospital;
 import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.dao.HospitalDao;
 import com.lwb.guahao.webapp.vo.DoctorVo;
 import com.lwb.guahao.webapp.vo.HospitalVo;
-import com.lwb.guahao.qo.SearchQo;
+import com.lwb.guahao.common.qo.SearchQo;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

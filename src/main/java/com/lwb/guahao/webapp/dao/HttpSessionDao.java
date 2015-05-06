@@ -5,8 +5,6 @@ package com.lwb.guahao.webapp.dao;
  * Date: 2015/2/28 21:30
  */
 
-import com.lwb.guahao.model.Doctor;
-import com.lwb.guahao.model.Hospital;
 import com.lwb.guahao.webapp.vo.LoginedDoctor;
 import com.lwb.guahao.webapp.vo.LoginedHospital;
 import com.lwb.guahao.webapp.vo.LoginedPerUser;

@@ -16,7 +16,6 @@
         <mvc:interceptor>
             <mvc:mapping path="/myHospital/**"/>
             <ref bean="myHospitalInterceptor"/>
-            <!--<bean class="com.lwb.guahao.webapp.interceptor.HospitalLoginInterceptor" id="hospitalLoginInterceptor"/>-->
         </mvc:interceptor>
     </mvc:interceptors>
     <!-- 文件上传处理 -->

@@ -1,4 +1,4 @@
-package com.lwb.guahao.model;
+package com.lwb.guahao.common.model;
 
 import javax.persistence.*;
 import java.io.Serializable;

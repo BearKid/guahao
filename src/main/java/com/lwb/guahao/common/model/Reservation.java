@@ -1,4 +1,4 @@
-package com.lwb.guahao.model;
+package com.lwb.guahao.common.model;
 
 /**
  * Created by Lu Weibiao on 2015/2/16 23:02.

@@ -22,14 +22,14 @@
     </ul>
     <div id="provincesPanel">
         <c:forEach var="province" items="${areaList}">
-            <button type="button" class="btn btn-default" data-id="${province.code}">${province.name}</button>
+            <button type="button" class="btn btn-default item" data-id="${province.code}">${province.name}</button>
         </c:forEach>
     </div>
     <div id="citiesPanel" style="display: none;">
         <c:forEach var="province" items="${areaList}">
             <div id="cities${province.code}" style="display: none;"><!-- 某个省份对应的所有市 Wrapper -->
                 <c:forEach var="city" items="${province.subAreaList}">
-                    <button type="button" class="btn btn-default" data-id="${city.code}">${city.name}</button>
+                    <button type="button" class="btn btn-default item" data-id="${city.code}">${city.name}</button>
                     <!-- 某个省份对应的所有市 -->
                 </c:forEach>
             </div>

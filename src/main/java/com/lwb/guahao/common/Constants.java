@@ -1,4 +1,4 @@
-package com.lwb.guahao.common.constants;
+package com.lwb.guahao.common;
 
 /**
  * Created by Lu Weibiao on 2015/2/16 14:18.

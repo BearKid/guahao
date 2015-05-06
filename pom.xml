@@ -10,9 +10,18 @@
     <properties>
         <org.springframework.version>4.1.4.RELEASE</org.springframework.version>
         <org.hibernate.version>3.6.10.Final</org.hibernate.version>
-        <build.mode>dev</build.mode>
     </properties>
+
     <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <build.mode>dev</build.mode>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
         <profile>
             <id>product</id>
             <properties>
@@ -20,6 +29,7 @@
             </properties>
         </profile>
     </profiles>
+
     <dependencies>
       <!--
         <dependency>

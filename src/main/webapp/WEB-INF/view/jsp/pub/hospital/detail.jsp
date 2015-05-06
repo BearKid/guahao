@@ -2,7 +2,7 @@
   User: Lu Weibiao
   Date: 2015/5/5 21:16
 --%>
-<%@ page import="com.lwb.guahao.common.constants.Constants" %>
+<%@ page import="com.lwb.guahao.common.Constants" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -38,13 +38,6 @@
         /*医院科室板块*/
         #deptSection {
 
-        }
-
-        #deptSection .title {
-            font-weight: bold;
-            font-size: 20px;
-            border-bottom: 3px solid #333;
-            padding-bottom: 5px;
         }
 
         #deptSection .deptList{
@@ -134,7 +127,7 @@
     </div>
 
     <!-- 医院科室板块 -->
-    <div id="deptSection">
+    <div id="deptSection" class="section">
         <div class="title">所有科室</div>
         <div class="deptList">
         <c:forEach items="${departmentList}" var="firstDept">

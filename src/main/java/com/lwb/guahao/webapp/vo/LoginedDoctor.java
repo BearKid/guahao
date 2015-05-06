@@ -1,8 +1,8 @@
 package com.lwb.guahao.webapp.vo;
 
-import com.lwb.guahao.common.constants.ConstantsMap;
-import com.lwb.guahao.common.util.DateUtils;
-import com.lwb.guahao.model.Doctor;
+import com.lwb.guahao.common.option.OptionMap;
+import com.lwb.guahao.common.util.lang.DateUtils;
+import com.lwb.guahao.common.model.Doctor;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -40,7 +40,7 @@ public class LoginedDoctor {
 
     private String avatarPath; //头像物理存储路径
 
-    private String deptClassCode; //科室类目-编号 参见：ConstantsMap.deptClassMap
+    private String deptClassCode; //科室类目-编号 参见：OptionMap.deptClassMap
 
     private String latestLoginDateTime; //最近一次登录的日期时间
 
@@ -49,7 +49,7 @@ public class LoginedDoctor {
     private String hospitalId; //医院id
 
     /*-------相较于Doctor 新增的字段----------*/
-    private String deptClassName; //科室类目-名称 参见：ConstantsMap.deptClassMap
+    private String deptClassName; //科室类目-名称 参见：OptionMap.deptClassMap
     private String accountStatusName; //账户状态-名称 参见：Constants.AccountStatus
 
     public static LoginedDoctor parse(Doctor doctor){
@@ -62,8 +62,8 @@ public class LoginedDoctor {
         loginedDoctor.setAge(doctor.getAge() == null ? null : doctor.getAge().toString());
         loginedDoctor.setDeptClassCode(doctor.getDeptClassCode() == null ? null : doctor.getDeptClassCode().toString());
         loginedDoctor.setHospitalId(doctor.getHospitalId() == null ? null : doctor.getHospitalId().toString());
-        loginedDoctor.setDeptClassName(ConstantsMap.deptClassMap.get(doctor.getDeptClassCode()));
-        loginedDoctor.setAccountStatusName(ConstantsMap.accountStatusMap.get(doctor.getAccountStatusCode()));
+        loginedDoctor.setDeptClassName(OptionMap.deptClassMap.get(doctor.getDeptClassCode()));
+        loginedDoctor.setAccountStatusName(OptionMap.accountStatusMap.get(doctor.getAccountStatusCode()));
         //日期时间
         loginedDoctor.setCreateDateTime(doctor.getCreateDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(doctor.getCreateDateTime()));
         loginedDoctor.setModifyDateTime(doctor.getModifyDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(doctor.getModifyDateTime()));

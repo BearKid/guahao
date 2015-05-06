@@ -1,7 +1,7 @@
-package com.lwb.guahao.qo;
+package com.lwb.guahao.common.qo;
 
-import com.lwb.guahao.common.constants.Constants;
-import com.lwb.guahao.common.util.DateUtils;
+import com.lwb.guahao.common.Constants;
+import com.lwb.guahao.common.util.lang.DateUtils;
 import com.lwb.guahao.webapp.vo.DoctorDailyScheduleQoVo;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -9,7 +9,6 @@ import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.zip.DataFormatException;
 
 /**
  * @autor: Lu Weibiao

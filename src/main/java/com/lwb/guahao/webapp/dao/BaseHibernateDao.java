@@ -1,6 +1,6 @@
 package com.lwb.guahao.webapp.dao;
 
-import com.lwb.guahao.common.constants.Constants;
+import com.lwb.guahao.common.Constants;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;

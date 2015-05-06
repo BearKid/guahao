@@ -1,7 +1,7 @@
 package com.lwb.guahao.webapp.vo;
 
-import com.lwb.guahao.common.util.DateUtils;
-import com.lwb.guahao.qo.DoctorDailyScheduleQo;
+import com.lwb.guahao.common.util.lang.DateUtils;
+import com.lwb.guahao.common.qo.DoctorDailyScheduleQo;
 
 /**
  * @autor: Lu Weibiao

@@ -2,14 +2,12 @@ package com.lwb.guahao.webapp.service;
 
 import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.Paging;
-import com.lwb.guahao.common.constants.Constants;
-import com.lwb.guahao.common.util.DateUtils;
-import com.lwb.guahao.model.Doctor;
-import com.lwb.guahao.model.DoctorPerTimeSchedule;
-import com.lwb.guahao.qo.DoctorDailyScheduleQo;
+import com.lwb.guahao.common.util.lang.DateUtils;
+import com.lwb.guahao.common.model.Doctor;
+import com.lwb.guahao.common.model.DoctorPerTimeSchedule;
+import com.lwb.guahao.common.qo.DoctorDailyScheduleQo;
 import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.dao.DoctorPerTimeScheduleDao;
-import com.lwb.guahao.webapp.vo.DoctorDailyScheduleQoVo;
 import com.lwb.guahao.webapp.vo.DoctorDailyScheduleVo;
 import com.lwb.guahao.webapp.vo.DoctorPerTimeScheduleVo;
 import org.apache.log4j.Logger;

@@ -82,7 +82,7 @@
         </property>
         <property name="packagesToScan">
             <list>
-                <value>com.lwb.guahao.model</value><!-- 扫描实体类，也就是平时所说的model -->
+                <value>com.lwb.guahao.common.model</value><!-- 扫描实体类，也就是平时所说的model -->
             </list>
         </property>
         <property name="namingStrategy">

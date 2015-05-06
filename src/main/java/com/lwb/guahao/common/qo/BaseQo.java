@@ -1,6 +1,6 @@
-package com.lwb.guahao.qo;
+package com.lwb.guahao.common.qo;
 
-import com.lwb.guahao.common.constants.Constants;
+import com.lwb.guahao.common.Constants;
 
 /**
  * @autor: Lu Weibiao

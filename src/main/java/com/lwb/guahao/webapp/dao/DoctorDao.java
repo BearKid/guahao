@@ -1,10 +1,10 @@
 package com.lwb.guahao.webapp.dao;
 
 import com.lwb.guahao.common.Paging;
-import com.lwb.guahao.common.constants.Constants;
-import com.lwb.guahao.model.Department;
-import com.lwb.guahao.model.Doctor;
-import com.lwb.guahao.qo.SearchQo;
+import com.lwb.guahao.common.Constants;
+import com.lwb.guahao.common.model.Department;
+import com.lwb.guahao.common.model.Doctor;
+import com.lwb.guahao.common.qo.SearchQo;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 

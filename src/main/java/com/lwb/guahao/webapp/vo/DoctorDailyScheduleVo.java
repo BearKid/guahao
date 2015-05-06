@@ -1,6 +1,6 @@
 package com.lwb.guahao.webapp.vo;
 
-import com.lwb.guahao.model.Doctor;
+import com.lwb.guahao.common.model.Doctor;
 
 import java.util.List;
 

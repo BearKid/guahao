@@ -1,12 +1,12 @@
 package com.lwb.guahao.webapp.controller.pub;
 
 import com.lwb.guahao.common.Paging;
-import com.lwb.guahao.common.constants.Constants;
+import com.lwb.guahao.common.Constants;
 import com.lwb.guahao.webapp.component.PagingComponent;
 import com.lwb.guahao.webapp.service.SearchService;
 import com.lwb.guahao.webapp.vo.DoctorVo;
 import com.lwb.guahao.webapp.vo.HospitalVo;
-import com.lwb.guahao.qo.SearchQo;
+import com.lwb.guahao.common.qo.SearchQo;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +48,7 @@ public class SearchController {
         searchQo.setDeptClassCode(StringUtils.isEmpty(deptClassCodeStr) ? null : Integer.valueOf(deptClassCodeStr));
 
         String pnStr = request.getParameter("pn");
-        searchQo.setPn(StringUtils.isEmpty(pnStr) ? null : Integer.valueOf(pnStr));
+        searchQo.setPn(StringUtils.isEmpty(pnStr) ? 1 : Integer.valueOf(pnStr));
         searchQo.setPageSize(Constants.DEFAULT_PAGE_SIZE);
 
         //条件查询

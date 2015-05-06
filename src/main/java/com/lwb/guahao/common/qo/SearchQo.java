@@ -1,4 +1,4 @@
-package com.lwb.guahao.qo;
+package com.lwb.guahao.common.qo;
 
 /**
  * <p></p>

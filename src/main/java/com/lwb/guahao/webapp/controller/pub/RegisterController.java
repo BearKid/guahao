@@ -1,10 +1,10 @@
 package com.lwb.guahao.webapp.controller.pub;
 
 import com.lwb.guahao.common.ApiRet;
-import com.lwb.guahao.common.util.AreaUtil;
+import com.lwb.guahao.common.option.util.AreaUtil;
 import com.lwb.guahao.common.util.FieldValidationUtil;
-import com.lwb.guahao.model.Hospital;
-import com.lwb.guahao.model.PerUser;
+import com.lwb.guahao.common.model.Hospital;
+import com.lwb.guahao.common.model.PerUser;
 import com.lwb.guahao.webapp.service.HospitalService;
 import com.lwb.guahao.webapp.service.LoginService;
 import com.lwb.guahao.webapp.service.PerUserService;
@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 账号注册控制类

@@ -1,4 +1,4 @@
-<%@ page import="com.lwb.guahao.common.constants.Constants" %>
+<%@ page import="com.lwb.guahao.common.Constants" %>
 <%--
   User: Lu Weibiao
   Date: 2015/3/18 22:08

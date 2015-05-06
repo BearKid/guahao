@@ -1,4 +1,4 @@
-package com.lwb.guahao.common.util;
+package com.lwb.guahao.common.util.lang;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;

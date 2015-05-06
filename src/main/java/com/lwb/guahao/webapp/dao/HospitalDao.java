@@ -1,8 +1,9 @@
 package com.lwb.guahao.webapp.dao;
 
+import com.lwb.guahao.common.Constants;
 import com.lwb.guahao.common.Paging;
-import com.lwb.guahao.model.Hospital;
-import com.lwb.guahao.qo.SearchQo;
+import com.lwb.guahao.common.model.Hospital;
+import com.lwb.guahao.common.qo.SearchQo;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -50,8 +51,8 @@ public class HospitalDao extends BaseHibernateDao<Hospital>{
         }
 
         Integer pageSize = searchQo.getPageSize();
-        if(pageSize == null || pageSize < 1) {
-            throw new IllegalArgumentException("pageSize is illegal :[" + pageSize + "]");
+        if(pageSize == null){
+            pageSize = Constants.INFINITE_PAGE_SIZE;
         }
 
         final String selectHql = "select h";

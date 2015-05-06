@@ -1,6 +1,6 @@
 package com.lwb.guahao.webapp.dao;
 
-import com.lwb.guahao.model.PerUser;
+import com.lwb.guahao.common.model.PerUser;
 import org.springframework.stereotype.Repository;
 
 /**

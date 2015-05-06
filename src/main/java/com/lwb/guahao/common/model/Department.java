@@ -1,4 +1,4 @@
-package com.lwb.guahao.model;
+package com.lwb.guahao.common.model;
 
 /**
  * Created by Lu Weibiao on 2015/2/16 17:47.
@@ -18,7 +18,7 @@ public class Department implements Serializable{
 //    private Integer id;
 
     //    @Column(nullable = false)
-    private Integer deptClassCode; //科室类目编号 参见：ConstantsMap.department
+    private Integer deptClassCode; //科室类目编号 参见：OptionMap.department
 
 //    @Column(nullable = false)
     private Integer doctorNum; //医生人数

@@ -2,11 +2,11 @@ package com.lwb.guahao.webapp.service;
 
 import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.Paging;
-import com.lwb.guahao.common.constants.Constants;
+import com.lwb.guahao.common.Constants;
 import com.lwb.guahao.common.util.SecurityUtil;
-import com.lwb.guahao.model.Doctor;
-import com.lwb.guahao.model.DoctorPerTimeSchedule;
-import com.lwb.guahao.model.Hospital;
+import com.lwb.guahao.common.model.Doctor;
+import com.lwb.guahao.common.model.DoctorPerTimeSchedule;
+import com.lwb.guahao.common.model.Hospital;
 import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.dao.DoctorPerTimeScheduleDao;
 import com.lwb.guahao.webapp.dao.HospitalDao;

@@ -1,7 +1,7 @@
-package com.lwb.guahao.common.util;
+package com.lwb.guahao.common.option.util;
 
-import com.lwb.guahao.common.DeptClass;
-import com.lwb.guahao.common.constants.ConstantsMap;
+import com.lwb.guahao.common.option.DeptClass;
+import com.lwb.guahao.common.option.OptionMap;
 import org.apache.commons.logging.impl.Log4JLogger;
 
 import java.util.*;
@@ -18,7 +18,7 @@ public class DeptClassUtil {
         /*
          * 预处理科室类目列表为树状列表，用于客户端呈现
          */
-        for(Map.Entry<Integer,String> entry : ConstantsMap.deptClassMap.entrySet()){//遍历areaMap
+        for(Map.Entry<Integer,String> entry : OptionMap.deptClassMap.entrySet()){//遍历areaMap
             if(DeptClassUtil.isFirstDeptClass(entry.getKey())){ //新科室类目是一级科室
                 DeptClass newDeptClass = new DeptClass(entry.getKey(), entry.getValue(), true);//创建新科室类目为一级科室节点
                 boolean isExisted =false;
@@ -82,7 +82,7 @@ public class DeptClassUtil {
      * @return
      */
     public static String getDeptClassName(int deptClassCode) {
-        return ConstantsMap.deptClassMap.get(deptClassCode);
+        return OptionMap.deptClassMap.get(deptClassCode);
     }
 
     /**

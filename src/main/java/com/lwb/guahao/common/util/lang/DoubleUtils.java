@@ -1,4 +1,4 @@
-package com.lwb.guahao.common.util;
+package com.lwb.guahao.common.util.lang;
 
 /**
  * User: Lu Weibiao

@@ -1,11 +1,11 @@
-package com.lwb.guahao.common.util;
+package com.lwb.guahao.common.option.util;
 
 /**
  * Created by Lu Weibiao on 2015/2/18 22:03.
  */
 
-import com.lwb.guahao.common.Area;
-import com.lwb.guahao.common.constants.ConstantsMap;
+import com.lwb.guahao.common.option.Area;
+import com.lwb.guahao.common.option.OptionMap;
 import org.apache.commons.logging.impl.Log4JLogger;
 
 import java.util.*;
@@ -28,7 +28,7 @@ public class AreaUtil {
         /*
          * 预处理地区列表为树状列表，用于客户端呈现
          */
-        for(Map.Entry<Integer,String> entry : ConstantsMap.areaMap.entrySet()){//遍历areaMap
+        for(Map.Entry<Integer,String> entry : OptionMap.areaMap.entrySet()){//遍历areaMap
             if(areaUtil.isProvice(entry.getKey())){ //新地区是省份
                 Area newArea = new Area(entry.getKey(), entry.getValue(), true);//创建新地区为省份节点
                 boolean isExisted =false;
@@ -128,6 +128,6 @@ public class AreaUtil {
      * @return
      */
     public static String getAreaName(int areaCode){
-        return ConstantsMap.areaMap.get(areaCode);
+        return OptionMap.areaMap.get(areaCode);
     }
 }

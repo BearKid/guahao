@@ -1,7 +1,7 @@
 package com.lwb.guahao.webapp.vo.search;
 
-import com.lwb.guahao.common.util.AreaUtil;
-import com.lwb.guahao.model.Hospital;
+import com.lwb.guahao.common.option.util.AreaUtil;
+import com.lwb.guahao.common.model.Hospital;
 
 /**
  * <p></p>

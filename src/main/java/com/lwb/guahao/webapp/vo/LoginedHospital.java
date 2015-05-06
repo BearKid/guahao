@@ -5,9 +5,9 @@ package com.lwb.guahao.webapp.vo;
  * Date: 2015/3/7 18:25
  */
 
-import com.lwb.guahao.common.constants.ConstantsMap;
-import com.lwb.guahao.common.util.DateUtils;
-import com.lwb.guahao.model.Hospital;
+import com.lwb.guahao.common.option.OptionMap;
+import com.lwb.guahao.common.util.lang.DateUtils;
+import com.lwb.guahao.common.model.Hospital;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -53,8 +53,8 @@ public class LoginedHospital {
 
         loginedHospital.setId(hospital.getId() == null ? null : hospital.getId().toString());
         loginedHospital.setAccountStatusCode(hospital.getAccountStatusCode() == null ? null : hospital.getAccountStatusCode().toString());
-        loginedHospital.setAccountStatusName(ConstantsMap.accountStatusMap.get(hospital.getAccountStatusCode()));
-        loginedHospital.setAreaName(ConstantsMap.areaMap.get(hospital.getAreaCode()));
+        loginedHospital.setAccountStatusName(OptionMap.accountStatusMap.get(hospital.getAccountStatusCode()));
+        loginedHospital.setAreaName(OptionMap.areaMap.get(hospital.getAreaCode()));
         loginedHospital.setAreaCode(hospital.getAreaCode() == null ? null : hospital.getAreaCode().toString());
         //日期时间
         loginedHospital.setCreateDateTime(hospital.getCreateDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(hospital.getCreateDateTime()));

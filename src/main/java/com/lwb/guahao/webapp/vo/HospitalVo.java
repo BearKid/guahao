@@ -1,12 +1,10 @@
 package com.lwb.guahao.webapp.vo;
 
-import com.lwb.guahao.common.util.AreaUtil;
-import com.lwb.guahao.common.constants.ConstantsMap;
-import com.lwb.guahao.common.util.DateUtils;
-import com.lwb.guahao.model.Hospital;
+import com.lwb.guahao.common.option.OptionMap;
+import com.lwb.guahao.common.option.util.AreaUtil;
+import com.lwb.guahao.common.util.lang.DateUtils;
+import com.lwb.guahao.common.model.Hospital;
 import org.springframework.beans.BeanUtils;
-
-import java.text.SimpleDateFormat;
 
 /**
  * User: Lu Weibiao
@@ -54,7 +52,7 @@ public class HospitalVo {
         target.setId(source.getId() == null ? null : source.getId().toString());
 
         target.setAccountStatusCode(source.getAccountStatusCode() == null ? "未知" : source.getAccountStatusCode().toString());
-        target.setAccountStatusName(ConstantsMap.accountStatusMap.get(source.getAccountStatusCode()));
+        target.setAccountStatusName(OptionMap.accountStatusMap.get(source.getAccountStatusCode()));
 
         target.setAreaCode(source.getAreaCode() == null ? "未知" : source.getAreaCode().toString());
         target.setAreaName(AreaUtil.getAreaName(source.getAreaCode()));

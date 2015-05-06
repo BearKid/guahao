@@ -2,7 +2,7 @@
   User: Lu Weibiao
   Date: 2015/4/27 21:17
 --%>
-<%@ page import="com.lwb.guahao.common.constants.Constants" %>
+<%@ page import="com.lwb.guahao.common.Constants" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -16,10 +16,12 @@
         #searchNav{
             border-bottom: 1px solid #E4E4E4;
             padding: 5px;
+            margin-top: 20px;
         }
         #searchNav .tab{
             font-size: 20px;
             color: #666666;
+            text-decoration: none;
         }
         #searchNav .tab.active{
             background-color: #66CCFF;
@@ -39,7 +41,7 @@
             color:#333;
             margin-right: 10px;
         }
-        #docotorBySearchPaging .doctor,#hospitalBySearchPaging .hospital{
+        #doctorBySearchPaging .doctor,#hospitalBySearchPaging .hospital{
             border-bottom: 1px solid #e4e4e4;
             border-radius: 5px;
             padding: 10px;
@@ -87,7 +89,7 @@
 </jsp:include>
 <div id="main" class="container-fluid">
     <div id="searchNav">
-    <a class="tab" href="#">综合</a>
+    <a class="tab" href="#">综合搜索</a>
 </div>
 <div id="searchFilterPanel">
     <div class="filterType">
@@ -126,7 +128,11 @@
 </div>
 <div id="searchPaging">
 <!-- 医生列表 -->
-<div id="docotorBySearchPaging">
+<div id="doctorBySearchPaging" class="section">
+    <div class="title">医生结果</div>
+    <c:if test="${empty doctorBySearchPaging.items}">
+        <div style=" font-size: 18px; margin: 10px; ">木有更多酱紫的医生 . . .</div>
+    </c:if>
 <c:forEach items="${doctorBySearchPaging.items}" var="doctor">
     <div class="doctor">
         <div class="avatar"><img src="${applicationScope.contextPath}${doctor.avatarPath}"/></div>
@@ -147,7 +153,11 @@
 </c:forEach>
 </div>
 <!-- 医院列表 -->
-<div id="hospitalBySearchPaging">
+<div id="hospitalBySearchPaging" class="section">
+    <div class="title">医院结果</div>
+    <c:if test="${empty hospitalBySearchPaging.items}">
+        <div style=" font-size: 18px; margin: 10px; ">木有更多酱紫的医院 . . .</div>
+    </c:if>
     <c:forEach items="${hospitalBySearchPaging.items}" var="hospital">
         <div class="hospital">
             <%--<div class="doctorAvatar"><img src="${applicationScope.contextPath}${hospital.avatarPath}"/></div>--%>

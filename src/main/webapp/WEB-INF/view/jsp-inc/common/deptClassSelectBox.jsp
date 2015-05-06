@@ -23,7 +23,7 @@
     </ul>
     <div id="firstDeptClassesPanel">
         <c:forEach var="firstDeptClass" items="${deptClassList}">
-            <button type="button" class="btn btn-default"
+            <button type="button" class="btn btn-default item"
                     data-id="${firstDeptClass.code}">${firstDeptClass.name}</button>
         </c:forEach>
     </div>
@@ -31,7 +31,7 @@
         <c:forEach var="firstDeptClass" items="${deptClassList}">
             <div id="secondDeptClasses${firstDeptClass.code}" style="display: none;"><!-- 某个一级科室对应的所有二级科室 Wrapper -->
                 <c:forEach var="secondDeptClass" items="${firstDeptClass.subDeptClassList}">
-                    <button type="button" class="btn btn-default"
+                    <button type="button" class="btn btn-default item"
                             data-id="${secondDeptClass.code}">${secondDeptClass.name}</button>
                     <!-- 某个一级科室对应的所有二级科室 -->
                 </c:forEach>

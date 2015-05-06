@@ -1,16 +1,16 @@
 package com.lwb.guahao.webapp.vo;
 
-import com.lwb.guahao.common.constants.ConstantsMap;
-import com.lwb.guahao.common.util.SexUtil;
-import com.lwb.guahao.model.Doctor;
-import com.lwb.guahao.model.Hospital;
+import com.lwb.guahao.common.option.OptionMap;
+import com.lwb.guahao.common.option.util.SexUtil;
+import com.lwb.guahao.common.model.Doctor;
+import com.lwb.guahao.common.model.Hospital;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.lwb.guahao.common.util.DateUtils.*;
+import static com.lwb.guahao.common.util.lang.DateUtils.*;
 
 /**
  * Function:
@@ -44,7 +44,7 @@ public class DoctorVo {
 
     private String avatarPath; //头像物理存储路径
 
-    private Integer deptClassCode; //科室类目编号 参见：ConstantsMap.deptClassMap
+    private Integer deptClassCode; //科室类目编号 参见：OptionMap.deptClassMap
 
     private String latestLoginDate; //最近一次登录的日期时间
 
@@ -53,7 +53,7 @@ public class DoctorVo {
     private String hospitalId; //医院id
 
     /*** 相较于 Doctor 增加的字段 **/
-    private String deptClassName; //科室类目编号 参见：ConstantsMap.deptClassMap
+    private String deptClassName; //科室类目编号 参见：OptionMap.deptClassMap
 
     private HospitalVo hospital; //医院
 
@@ -69,7 +69,7 @@ public class DoctorVo {
 
         doctorVo.setId(doctor.getId() == null ? null : doctor.getId().toString());
         doctorVo.setSex(SexUtil.getSexName(doctor.getSex()));
-        doctorVo.setDeptClassName(ConstantsMap.deptClassMap.get(doctor.getDeptClassCode()));
+        doctorVo.setDeptClassName(OptionMap.deptClassMap.get(doctor.getDeptClassCode()));
         doctorVo.setHospitalId(doctor.getHospitalId() == null ? null : doctor.getHospitalId().toString());
 
         //日期时间格式化

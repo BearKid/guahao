@@ -1,8 +1,10 @@
-package com.lwb.guahao.common.constants;
+package com.lwb.guahao.common.option;
 
 /**
  * Created by Lu Weibiao on 2015/2/16 18:11.
  */
+
+import com.lwb.guahao.common.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +12,7 @@ import java.util.Map;
 /**
  * 常量语义映射
  */
-public class ConstantsMap {
+public class OptionMap {
     public static final Map<Integer, String> accountStatusMap = new HashMap();
     public static final Map<Integer, String> deptClassMap = new HashMap();
     public static final Map<Integer, String> areaMap = new HashMap();
