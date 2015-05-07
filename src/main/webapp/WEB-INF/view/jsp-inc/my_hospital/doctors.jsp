@@ -59,8 +59,6 @@
 </table>
 <div id="doctorSearchPager"></div>
 <script>
-    /*************** 上面部分以后提取到公共文件 分割线 ************************/
-
     //查找结果分页
     $("#doctorSearchPager").pager({
         pagenumber: ${doctorPaging.pn},

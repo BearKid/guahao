@@ -4,9 +4,9 @@ import com.lwb.guahao.common.Constants;
 import com.lwb.guahao.common.option.util.AreaUtil;
 import com.lwb.guahao.common.option.util.DeptClassUtil;
 import com.lwb.guahao.webapp.service.LoginService;
-import com.lwb.guahao.webapp.vo.LoginedDoctor;
-import com.lwb.guahao.webapp.vo.LoginedHospital;
-import com.lwb.guahao.webapp.vo.LoginedPerUser;
+import com.lwb.guahao.webapp.vo.DoctorVo;
+import com.lwb.guahao.webapp.vo.HospitalVo;
+import com.lwb.guahao.webapp.vo.PerUserVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -36,21 +36,21 @@ public class CommonIncController {
             int accountTypeCode = Integer.parseInt(accountType);
             switch (accountTypeCode) {
                 case Constants.AccountType.UNKNOWN: {//未知类型，自动检测
-                    LoginedPerUser perUser = loginService.getLoginedPerUser(request);
+                    PerUserVo perUser = loginService.getLoginedPerUser(request);
                     if (perUser != null) {
                         accountInfo.put("accountTypeName", "个人");
                         accountInfo.put("name", perUser.getName());
                         accountInfo.put("accountContextPath", "/myPer");
                         break;
                     }
-                    LoginedDoctor doctor = loginService.getLoginedDoctor(request);
+                    DoctorVo doctor = loginService.getLoginedDoctor(request);
                     if (doctor != null) {
                         accountInfo.put("accountTypeName", "医生");
                         accountInfo.put("name", doctor.getName());
                         accountInfo.put("accountContextPath", "/myDoctor");
                         break;
                     }
-                    LoginedHospital hospital = loginService.getLoginedHospital(request);
+                    HospitalVo hospital = loginService.getLoginedHospital(request);
                     if (hospital != null) {
                         accountInfo.put("accountTypeName", "医院");
                         accountInfo.put("name", hospital.getName());
@@ -60,7 +60,7 @@ public class CommonIncController {
                     break;
                 }
                 case Constants.AccountType.PER_USER: {
-                    LoginedPerUser perUser = loginService.getLoginedPerUser(request);
+                    PerUserVo perUser = loginService.getLoginedPerUser(request);
                     if (perUser != null) {
                         accountInfo.put("accountTypeName", "个人");
                         accountInfo.put("name", perUser.getName());
@@ -69,7 +69,7 @@ public class CommonIncController {
                     break;
                 }
                 case Constants.AccountType.DOCTOR: {
-                    LoginedDoctor doctor = loginService.getLoginedDoctor(request);
+                    DoctorVo doctor = loginService.getLoginedDoctor(request);
                     if (doctor != null) {
                         accountInfo.put("accountTypeName", "医生");
                         accountInfo.put("name", doctor.getName());
@@ -78,7 +78,7 @@ public class CommonIncController {
                     break;
                 }
                 case Constants.AccountType.HOSPITAL: {
-                    LoginedHospital hospital = loginService.getLoginedHospital(request);
+                    HospitalVo hospital = loginService.getLoginedHospital(request);
                     if (hospital != null) {
                         accountInfo.put("accountTypeName", "医院");
                         accountInfo.put("name", hospital.getName());

@@ -20,14 +20,14 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-4 col-sm-3 col-md-2 sidebar">
+        <div class="col-xs-2 col-sm-2 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">基本信息</a></li>
-                <li><a href="#">预约管理</a></li>
+                <li class="active"><a href="${applicationScope.contextPath}/myPer/index">基本信息</a></li>
+                <li><a id="jsShowReservations" href="#">预约管理</a></li>
                 <li><a href="#">账号安全</a></li>
             </ul>
         </div>
-        <div class="col-xs-8 col-xs-offset-4 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div id="main" class="col-xs-10 col-xs-offset-2 col-sm-10 col-sm-offset-2 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">基本信息</h1>
             <dl class="dl-horizontal">
                 <dt>姓名</dt>
@@ -73,9 +73,15 @@
                 <dt>账号创建时间</dt>
                 <dd>${perUser.createDateTime}</dd>
             </dl>
-
         </div>
     </div>
 </div>
 </body>
+<script>
+    $("#jsShowReservations").click(function () {
+       var url = "${applicationScope.contextPath}/myPer/reservations";
+        MyPerUser.loadHtmlByUrl(url);
+    });
+
+</script>
 </html>

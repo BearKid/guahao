@@ -5,7 +5,9 @@ package com.lwb.guahao.common.option;
  */
 
 import com.lwb.guahao.common.Constants;
+import com.lwb.guahao.common.util.lang.IntegerUtils;
 
+import java.lang.ref.PhantomReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ public class OptionMap {
     public static final Map<Integer, String> deptClassMap = new HashMap();
     public static final Map<Integer, String> areaMap = new HashMap();
     public static final Map<Integer, String> sexMap = new HashMap();
+    public static final Map<Integer,String> orderStatusMap = new HashMap<Integer, String>();
 
     static{
         /* 账户状态 */
@@ -122,5 +125,14 @@ public class OptionMap {
         /* 性别 */
         sexMap.put(Constants.SexType.MALE,"男");
         sexMap.put(Constants.SexType.FEMALE,"女");
+
+        /* 挂号预约订单状态 */
+        orderStatusMap.put(Constants.OrderStatus.UN_PAYED,"待支付");
+        orderStatusMap.put(Constants.OrderStatus.PAYED, "预约成功");
+        orderStatusMap.put(Constants.OrderStatus.PRESENT,"已应约");
+        orderStatusMap.put(Constants.OrderStatus.ABSENCE,"爽约");
+        orderStatusMap.put(Constants.OrderStatus.CANCEL,"预约已取消");
+        orderStatusMap.put(Constants.OrderStatus.EXPIRED,"订单已失效");
     }
+
 }

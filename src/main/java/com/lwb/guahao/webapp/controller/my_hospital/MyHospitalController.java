@@ -15,10 +15,7 @@ import com.lwb.guahao.webapp.service.DoctorPerTimeScheduleService;
 import com.lwb.guahao.webapp.service.DoctorService;
 import com.lwb.guahao.webapp.service.HospitalService;
 import com.lwb.guahao.webapp.service.LoginService;
-import com.lwb.guahao.webapp.vo.DoctorDailyScheduleQoVo;
-import com.lwb.guahao.webapp.vo.DoctorDailyScheduleVo;
-import com.lwb.guahao.webapp.vo.DoctorVo;
-import com.lwb.guahao.webapp.vo.LoginedHospital;
+import com.lwb.guahao.webapp.vo.*;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,7 +58,7 @@ public class MyHospitalController {
 
     @RequestMapping(value = "baseInfo")
     public String baseInfo(HttpServletRequest request, Model model) {
-        LoginedHospital loginedHospital = loginService.getLoginedHospital(request);
+        HospitalVo loginedHospital = loginService.getLoginedHospital(request);
         model.addAttribute("hospital", loginedHospital);
         return "/../jsp-inc/my_hospital/baseInfo";
     }
@@ -152,11 +149,14 @@ public class MyHospitalController {
             apiRet.setMsg("没有访问权限");
             view = null;
         } else {
+            DoctorVo doctorVo = doctorService.getDoctor(doctorId);
+
             qoVo.setDoctorId(doctorIdStr);
             DoctorDailyScheduleQo qo = DoctorDailyScheduleQo.parse(qoVo);
 
             apiRet = doctorPerTimeScheduleService.getPagingBy(qo);
 
+            model.addAttribute("doctor",doctorVo);
             model.addAttribute("doctorDailyScheduleQo", qoVo);
             model.addAttribute("doctorDailySchedulePaging", (Paging<DoctorDailyScheduleVo>) apiRet.getData());
             model.addAttribute("queryStringWithoutPn", pagingComponent.getQueryStringWithoutPn(request));

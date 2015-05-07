@@ -59,7 +59,7 @@
 <script>
     //提交注册表单
     $("#perRegisterFormSubmit").click(function () {
-        PerUser.getJsonByForm("#perRegisterForm",function(data){
+        MyPerUser.getJsonByForm("#perRegisterForm",function(data){
             $ModalBox.open(data.msg);
             if(data.ret === API_RET_SUCCESS){
                 setTimeout(function(){

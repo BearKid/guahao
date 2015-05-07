@@ -14,8 +14,8 @@ import org.springframework.beans.BeanUtils;
 /**
  * 登录态下个人相关组合信息
  */
-public class LoginedPerUser {
-    private Integer id;
+public class PerUserVo {
+    private String id;
 
     private String password; //账户密码-密文
 
@@ -46,35 +46,39 @@ public class LoginedPerUser {
 
     private String areaName; //常住户口所在县（市、旗、区）全限定名
 
-    public static LoginedPerUser parse(PerUser perUser){
-        LoginedPerUser loginedPerUser = new LoginedPerUser();
-        BeanUtils.copyProperties(perUser,loginedPerUser);
+    public static PerUserVo parse(PerUser perUser){
+        if(perUser == null) {return null;}
 
-        loginedPerUser.setAccountStatusCode(perUser.getAccountStatusCode() == null ? null : perUser.getAccountStatusCode().toString());
-        loginedPerUser.setAccountStatusName(OptionMap.accountStatusMap.get(perUser.getAccountStatusCode()));//账号状态-名称
+        PerUserVo perUserVo = new PerUserVo();
+        BeanUtils.copyProperties(perUser, perUserVo);
+
+        perUserVo.setId(perUser.getId() == null ? null : perUser.getId().toString());
+
+        perUserVo.setAccountStatusCode(perUser.getAccountStatusCode() == null ? null : perUser.getAccountStatusCode().toString());
+        perUserVo.setAccountStatusName(OptionMap.accountStatusMap.get(perUser.getAccountStatusCode()));//账号状态-名称
         /*
          *从身份证号码提前信息。身份证号码共18位，从左至右依次为：六位数字地址码，八位数字出生日期码，三位数字顺序码和一位数字校验码。
          */
-        String areaCodeStr = loginedPerUser.getIdCard().substring(0, 6);//地址码-身份证号码第1~6位
-        loginedPerUser.setAreaCode(areaCodeStr);
+        String areaCodeStr = perUserVo.getIdCard().substring(0, 6);//地址码-身份证号码第1~6位
+        perUserVo.setAreaCode(areaCodeStr);
 
         int areaCode = Integer.parseInt(areaCodeStr);
         String cityName = AreaUtil.getAreaName(areaCode);
         String provName = AreaUtil.getAreaName(AreaUtil.getProvinceCode(areaCode));
-        loginedPerUser.setAreaName(provName.concat(cityName));//设置地区全限定名
+        perUserVo.setAreaName(provName.concat(cityName));//设置地区全限定名
 
-        String birthDateStr = loginedPerUser.getIdCard().substring(6,14);//出生日期-身份证号码第7~14位
-        loginedPerUser.setAge(DateUtils.getAge(birthDateStr, "yyyyMMdd") + "");
+        String birthDateStr = perUserVo.getIdCard().substring(6,14);//出生日期-身份证号码第7~14位
+        perUserVo.setAge(DateUtils.getAge(birthDateStr, "yyyyMMdd") + "");
 
-        String sexCodeStr = loginedPerUser.getIdCard().substring(14,17);//性别-身份证号码第15~17位
+        String sexCodeStr = perUserVo.getIdCard().substring(14,17);//性别-身份证号码第15~17位
         int sexCode = Integer.parseInt(sexCodeStr);
-        loginedPerUser.setSex((sexCode%2 == 0) ? "女":"男");//顺序码的奇数分配给男性，偶数分配给女性。
+        perUserVo.setSex((sexCode%2 == 0) ? "女":"男");//顺序码的奇数分配给男性，偶数分配给女性。
 
         //日期时间
-        loginedPerUser.setCreateDateTime(perUser.getCreateDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(perUser.getCreateDateTime()));
-        loginedPerUser.setLatestLoginDateTime(perUser.getLatestLoginDate() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(perUser.getLatestLoginDate()));
+        perUserVo.setCreateDateTime(perUser.getCreateDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(perUser.getCreateDateTime()));
+        perUserVo.setLatestLoginDateTime(perUser.getLatestLoginDate() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(perUser.getLatestLoginDate()));
 
-        return loginedPerUser;
+        return perUserVo;
     }
 
     public String getAreaCode() {
@@ -133,11 +137,11 @@ public class LoginedPerUser {
         this.email = email;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

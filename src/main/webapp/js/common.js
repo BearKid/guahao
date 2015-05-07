@@ -180,16 +180,22 @@ Hospital._beforeLoadHtml = function(navMap){
  * 个人账号模块
  * @type {Object}
  */
-var PerUser = new Object;
+var MyPerUser = new Object;
 
 /**
  * 个人账号模块 - 根据表单异步请求并回调
  * @param formId
  * @param callBack
  */
-PerUser.getJsonByForm = function(formId,callBack){
+MyPerUser.loadHtmlByUrl = function(url){
+    loadHtmlByUrl("#main",url);
+};
+MyPerUser.loadHtmlByForm = function(formId){
+    loadHtmlByForm("#main",formId);
+}
+MyPerUser.getJsonByForm = function(formId,callBack){
     getJsonByForm(formId,callBack);
 }
-PerUser.getJsonByUrl = function(url,callBack) {
+MyPerUser.getJsonByUrl = function(url,callBack) {
     getJsonByUrl(url, callBack);
 }

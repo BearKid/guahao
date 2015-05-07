@@ -7,6 +7,7 @@ import com.lwb.guahao.common.model.Hospital;
 import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.dao.HospitalDao;
 import com.lwb.guahao.webapp.vo.DoctorVo;
+import com.lwb.guahao.webapp.vo.HospitalVo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,8 @@ public class DoctorService {
         Doctor doctor = doctorDao.get(doctorId);
         Hospital hospital = hospitalDao.get(doctor.getHospitalId());
 
-        DoctorVo doctorVo = DoctorVo.parse(doctor,hospital);
+        DoctorVo doctorVo = DoctorVo.parse(doctor);
+        doctorVo.setHospital(HospitalVo.parse(hospital));
         return doctorVo;
     }
 

@@ -38,7 +38,7 @@ public class DoctorPerTimeScheduleService {
      * @return
      */
     @Transactional(readOnly = true)
-    public ApiRet getPagingBy(DoctorDailyScheduleQo doctorDailyScheduleQo) throws ParseException{
+    public ApiRet<Paging<DoctorDailyScheduleVo>> getPagingBy(final DoctorDailyScheduleQo doctorDailyScheduleQo) throws ParseException{
         ApiRet apiRet = new ApiRet();
 
         Paging<DoctorPerTimeSchedule> doctorPerTimeSchedulePaging= doctorPerTimeScheduleDao.getPagingBy(doctorDailyScheduleQo);
@@ -56,18 +56,13 @@ public class DoctorPerTimeScheduleService {
     }
 
     /**
-
-     * @param doctorPerTimeSchedulesList
-     * @return
-     */
-    /**
      * 构建按天归类的排班
      * @param doctorPerTimeSchedulesList 明细排班记录集
      * @param doctor 排班记录集所属的医生
      * @param doctorDailyScheduleQo 排班查询条件
      * @return
      */
-    private List<DoctorDailyScheduleVo> buildDoctorDailyScheduleVoList(List<DoctorPerTimeSchedule> doctorPerTimeSchedulesList, Doctor doctor, DoctorDailyScheduleQo doctorDailyScheduleQo) {
+    private List<DoctorDailyScheduleVo> buildDoctorDailyScheduleVoList(List<DoctorPerTimeSchedule> doctorPerTimeSchedulesList, final Doctor doctor, final DoctorDailyScheduleQo doctorDailyScheduleQo) {
         Date startDate = doctorDailyScheduleQo.getStartDay();//查询的开始日期
         Date endDate = doctorDailyScheduleQo.getEndDay();//查询的结束日期
         boolean ignoreNoScheduleDate = doctorDailyScheduleQo.getIgnoreNoScheduleDay();//是否忽略空记录的日期
@@ -184,8 +179,8 @@ public class DoctorPerTimeScheduleService {
      * @param doctorPerTimeScheduleList
      * @return
      */
-    public ApiRet saveOrUpdate(List<DoctorPerTimeSchedule> doctorPerTimeScheduleList) {
-        ApiRet apiRet = new ApiRet(ApiRet.RET_SUCCESS,"保存成功",null);
+    public ApiRet saveOrUpdate(final List<DoctorPerTimeSchedule> doctorPerTimeScheduleList) {
+        ApiRet apiRet = new ApiRet();
         Date today = DateTime.now().withTimeAtStartOfDay().toDate();
         for(DoctorPerTimeSchedule doctorPerTimeSchedule : doctorPerTimeScheduleList){
             Date startDateTime = doctorPerTimeSchedule.getStartDateTime();
@@ -196,6 +191,8 @@ public class DoctorPerTimeScheduleService {
             }
         }
         doctorPerTimeScheduleDao.saveOrUpdate(doctorPerTimeScheduleList);
+        apiRet.setRet(ApiRet.RET_SUCCESS);
+        apiRet.setMsg("保存成功");
         return apiRet;
     }
 
@@ -203,7 +200,96 @@ public class DoctorPerTimeScheduleService {
      * 删除指定的排班
      * @param doctorPerTimeScheduleId
      */
-    public void delete(Integer doctorPerTimeScheduleId) {
+    public void delete(final Integer doctorPerTimeScheduleId) {
         doctorPerTimeScheduleDao.delete(doctorPerTimeScheduleId);
+    }
+
+    /**
+     * 校验指定排班是否允许被预约
+     * 1.验证是否排班未过期
+     * 2.验证是否有剩余号源
+     * @param doctorPerTimeScheduleId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public ApiRet<Boolean> isReservable(final Integer doctorPerTimeScheduleId) {
+        ApiRet apiRet;
+
+        //验证是否排班未过期
+        apiRet = isExpired(doctorPerTimeScheduleId);
+        if(apiRet.getRet() == ApiRet.RET_FAIL || apiRet.getData().equals(Boolean.TRUE)){
+            apiRet.setRet(ApiRet.RET_FAIL);
+            return apiRet;
+        }
+        //验证是否有剩余号源
+        apiRet = hasOddSource(doctorPerTimeScheduleId);
+        if (apiRet.getRet() == ApiRet.RET_FAIL || apiRet.getData().equals(Boolean.FALSE)) {
+            apiRet.setRet(ApiRet.RET_FAIL);
+            return apiRet;
+        }
+
+        apiRet.setRet(ApiRet.RET_SUCCESS);
+        apiRet.setMsg("指定的医生排班还有剩余号源");
+        apiRet.setData(Boolean.TRUE);
+        return apiRet;
+    }
+
+    /**
+     * 判断排班是否过期
+     * @param doctorPerTimeScheduleId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public ApiRet<Boolean> isExpired(final Integer doctorPerTimeScheduleId) {
+        ApiRet<Boolean> apiRet = new ApiRet<Boolean>();
+
+        DoctorPerTimeSchedule doctorPerTimeSchedule = doctorPerTimeScheduleDao.get(doctorPerTimeScheduleId);
+        if(doctorPerTimeSchedule == null){
+            apiRet.setRet(ApiRet.RET_FAIL);
+            apiRet.setMsg("指定的医生排班不存在");
+            return apiRet;
+        }
+
+        Date expireDateTime = doctorPerTimeSchedule.getStartDateTime();
+        Date now = new Date();
+        if(expireDateTime.after(now)){//未过期
+            apiRet.setRet(ApiRet.RET_SUCCESS);
+            apiRet.setMsg("指定的医生排班未过期");
+            apiRet.setData(Boolean.FALSE);
+            return apiRet;
+        }
+
+        apiRet.setRet(ApiRet.RET_SUCCESS);
+        apiRet.setMsg("指定的医生排班已过期");
+        apiRet.setData(Boolean.TRUE);
+        return apiRet;
+    }
+
+    /**
+     * 判断指定排班是否有剩余号源
+     * @param doctorPerTimeScheduleId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public ApiRet<Boolean> hasOddSource(final Integer doctorPerTimeScheduleId) {
+        ApiRet apiRet = new ApiRet();
+
+        DoctorPerTimeSchedule doctorPerTimeSchedule = doctorPerTimeScheduleDao.get(doctorPerTimeScheduleId);
+        if(doctorPerTimeSchedule == null){
+            apiRet.setRet(ApiRet.RET_FAIL);
+            apiRet.setMsg("指定医生排班不存在");
+            return apiRet;
+        }
+
+        if(doctorPerTimeSchedule.getOddSource() < 1){
+            apiRet.setRet(ApiRet.RET_SUCCESS);
+            apiRet.setMsg("指定医生排班没有剩余号源啦");
+            apiRet.setData(Boolean.FALSE);
+        }
+
+        apiRet.setRet(ApiRet.RET_SUCCESS);
+        apiRet.setMsg("指定医生排班还有剩余号源");
+        apiRet.setData(Boolean.TRUE);
+        return apiRet;
     }
 }

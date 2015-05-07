@@ -9,9 +9,9 @@ import com.lwb.guahao.webapp.dao.DoctorDao;
 import com.lwb.guahao.webapp.dao.HospitalDao;
 import com.lwb.guahao.webapp.dao.HttpSessionDao;
 import com.lwb.guahao.webapp.dao.PerUserDao;
-import com.lwb.guahao.webapp.vo.LoginedDoctor;
-import com.lwb.guahao.webapp.vo.LoginedHospital;
-import com.lwb.guahao.webapp.vo.LoginedPerUser;
+import com.lwb.guahao.webapp.vo.DoctorVo;
+import com.lwb.guahao.webapp.vo.HospitalVo;
+import com.lwb.guahao.webapp.vo.PerUserVo;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -46,8 +46,8 @@ public class LoginService {
      * @param request
      * @return
      */
-    public LoginedPerUser perUserLogin(HttpServletRequest request,String account, String password) {
-        LoginedPerUser loginedPerUser = null;
+    public PerUserVo perUserLogin(HttpServletRequest request,String account, String password) {
+        PerUserVo perUserVo = null;
         PerUser perUser = null;
         String codedPwd = SecurityUtil.password(password);
         if(FieldValidationUtil.isEmail(account)){
@@ -58,10 +58,10 @@ public class LoginService {
         if(perUser != null){
             perUser.setLatestLoginDate(new Date());//更新登录时间
             perUserDao.update(perUser);
-            loginedPerUser = LoginedPerUser.parse(perUser);
-            httpSessionDao.saveLoginedPerUser(request,loginedPerUser);
+            perUserVo = PerUserVo.parse(perUser);
+            httpSessionDao.saveLoginedPerUser(request, perUserVo);
         }
-        return loginedPerUser;
+        return perUserVo;
     }
 
     /**
@@ -70,13 +70,13 @@ public class LoginService {
      * @param pwd
      * @return
      */
-    public LoginedHospital hospitalLogin(HttpServletRequest request,String email, String pwd){
-        LoginedHospital loginedHospital = null;
+    public HospitalVo hospitalLogin(HttpServletRequest request,String email, String pwd){
+        HospitalVo loginedHospital = null;
         Hospital hospital = hospitalDao.uniqueByEmailAndPwd(email, SecurityUtil.password(pwd));
         if(hospital != null) {
             hospital.setLatestLoginDateTime(new Date()); //更新登录时间
             hospitalDao.update(hospital);
-            loginedHospital = LoginedHospital.parse(hospital);
+            loginedHospital = HospitalVo.parse(hospital);
             httpSessionDao.saveLoginedHospital(request, loginedHospital); //缓存
         }
         return loginedHospital;
@@ -89,13 +89,13 @@ public class LoginService {
      * @param request
      * @return
      */
-    public LoginedDoctor doctorLogin(HttpServletRequest request,String accountName, String pwd){
-        LoginedDoctor loginedDoctor = null;
+    public DoctorVo doctorLogin(HttpServletRequest request,String accountName, String pwd){
+        DoctorVo loginedDoctor = null;
         Doctor doctor = doctorDao.uniqueByAccountAndPwd(accountName, SecurityUtil.password(pwd));
         if(doctor != null){
             doctor.setLatestLoginDate(new Date());//更新登录时间
             doctorDao.update(doctor);
-            loginedDoctor = LoginedDoctor.parse(doctor);
+            loginedDoctor = DoctorVo.parse(doctor);
             httpSessionDao.saveLoginedDocotr(request, loginedDoctor); //缓存
         }
         return loginedDoctor;
@@ -107,7 +107,7 @@ public class LoginService {
      * @return
      */
     @Transactional(propagation = Propagation.SUPPORTS)
-    public LoginedHospital getLoginedHospital(HttpServletRequest request){
+    public HospitalVo getLoginedHospital(HttpServletRequest request){
         return httpSessionDao.getLoginedHospital(request);
     }
 
@@ -117,7 +117,7 @@ public class LoginService {
      * @return
      */
     @Transactional(propagation = Propagation.SUPPORTS)
-    public LoginedPerUser getLoginedPerUser(HttpServletRequest request) {
+    public PerUserVo getLoginedPerUser(HttpServletRequest request) {
         return httpSessionDao.getLoginedPerUser(request);
     }
 
@@ -127,7 +127,7 @@ public class LoginService {
      * @return
      */
     @Transactional(propagation = Propagation.SUPPORTS)
-    public LoginedDoctor getLoginedDoctor(HttpServletRequest request) {
+    public DoctorVo getLoginedDoctor(HttpServletRequest request) {
         return httpSessionDao.getLoginedDoctor(request);
     }
 
@@ -147,7 +147,7 @@ public class LoginService {
      * @return
      */
     @Transactional(propagation = Propagation.SUPPORTS)
-    public LoginedHospital hospitalLogout(HttpServletRequest request) {
+    public HospitalVo hospitalLogout(HttpServletRequest request) {
         return httpSessionDao.deleteHospital(request);
     }
 
@@ -157,7 +157,7 @@ public class LoginService {
      * @return
      */
     @Transactional(propagation = Propagation.SUPPORTS)
-    public LoginedPerUser perUserLogout(HttpServletRequest request){
+    public PerUserVo perUserLogout(HttpServletRequest request){
         return httpSessionDao.deleteLoginedPerUser(request);
     }
 
@@ -167,14 +167,23 @@ public class LoginService {
      * @return
      */
     @Transactional(propagation = Propagation.SUPPORTS)
-    public LoginedDoctor doctorLogout(HttpServletRequest request){
+    public DoctorVo doctorLogout(HttpServletRequest request){
         return httpSessionDao.deleteLoginedDoctor(request);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public Integer getLoginedHospitalId(HttpServletRequest request){
-        String idStr = getLoginedHospital(request).getId();
-        Integer id = StringUtils.isEmpty(idStr) ? null : Integer.valueOf(idStr);
+        HospitalVo hospital = getLoginedHospital(request);
+        String idStr = (hospital == null) ? null : hospital.getId();
+        Integer id = StringUtils.isEmpty(idStr) ? null : Integer.valueOf(hospital.getId());
+        return id;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Integer getLoginedPerUserId(HttpServletRequest request) {
+        PerUserVo perUser = getLoginedPerUser(request);
+        String idStr = (perUser == null) ? null : perUser.getId();
+        Integer id = StringUtils.isEmpty(idStr) ? null : Integer.valueOf(perUser.getId());
         return id;
     }
 }

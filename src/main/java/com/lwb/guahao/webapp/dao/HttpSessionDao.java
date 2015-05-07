@@ -5,9 +5,9 @@ package com.lwb.guahao.webapp.dao;
  * Date: 2015/2/28 21:30
  */
 
-import com.lwb.guahao.webapp.vo.LoginedDoctor;
-import com.lwb.guahao.webapp.vo.LoginedHospital;
-import com.lwb.guahao.webapp.vo.LoginedPerUser;
+import com.lwb.guahao.webapp.vo.DoctorVo;
+import com.lwb.guahao.webapp.vo.HospitalVo;
+import com.lwb.guahao.webapp.vo.PerUserVo;
 import org.springframework.stereotype.Repository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +27,9 @@ public class HttpSessionDao {
      * @param request
      * @return
      */
-    public void saveLoginedPerUser(HttpServletRequest request,LoginedPerUser loginedPerUser) {
+    public void saveLoginedPerUser(HttpServletRequest request,PerUserVo perUserVo) {
         HttpSession session = request.getSession();
-        session.setAttribute(LOGINED_PER_USER_KEY, loginedPerUser);
+        session.setAttribute(LOGINED_PER_USER_KEY, perUserVo);
     }
 
     /**
@@ -37,7 +37,7 @@ public class HttpSessionDao {
      * @param request
      * @param loginedHospital
      */
-    public void saveLoginedHospital(HttpServletRequest request, LoginedHospital loginedHospital) {
+    public void saveLoginedHospital(HttpServletRequest request, HospitalVo loginedHospital) {
         HttpSession session = request.getSession();
         session.setAttribute(LOGINED_HOSPITAL_KEY, loginedHospital);
     }
@@ -47,7 +47,7 @@ public class HttpSessionDao {
      * @param request
      * @param loginedDoctor
      */
-    public void saveLoginedDocotr(HttpServletRequest request, LoginedDoctor loginedDoctor) {
+    public void saveLoginedDocotr(HttpServletRequest request, DoctorVo loginedDoctor) {
         HttpSession session = request.getSession();
         session.setAttribute(LOGINED_DOCTOR_KEY, loginedDoctor);
     }
@@ -57,9 +57,9 @@ public class HttpSessionDao {
      * @param request
      * @return
      */
-    public LoginedHospital getLoginedHospital(HttpServletRequest request) {
+    public HospitalVo getLoginedHospital(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        return (LoginedHospital) session.getAttribute(LOGINED_HOSPITAL_KEY);
+        return (HospitalVo) session.getAttribute(LOGINED_HOSPITAL_KEY);
     }
 
     /**
@@ -67,9 +67,9 @@ public class HttpSessionDao {
      * @param request
      * @return
      */
-    public LoginedPerUser getLoginedPerUser(HttpServletRequest request) {
+    public PerUserVo getLoginedPerUser(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        return (LoginedPerUser) session.getAttribute(LOGINED_PER_USER_KEY);
+        return (PerUserVo) session.getAttribute(LOGINED_PER_USER_KEY);
     }
 
     /**
@@ -77,9 +77,9 @@ public class HttpSessionDao {
      * @param request
      * @return
      */
-    public LoginedDoctor getLoginedDoctor(HttpServletRequest request) {
+    public DoctorVo getLoginedDoctor(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        return (LoginedDoctor) session.getAttribute(LOGINED_DOCTOR_KEY);
+        return (DoctorVo) session.getAttribute(LOGINED_DOCTOR_KEY);
     }
 
     /**
@@ -87,9 +87,9 @@ public class HttpSessionDao {
      * @param request
      * @return
      */
-    public LoginedHospital deleteHospital(HttpServletRequest request) {
+    public HospitalVo deleteHospital(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        LoginedHospital loginedHospital = (LoginedHospital) session.getAttribute(LOGINED_HOSPITAL_KEY);
+        HospitalVo loginedHospital = (HospitalVo) session.getAttribute(LOGINED_HOSPITAL_KEY);
         session.removeAttribute(LOGINED_HOSPITAL_KEY);
         return loginedHospital;
     }
@@ -99,11 +99,11 @@ public class HttpSessionDao {
      * @param request
      * @return
      */
-    public LoginedPerUser deleteLoginedPerUser(HttpServletRequest request) {
+    public PerUserVo deleteLoginedPerUser(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        LoginedPerUser loginedPerUser = (LoginedPerUser)session.getAttribute(LOGINED_PER_USER_KEY);
+        PerUserVo perUserVo = (PerUserVo)session.getAttribute(LOGINED_PER_USER_KEY);
         session.removeAttribute(LOGINED_PER_USER_KEY);
-        return loginedPerUser;
+        return perUserVo;
     }
 
     /**
@@ -111,9 +111,9 @@ public class HttpSessionDao {
      * @param request
      * @return
      */
-    public LoginedDoctor deleteLoginedDoctor(HttpServletRequest request) {
+    public DoctorVo deleteLoginedDoctor(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        LoginedDoctor loginedDoctor = (LoginedDoctor)session.getAttribute(LOGINED_DOCTOR_KEY);
+        DoctorVo loginedDoctor = (DoctorVo)session.getAttribute(LOGINED_DOCTOR_KEY);
         session.removeAttribute(LOGINED_DOCTOR_KEY);
         return loginedDoctor;
     }

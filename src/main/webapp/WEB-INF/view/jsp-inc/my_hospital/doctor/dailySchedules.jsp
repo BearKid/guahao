@@ -5,6 +5,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
+    #doctorSearchForm{
+        margin-top: 20px;
+    }
     .doctorDailySchedule tr:hover{
         background-color: #FFFFCC;
     }
@@ -39,6 +42,8 @@
         display: none;
     }
 </style>
+<div class="section">
+    <a class="title" href="${applicationScope.contextPath}/doctor/${doctor.id}/detail">${doctor.name}</a>
 <form id="doctorSearchForm" class="form-inline"
       action="${applicationScope.contextPath}/myHospital/doctor/${doctorDailyScheduleQo.doctorId}/dailySchedules">
     <div class="form-group">
@@ -192,6 +197,7 @@
 <span id="doctorDailyScheduleCurUrl" style="display: none;">
 ${applicationScope.contextPath}/myHospital/doctor/${doctorDailyScheduleQo.doctorId}/dailySchedules?${queryStringWithoutPn}&pn=${doctorDailySchedulePaging.pn}
 </span>
+    </div>
 <script>
     $("#jsSubmitdoctorSearchForm").click(function () {
         Hospital.loadHtmlByForm("#doctorSearchForm", null);

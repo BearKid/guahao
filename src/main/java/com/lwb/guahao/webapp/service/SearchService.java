@@ -46,7 +46,8 @@ public class SearchService {
         List<DoctorVo> doctorBySearchList = new ArrayList<DoctorVo>(doctorList.size());
         for(Doctor doctor : doctorList){
             Hospital hospital = hospitalDao.get(doctor.getHospitalId());
-            DoctorVo doctorBySearch = DoctorVo.parse(doctor,hospital);
+            DoctorVo doctorBySearch = DoctorVo.parse(doctor);
+            doctorBySearch.setHospital(HospitalVo.parse(hospital));
 
             doctorBySearchList.add(doctorBySearch);
         }

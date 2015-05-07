@@ -3,6 +3,7 @@ package com.lwb.guahao.webapp.dao;
 import com.lwb.guahao.common.Paging;
 import com.lwb.guahao.common.model.DoctorPerTimeSchedule;
 import com.lwb.guahao.common.qo.DoctorDailyScheduleQo;
+import com.lwb.guahao.common.qo.util.QoUtil;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
@@ -34,11 +35,15 @@ public class DoctorPerTimeScheduleDao extends BaseHibernateDao<DoctorPerTimeSche
 
         final String fromHql = fromHqlBuilder.toString();
 
-        List<DoctorPerTimeSchedule> doctorPerTimeScheduleList = pagingQuery(selectHql + fromHql,params,qo.getFirstIndex(),qo.getPageSize());
+        Integer firstIndex = QoUtil.getFirstIndex(qo);
+        Integer pageSize = QoUtil.getPageSize(qo);
+        Integer pn = QoUtil.getPn(qo);
+
+        List<DoctorPerTimeSchedule> doctorPerTimeScheduleList = pagingQuery(selectHql + fromHql,params, firstIndex, pageSize);
 
         Long totalSize = (Long)unique(countHql + fromHql,params);
 
-        Paging<DoctorPerTimeSchedule> paging = new Paging<DoctorPerTimeSchedule>(doctorPerTimeScheduleList,qo.getPn(),qo.getPageSize(),totalSize.intValue());
+        Paging<DoctorPerTimeSchedule> paging = new Paging<DoctorPerTimeSchedule>(doctorPerTimeScheduleList, pn, pageSize,totalSize.intValue());
         return paging;
     }
 }

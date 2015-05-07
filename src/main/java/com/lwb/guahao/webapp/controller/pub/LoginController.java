@@ -4,9 +4,9 @@ import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.util.FieldValidationUtil;
 import com.lwb.guahao.webapp.component.WebPageComponent;
 import com.lwb.guahao.webapp.service.LoginService;
-import com.lwb.guahao.webapp.vo.LoginedDoctor;
-import com.lwb.guahao.webapp.vo.LoginedHospital;
-import com.lwb.guahao.webapp.vo.LoginedPerUser;
+import com.lwb.guahao.webapp.vo.DoctorVo;
+import com.lwb.guahao.webapp.vo.HospitalVo;
+import com.lwb.guahao.webapp.vo.PerUserVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * User: Lu Weibiao
@@ -55,7 +52,7 @@ public class LoginController {
             return;
         }
         //尝试登录
-        LoginedHospital loginedHospital = loginService.hospitalLogin(request, accountName, password);
+        HospitalVo loginedHospital = loginService.hospitalLogin(request, accountName, password);
         if (loginedHospital == null) {
             msg = "账号不存在或密码输入错误";
             model.addAttribute("ret", ApiRet.RET_FAIL);
@@ -83,7 +80,7 @@ public class LoginController {
             return;
         }
         //尝试登录
-        LoginedPerUser loginedUser = loginService.perUserLogin(request, accountName, password);
+        PerUserVo loginedUser = loginService.perUserLogin(request, accountName, password);
         if (loginedUser == null) {
             msg = "账号不存在或密码输入错误";
             model.addAttribute("ret",ApiRet.RET_FAIL);
@@ -109,7 +106,7 @@ public class LoginController {
             return;
         }
         //尝试登录
-        LoginedDoctor loginedDoctor = loginService.doctorLogin(request, accountName, password);
+        DoctorVo loginedDoctor = loginService.doctorLogin(request, accountName, password);
         if (loginedDoctor == null) {
             msg += "账号不存在或密码输入错误";
             model.addAttribute("ret",ApiRet.RET_FAIL);

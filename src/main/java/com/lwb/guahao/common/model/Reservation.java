@@ -18,29 +18,46 @@ public class Reservation implements Serializable{
     private Integer id;
 
     @Column
-    private Integer orderStatus; //订单状态 参见：Constants.OrderStatus
+    private Integer orderStatusCode; //订单状态 参见：Constants.OrderStatus
 
     @Column
     private Date createDateTime; //订单创建日期时间
 
     @Column
-    private Date editDateTime; //订单修改日期时间
+    private Date modifyDateTime; //订单修改日期时间
 
     @Column(nullable = false)
     private Integer doctorId; //医生id
 
     @Column(nullable = false)
+    private String doctorName;//医生姓名
+
+    @Column(nullable = false)
+    private Integer hospitalId; //医院id
+
+    @Column(nullable = false)
+    private String hospitalName; //医院名称
+
+    @Column(nullable = false)
     private Integer doctorPerTimeScheduleId;
+
+    @Column(nullable = false)
+    private Integer perUserId; //个人用户id
+
+    @Column(nullable = false)
+    private String perUserName; //个人用户姓名
+
+    @Column(nullable = false)
+    private String perUserIdCard; //个人用户身份证号
+
+    /********* 关联表 *************/
     @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "doctorPerTimeSchedule",insertable = false, updatable = false)
     private DoctorPerTimeSchedule doctorPerTimeSchedule;
 
-    @Column(nullable = false)
-    private Integer perUserId; //个人用户id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "perUserId",insertable = false, updatable = false)
     private PerUser perUser; //病人
-
 
     public Date getCreateDateTime() {
         return createDateTime;
@@ -56,6 +73,14 @@ public class Reservation implements Serializable{
 
     public void setDoctorId(Integer doctorId) {
         this.doctorId = doctorId;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
     }
 
     public DoctorPerTimeSchedule getDoctorPerTimeSchedule() {
@@ -74,12 +99,20 @@ public class Reservation implements Serializable{
         this.doctorPerTimeScheduleId = doctorPerTimeScheduleId;
     }
 
-    public Date getEditDateTime() {
-        return editDateTime;
+    public Integer getHospitalId() {
+        return hospitalId;
     }
 
-    public void setEditDateTime(Date editDateTime) {
-        this.editDateTime = editDateTime;
+    public void setHospitalId(Integer hospitalId) {
+        this.hospitalId = hospitalId;
+    }
+
+    public String getHospitalName() {
+        return hospitalName;
+    }
+
+    public void setHospitalName(String hospitalName) {
+        this.hospitalName = hospitalName;
     }
 
     public Integer getId() {
@@ -90,12 +123,20 @@ public class Reservation implements Serializable{
         this.id = id;
     }
 
-    public Integer getOrderStatus() {
-        return orderStatus;
+    public Date getModifyDateTime() {
+        return modifyDateTime;
     }
 
-    public void setOrderStatus(Integer orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setModifyDateTime(Date modifyDateTime) {
+        this.modifyDateTime = modifyDateTime;
+    }
+
+    public Integer getOrderStatusCode() {
+        return orderStatusCode;
+    }
+
+    public void setOrderStatusCode(Integer orderStatusCode) {
+        this.orderStatusCode = orderStatusCode;
     }
 
     public PerUser getPerUser() {
@@ -112,5 +153,21 @@ public class Reservation implements Serializable{
 
     public void setPerUserId(Integer perUserId) {
         this.perUserId = perUserId;
+    }
+
+    public String getPerUserIdCard() {
+        return perUserIdCard;
+    }
+
+    public void setPerUserIdCard(String perUserIdCard) {
+        this.perUserIdCard = perUserIdCard;
+    }
+
+    public String getPerUserName() {
+        return perUserName;
+    }
+
+    public void setPerUserName(String perUserName) {
+        this.perUserName = perUserName;
     }
 }

@@ -1,7 +1,6 @@
 package com.lwb.guahao.webapp.vo;
 
 import com.lwb.guahao.common.option.OptionMap;
-import com.lwb.guahao.common.option.util.AreaUtil;
 import com.lwb.guahao.common.util.lang.DateUtils;
 import com.lwb.guahao.common.model.Hospital;
 import org.springframework.beans.BeanUtils;
@@ -17,8 +16,9 @@ import org.springframework.beans.BeanUtils;
 public class HospitalVo {
     private String id;
 
-    private String accountStatusCode; //账户状态 参见：Constants.AccountStatus
-    private String accountStatusName; //账户状态 参见：Constants.AccountStatus
+    private String password; //账户密码-密文
+
+    private String accountStatusCode; //账户状态-编码 参见：Constants.AccountStatus
 
     private String createDateTime; //账户创建日期时间
 
@@ -30,8 +30,7 @@ public class HospitalVo {
 
     private String name; //医院名称
 
-    private String areaCode; //医院地区-地区代码 参见ConstantsMap.areaMap
-    private String areaName; //医院地区
+    private String areaCode; //医院地址-地区代码 参见ConstantsMap.areaMap
 
     private String address; //医院详细地址
 
@@ -39,29 +38,34 @@ public class HospitalVo {
 
     private String brief; //医院简介
 
+    private String avatarPath; //头像物理存储路径
+
+    private String modifyDateTime; //Hospital被修改的日期时间
+
+    /*----------相较于Hospital 新增的字段-----------*/
+    private String accountStatusName; //账户状态-名称 参见：Constants.AccountStatus
+
+    private String areaName; //医院地址-名称 参见ConstantsMap.areaMap
+
     /**
      * 根据Hospital转换出HosptialVo
-     * @param source
+     * @param hospital
      * @return
      */
-    public final static HospitalVo parse(final Hospital source){
-        if(source == null) return null;
-        HospitalVo target = new HospitalVo();
-        BeanUtils.copyProperties(source, target);
+    public static HospitalVo parse(Hospital hospital){
+        HospitalVo hospitalVo = new HospitalVo();
+        BeanUtils.copyProperties(hospital,hospitalVo);
 
-        target.setId(source.getId() == null ? null : source.getId().toString());
-
-        target.setAccountStatusCode(source.getAccountStatusCode() == null ? "未知" : source.getAccountStatusCode().toString());
-        target.setAccountStatusName(OptionMap.accountStatusMap.get(source.getAccountStatusCode()));
-
-        target.setAreaCode(source.getAreaCode() == null ? "未知" : source.getAreaCode().toString());
-        target.setAreaName(AreaUtil.getAreaName(source.getAreaCode()));
-
+        hospitalVo.setId(hospital.getId() == null ? null : hospital.getId().toString());
+        hospitalVo.setAccountStatusCode(hospital.getAccountStatusCode() == null ? null : hospital.getAccountStatusCode().toString());
+        hospitalVo.setAccountStatusName(OptionMap.accountStatusMap.get(hospital.getAccountStatusCode()));
+        hospitalVo.setAreaName(OptionMap.areaMap.get(hospital.getAreaCode()));
+        hospitalVo.setAreaCode(hospital.getAreaCode() == null ? null : hospital.getAreaCode().toString());
         //日期时间
-        target.setLatestLoginDateTime(source.getLatestLoginDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(source.getLatestLoginDateTime()));
-        target.setCreateDateTime(source.getCreateDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(source.getCreateDateTime()));
-
-        return target;
+        hospitalVo.setCreateDateTime(hospital.getCreateDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(hospital.getCreateDateTime()));
+        hospitalVo.setModifyDateTime(hospital.getModifyDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(hospital.getModifyDateTime()));
+        hospitalVo.setLatestLoginDateTime(hospital.getLatestLoginDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(hospital.getLatestLoginDateTime()));
+        return hospitalVo;
     }
 
     public String getAccountStatusCode() {
@@ -102,6 +106,14 @@ public class HospitalVo {
 
     public void setAreaName(String areaName) {
         this.areaName = areaName;
+    }
+
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
     }
 
     public String getBrief() {
@@ -152,12 +164,28 @@ public class HospitalVo {
         this.linkman = linkman;
     }
 
+    public String getModifyDateTime() {
+        return modifyDateTime;
+    }
+
+    public void setModifyDateTime(String modifyDateTime) {
+        this.modifyDateTime = modifyDateTime;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getTelPhone() {

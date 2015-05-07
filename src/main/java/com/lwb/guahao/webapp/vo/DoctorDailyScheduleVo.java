@@ -15,7 +15,7 @@ public class DoctorDailyScheduleVo {
     private String takeEffectiveDate; //生效日期
     private List<DoctorPerTimeScheduleVo> doctorPerTimeScheduleList; //当日各时间段号源分配计划。Json <--> List<DoctorDailyScheduleVo.SourceArrangement>。
     private Integer doctorId;
-    private Doctor doctor;
+    private DoctorVo doctor;
 
     public Integer getId() {
         return id;
@@ -73,11 +73,11 @@ public class DoctorDailyScheduleVo {
         this.doctorPerTimeScheduleList = doctorPerTimeScheduleList;
     }
 
-    public Doctor getDoctor() {
+    public DoctorVo getDoctor() {
         return doctor;
     }
 
-    public void setDoctor(Doctor doctor) {
+    public void setDoctor(DoctorVo doctor) {
         this.doctor = doctor;
     }
 }

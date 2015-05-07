@@ -2,7 +2,7 @@ package com.lwb.guahao.webapp.controller.my_doctor;
 
 import com.lwb.guahao.webapp.service.DoctorService;
 import com.lwb.guahao.webapp.service.LoginService;
-import com.lwb.guahao.webapp.vo.LoginedDoctor;
+import com.lwb.guahao.webapp.vo.DoctorVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,7 @@ public class MyDoctorController {
 
     @RequestMapping(value = "index")
     public String index(HttpServletRequest request, Model model) {
-        LoginedDoctor loginedDoctor = loginService.getLoginedDoctor(request);
+        DoctorVo loginedDoctor = loginService.getLoginedDoctor(request);
         model.addAttribute("doctor", loginedDoctor);
         return "/my_doctor/index";
     }

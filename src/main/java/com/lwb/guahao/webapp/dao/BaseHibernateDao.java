@@ -11,6 +11,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import javax.annotation.Resource;
 import java.lang.reflect.ParameterizedType;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 /**

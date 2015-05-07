@@ -10,10 +10,6 @@ public abstract class BaseQo {
     Integer pn;
     Integer pageSize = Constants.DEFAULT_PAGE_SIZE;
 
-    public Integer getFirstIndex(){
-        return (pn - 1) * pageSize;
-    }
-
     public Integer getPn() {
         return pn;
     }

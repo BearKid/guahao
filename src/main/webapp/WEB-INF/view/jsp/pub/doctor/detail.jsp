@@ -186,8 +186,11 @@
                                     <td width="15%">${doctorPerTimeSchedule.oddSource}</td>
                                     <td width="15%">${doctorPerTimeSchedule.price}</td>
                                     <td>
-                                        <a class="doctorPerTimeScheduleReserve" href="#"
-                                           data-doctor-per-time-schedule-id="${doctorPerTimeSchedule.id}">预约</a>
+                                        <a class="doctorPerTimeScheduleReserve"
+                                           href="#"
+                                           data-doctor-per-time-schedule-id="${doctorPerTimeSchedule.id}">
+                                            预约
+                                        </a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -239,10 +242,15 @@
     //预约某个排班
     $(".doctorPerTimeScheduleReserve").click(function () {
         var $this = $(this);
-        var curDoctorPerTimeScheduleId = $this.data("doctorPerTimeScheduleId");
-        var url = "${applicationScope.contextPath}/myPer/doctorPerTimeSchedule/" + curDoctorPerTimeScheduleId + "/reserve.json";
+        var doctorPerTimeScheduleId = $this.data("doctorPerTimeScheduleId");
+        var url = "${applicationScope.contextPath}/myPer/reservation/create.json?doctorPerTimeScheduleId=" + doctorPerTimeScheduleId;
         getJsonByUrl(url, function (data) {
             $ModalBox.open(data.msg);
+            if(data.ret = API_RET_SUCCESS)
+            setTimeout(function(data){
+                $ModalBox.close();
+            },1000);
+
         });
     });
 </script>

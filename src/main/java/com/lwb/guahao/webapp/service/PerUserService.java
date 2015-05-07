@@ -2,9 +2,11 @@ package com.lwb.guahao.webapp.service;
 
 import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.Constants;
+import com.lwb.guahao.common.model.Reservation;
 import com.lwb.guahao.common.util.SecurityUtil;
 import com.lwb.guahao.common.model.PerUser;
 import com.lwb.guahao.webapp.dao.PerUserDao;
+import com.lwb.guahao.webapp.dao.ReservationDao;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class PerUserService {
      * @param user
      * @return
      */
-    public ApiRet<PerUser> register(PerUser user){
+    public ApiRet<PerUser> register(final PerUser user){
         ApiRet<PerUser> apiRet = new ApiRet<PerUser>();
         if(!isRegistered(user)){
             PerUser newUser = new PerUser();
@@ -56,7 +58,7 @@ public class PerUserService {
      * @return
      */
     @Transactional(readOnly = true)
-    public boolean isRegistered(PerUser user){
+    public boolean isRegistered(final PerUser user){
         boolean isRegistered;
         if(perUserDao.existsByEmail(user.getEmail()) || perUserDao.existsByIdCard(user.getIdCard())){
             //erUserDao.existsByMobilePhone(user.getMobilePhone())
@@ -67,4 +69,36 @@ public class PerUserService {
         }
         return isRegistered;
     }
+
+    /**
+     * 验证指定用户是否在禁止预约挂号
+     * - 验证指定用户的账号状态处于正常状态
+     * - 指定用户没有在预约黑名单中
+     * @param perUserId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public ApiRet<Boolean> isForbiddenToReserve(final Integer perUserId) {
+        ApiRet<Boolean> apiRet = new ApiRet<Boolean>();
+
+        PerUser perUser = perUserDao.get(perUserId);
+        if(perUser == null){
+            apiRet.setRet(ApiRet.RET_FAIL);
+            apiRet.setMsg("用户不存在");
+            return apiRet;
+        }
+        //验证指定用户的账号状态处于正常状态
+        if(!perUser.getAccountStatusCode().equals(Constants.AccountStatus.NORMAL)){
+            apiRet.setRet(ApiRet.RET_SUCCESS);
+            apiRet.setData(Boolean.TRUE);
+            return apiRet;
+        }
+        //指定用户没有在预约黑名单中
+        //TODO
+
+        apiRet.setRet(ApiRet.RET_SUCCESS);
+        apiRet.setData(Boolean.FALSE);
+        return apiRet;
+    }
+
 }
