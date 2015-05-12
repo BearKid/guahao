@@ -64,15 +64,15 @@ public class OptionMap {
          * 第五、六位表示县（市辖区、县级市、旗）。01-18表示市辖区或地区（自治州、盟）辖县级市；21-80表示县（旗）；81-99表示省直辖县级市。
          */
         //TODO : 补上剩余的地区
-        areaMap.put(110000,"北京市");
-        areaMap.put(120000,"天津市");
+        areaMap.put(110000,"北京");
+        areaMap.put(120000,"天津");
         areaMap.put(130000,"河北省");
         areaMap.put(130000,"山西省");
         areaMap.put(140000,"内蒙古自治区");
         areaMap.put(210000,"辽宁省");
         areaMap.put(220000,"吉林省");
         areaMap.put(230000,"黑龙江省");
-        areaMap.put(310000,"上海市");
+        areaMap.put(310000,"上海");
         areaMap.put(320000,"江苏省");
         areaMap.put(330000,"浙江省");
         areaMap.put(340000,"安徽省");
@@ -118,6 +118,9 @@ public class OptionMap {
         areaMap.put(630000,"青海省");
         areaMap.put(640000,"宁夏回族自治区");
         areaMap.put(650000,"新疆维吾尔自治区");
+
+        areaMap.put(110100,"北京市");//北京直辖市
+        areaMap.put(310100,"上海市");//上海直辖市
 //        areaMap.put(710000,"台湾省");
 //        areaMap.put(810000,"香港特别行政区");
 //        areaMap.put(820000,"澳门特别行政区");

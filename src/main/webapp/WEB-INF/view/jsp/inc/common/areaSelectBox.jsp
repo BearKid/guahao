@@ -15,7 +15,7 @@
         <button id="jsCancelAreasPanel" type="button" class="close"><span>&times;</span></button>
         <button id="jsOkAreasPanel" type="button" class="close glyphicon glyphicon-ok"></button>
     </div>
-    <h3>选择城市:<span id="selectedProvince"></span><span id="selectedCity"></span></h3>
+    <h4><span>选择城市:&nbsp;</span><span id="selectedProvince"></span><span id="selectedCity"></span></h4>
     <ul class="nav nav-tabs" style="margin-bottom: 1em;">
         <li id="provinceNavTag" role="presentation" class="active"><a href="#">省份</a></li>
         <li id="cityNavTag" role="presentation" style="display: none;"><a href="#">市</a></li>

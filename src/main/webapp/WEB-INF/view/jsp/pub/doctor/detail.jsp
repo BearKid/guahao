@@ -90,8 +90,8 @@
 </jsp:include>
 <div class="container">
     <!-- 医生基本信息 -->
-    <div class="doctor">
-        <div class="avatar"><img src="${applicationScope.contextPath}${doctor.avatarPath}"/></div>
+    <div class="clearfix doctor">
+        <div class="pull-left avatar"><img src="http://www.easyicon.net/api/resize_png_new.php?id=1096629&size=128"/></div>
         <div>
             <div class="row1">
                 <a class="name" href="${applicationScope.contextPath}/doctor/${doctor.id}/detail">${doctor.name}</a>&nbsp;&nbsp;${doctor.deptClassName}&nbsp;&nbsp;
@@ -246,11 +246,11 @@
         var url = "${applicationScope.contextPath}/myPer/reservation/create.json?doctorPerTimeScheduleId=" + doctorPerTimeScheduleId;
         getJsonByUrl(url, function (data) {
             $ModalBox.open(data.msg);
-            if(data.ret = API_RET_SUCCESS)
-            setTimeout(function(data){
-                $ModalBox.close();
-            },1000);
-
+            if (data.ret === API_RET_SUCCESS) {
+                setTimeout(function (data){
+                    $ModalBox.close();
+                }, 1000);
+            }
         });
     });
 </script>

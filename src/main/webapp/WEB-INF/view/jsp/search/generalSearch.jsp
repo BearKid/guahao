@@ -8,6 +8,7 @@
 <html>
 <head>
     <jsp:include page="${applicationScope.jspIncPath}/headTagBody.jsp"/>
+    <link rel="stylesheet" href="${applicationScope.contextPath}/css/pub.css">
     <style>
         #main{
             max-width: 1000px;
@@ -48,38 +49,9 @@
             margin-bottom: 20px;
             margin-top: 20px;
         }
-        .doctor .row1, .doctor .row2{
-            margin-bottom: 10px;
-        }
-        .doctor .avatar {
-        }
-        .doctor .name,.hospital .name{
-            color: #333;
-            font-weight: bold;
-            text-decoration: underline;
-        }
-        .doctor .hospitalName{
-            background-color: #FFCC00;
-            color: #ffffff;
-            padding: 2px 5px;
-        }
-        .doctor .goodAtTag {
-            background-color: #FF9966;
-            border-radius: 5px;
-            color: #fff;
-            padding: 2px 5px;
-            margin-right: 5px;
-        }
 
         #hospitalBySearchPaging .hospital{ }
 
-        .hospital .row1{
-            margin-bottom: 10px;
-        }
-
-        .hospital .brief{
-
-        }
     </style>
 </head>
 <body>
@@ -92,24 +64,33 @@
     <a class="tab" href="#">综合搜索</a>
 </div>
 <div id="searchFilterPanel">
-    <div class="filterType">
+    <div class="form-inline filterType">
         <span class="title">&nbsp;&nbsp;&nbsp;地区：</span>
+        <div class="form-group">
         <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutAreaCode}">所有</a>
+        <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutAreaCode}&areaCode=440300">深圳</a>
         <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutAreaCode}&areaCode=441900">东莞</a>
+        <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutAreaCode}&areaCode=440100">广州</a>
+        <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutAreaCode}&areaCode=110100">北京</a>
+        <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutAreaCode}&areaCode=310100">上海</a>
         <a class="option"  id="jsAreas" href="#">更多</a>
-
+        </div>
         <form id="searchFormWithAreaCode" style="display: none;"
               action="#">
             <input type="text" id="inputAreaCode" name="areaCode" value=""/>
             <input type="text" id="inputAreaName" value=""/>
         </form>
     </div>
-    <div class="filterType">
+    <div class="form-inline filterType">
         <span class="title">&nbsp;&nbsp;&nbsp;科室：</span>
+        <div class="form-group">
         <a class="option" href="${applicationScope.contextPath}/search?${queryStringWithOutDeptClassCode}">所有</a>
-        <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutDeptClassCode}&deptClassCode=xxx">xxx</a>
+        <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutDeptClassCode}&deptClassCode=1002">呼吸内科</a>
+        <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutDeptClassCode}&deptClassCode=1003">消化内科</a>
+        <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutDeptClassCode}&deptClassCode=1101">普外科</a>
+        <a class="option"  href="${applicationScope.contextPath}/search?${queryStringWithOutDeptClassCode}&deptClassCode=1103">心血管外科</a>
         <a class="option"  id="jsDeptClasses" href="#">更多</a>
-
+        </div>
         <form id="searchFormWithDepClassCode" style="display: none;"
               action="#">
             <input type="text" id="inputDeptClassCode" name="deptClassCode" value=""/>
@@ -134,8 +115,8 @@
         <div style=" font-size: 18px; margin: 10px; ">木有更多酱紫的医生 . . .</div>
     </c:if>
 <c:forEach items="${doctorBySearchPaging.items}" var="doctor">
-    <div class="doctor">
-        <div class="avatar"><img src="${applicationScope.contextPath}${doctor.avatarPath}"/></div>
+    <div class="clearfix doctor">
+        <div class="pull-left avatar"><img src="http://www.easyicon.net/api/resize_png_new.php?id=1096629&size=128"/></div>
         <div>
             <div class="row1">
                     <a class="name" href="${applicationScope.contextPath}/doctor/${doctor.id}/detail" target="_blank">${doctor.name}</a>&nbsp;&nbsp;${doctor.deptClassName}&nbsp;&nbsp;
@@ -159,12 +140,12 @@
         <div style=" font-size: 18px; margin: 10px; ">木有更多酱紫的医院 . . .</div>
     </c:if>
     <c:forEach items="${hospitalBySearchPaging.items}" var="hospital">
-        <div class="hospital">
-            <%--<div class="doctorAvatar"><img src="${applicationScope.contextPath}${hospital.avatarPath}"/></div>--%>
+        <div class="clearfix hospital">
+            <div class="pull-left avatar"><img src="http://www.easyicon.net/api/resize_png_new.php?id=500229&size=100"/></div>
             <div>
                 <div class="row1">
-                    <a class="name" href="${applicationScope.contextPath}/hospital/${hospital.id}/detail">${hospital.name}</a>
-                    &nbsp;&nbsp;${hospital.areaName}&nbsp;&nbsp;地址：${hospital.address}
+                    <a class="name" href="${applicationScope.contextPath}/hospital/${hospital.id}/detail">${hospital.name}&nbsp;&nbsp;</a>
+                    <span>${hospital.areaName}&nbsp;&nbsp;</span><span>地址：${hospital.address}</span>
                 </div>
                 <div class="brief row2"><b>简介：</b>${hospital.brief}</div>
             </div>
@@ -196,7 +177,7 @@
         url = url + "&deptClassCode=" + deptClassCode;
         window.location = url;
     });
-
+    //关键词输入栏-发起请求
     $("#searchSubmit").click(function(){
        var url = "${applicationScope.contextPath}/search?${queryStringWithOutKeyWord}";
         var keyWord = $("#searchInputKeyWord").val();

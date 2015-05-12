@@ -93,7 +93,7 @@ public class LoginService {
         DoctorVo loginedDoctor = null;
         Doctor doctor = doctorDao.uniqueByAccountAndPwd(accountName, SecurityUtil.password(pwd));
         if(doctor != null){
-            doctor.setLatestLoginDate(new Date());//更新登录时间
+            doctor.setLatestLoginDateTime(new Date());//更新登录时间
             doctorDao.update(doctor);
             loginedDoctor = DoctorVo.parse(doctor);
             httpSessionDao.saveLoginedDocotr(request, loginedDoctor); //缓存
@@ -185,5 +185,23 @@ public class LoginService {
         String idStr = (perUser == null) ? null : perUser.getId();
         Integer id = StringUtils.isEmpty(idStr) ? null : Integer.valueOf(perUser.getId());
         return id;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Integer getLoginedDoctorId(HttpServletRequest request) {
+        DoctorVo doctor = getLoginedDoctor(request);
+        String idStr = (doctor == null) ? null : doctor.getId();
+        Integer id = StringUtils.isEmpty(idStr) ? null : Integer.valueOf(doctor.getId());
+        return id;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public boolean isPerUserLogined(HttpServletRequest request) {
+       return httpSessionDao.getLoginedPerUser(request) != null;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public boolean isDoctorLogined(HttpServletRequest request) {
+        return httpSessionDao.getLoginedDoctor(request) != null;
     }
 }

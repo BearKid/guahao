@@ -2,9 +2,12 @@ package com.lwb.guahao.webapp.service;
 
 import com.lwb.guahao.common.ApiRet;
 import com.lwb.guahao.common.Constants;
+import com.lwb.guahao.common.model.PerUserBan;
 import com.lwb.guahao.common.model.Reservation;
+import com.lwb.guahao.common.qo.util.PerUserBanQo;
 import com.lwb.guahao.common.util.SecurityUtil;
 import com.lwb.guahao.common.model.PerUser;
+import com.lwb.guahao.webapp.dao.PerUserBanDao;
 import com.lwb.guahao.webapp.dao.PerUserDao;
 import com.lwb.guahao.webapp.dao.ReservationDao;
 import org.apache.log4j.Logger;
@@ -24,6 +27,8 @@ public class PerUserService {
     private final static Logger logger = Logger.getLogger(PerUserService.class);
     @Resource
     private PerUserDao perUserDao;
+    @Resource
+    private PerUserBanDao perUserBanDao;
 
     /**
      * 个人账号注册
@@ -94,7 +99,16 @@ public class PerUserService {
             return apiRet;
         }
         //指定用户没有在预约黑名单中
-        //TODO
+        PerUserBanQo perUserBanQo = new PerUserBanQo();
+        perUserBanQo.setPerUserId(perUserId);
+        Date now = new Date();
+        perUserBanQo.setExpireDateTimeStart(now);
+        if(perUserBanDao.existsBy(perUserBanQo)){
+            apiRet.setRet(ApiRet.RET_SUCCESS);
+            apiRet.setData(Boolean.TRUE);
+            apiRet.setMsg("用户目前被禁止进行预约操作");
+            return apiRet;
+        }
 
         apiRet.setRet(ApiRet.RET_SUCCESS);
         apiRet.setData(Boolean.FALSE);

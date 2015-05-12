@@ -29,6 +29,10 @@
     <dt>医院简介</dt>
     <dd>${hospital.brief}</dd>
 </dl>
+<dl class="dl-horizontal">
+    <dt>银行卡号</dt>
+    <dd>${hospital.bankCard}</dd>
+</dl>
 
 <h1 class="page-header">账号信息</h1>
 <dl class="dl-horizontal">

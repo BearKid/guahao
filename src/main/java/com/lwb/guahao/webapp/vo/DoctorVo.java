@@ -68,7 +68,7 @@ public class DoctorVo {
         //日期时间
         doctorVo.setCreateDateTime(doctor.getCreateDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(doctor.getCreateDateTime()));
         doctorVo.setModifyDateTime(doctor.getModifyDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(doctor.getModifyDateTime()));
-        doctorVo.setLatestLoginDateTime(doctor.getLatestLoginDate() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(doctor.getLatestLoginDate()));
+        doctorVo.setLatestLoginDateTime(doctor.getLatestLoginDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(doctor.getLatestLoginDateTime()));
         return doctorVo;
     }
 

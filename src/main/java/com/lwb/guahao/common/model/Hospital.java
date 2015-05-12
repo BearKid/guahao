@@ -25,7 +25,7 @@ public class Hospital implements Serializable{
     @Column(nullable = true)
     private Date latestLoginDateTime; //最近一次登录的日期时间
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email; //联系邮箱
 
     @Column(nullable = false, length = 13)
@@ -49,8 +49,19 @@ public class Hospital implements Serializable{
     @Column(length = 1000)
     private String avatarPath; //头像物理存储路径
 
+    @Column(nullable = false, length = 16)
+    private String bankCard; //进行收支的银行卡卡号
+
     @Column(nullable = true)
     private Date modifyDateTime; //Hospital被修改的日期时间
+
+    public String getBankCard() {
+        return bankCard;
+    }
+
+    public void setBankCard(String bankCard) {
+        this.bankCard = bankCard;
+    }
 
     public Integer getAccountStatusCode() {
         return accountStatusCode;

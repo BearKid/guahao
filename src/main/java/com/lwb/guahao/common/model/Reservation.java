@@ -17,10 +17,10 @@ public class Reservation implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Column(nullable = false)
     private Integer orderStatusCode; //订单状态 参见：Constants.OrderStatus
 
-    @Column
+    @Column(nullable = false)
     private Date createDateTime; //订单创建日期时间
 
     @Column
@@ -29,13 +29,13 @@ public class Reservation implements Serializable{
     @Column(nullable = false)
     private Integer doctorId; //医生id
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 10)
     private String doctorName;//医生姓名
 
     @Column(nullable = false)
     private Integer hospitalId; //医院id
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String hospitalName; //医院名称
 
     @Column(nullable = false)
@@ -44,15 +44,15 @@ public class Reservation implements Serializable{
     @Column(nullable = false)
     private Integer perUserId; //个人用户id
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String perUserName; //个人用户姓名
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 18)
     private String perUserIdCard; //个人用户身份证号
 
     /********* 关联表 *************/
     @ManyToOne(fetch =  FetchType.LAZY)
-    @JoinColumn(name = "doctorPerTimeSchedule",insertable = false, updatable = false)
+    @JoinColumn(name = "doctorPerTimeScheduleId",insertable = false, updatable = false)
     private DoctorPerTimeSchedule doctorPerTimeSchedule;
 
     @ManyToOne(fetch = FetchType.LAZY)

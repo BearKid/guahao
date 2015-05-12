@@ -22,7 +22,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <c:if test="${not empty accountInfo}">
-                <li><a href="${applicationScope.contextPath}${accountInfo.accountContextPath}/setting">帐号设置</a></li>
+                <li><a href="${applicationScope.contextPath}${accountInfo.accountContextPath}/index">帐号设置</a></li>
                 </c:if>
                 <li><a href="${applicationScope.contextPath}/help">帮助</a></li>
                 <c:if test="${not empty accountInfo}">

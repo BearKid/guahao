@@ -82,7 +82,7 @@
     $("#submitCreateDoctorForm").click(function () {
         Hospital.getJsonByForm("#createDoctorForm", function (data) {
             $ModalBox.open(data.msg);
-            if (data.ret == API_RET_SUCCESS) {
+            if (data.ret === API_RET_SUCCESS) {
                 setTimeout(function () {
                     $ModalBox.close();
                     var navMap = new Map();

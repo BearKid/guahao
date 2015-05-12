@@ -91,18 +91,18 @@ public class CommonIncController {
             }
         }
         model.addAttribute("accountInfo", accountInfo);
-        return "/../jsp-inc/header";
+        return "/inc/header";
     }
 
     @RequestMapping(value = "/inc/common/deptClassSelectBox")
     public String deptClassSelectBox(HttpServletRequest request, Model model) {
         model.addAttribute("deptClassList", DeptClassUtil.deptClassList);
-        return "/../jsp-inc/common/deptClassSelectBox";
+        return "/inc/common/deptClassSelectBox";
     }
 
     @RequestMapping(value = "/inc/common/areaSelectBox")
     public String areaSelectBox(HttpServletRequest request, Model model) {
         model.addAttribute("areaList", AreaUtil.areaList);
-        return "/../jsp-inc/common/areaSelectBox";
+        return "/inc/common/areaSelectBox";
     }
 }

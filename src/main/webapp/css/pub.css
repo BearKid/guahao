@@ -1,0 +1,38 @@
+@charset "utf-8";
+.doctor .row1, .doctor .row2{
+    margin-bottom: 10px;
+}
+.doctor .avatar, .hospital .avatar {
+    margin-right: 5px;
+    text-align: center;
+}
+.doctor .avatar img, .hospital .avatar img {
+    max-width: 128px;
+    max-height: 128px;
+}
+.doctor .name,.hospital .name{
+    color: #333;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.doctor .hospitalName{
+    background-color: #FFCC00;
+    color: #ffffff;
+    padding: 2px 5px;
+}
+.doctor .goodAtTag {
+    background-color: #FF9966;
+    border-radius: 5px;
+    color: #fff;
+    padding: 2px 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.hospital .row1{
+    margin-bottom: 10px;
+}
+
+.hospital .brief{
+
+}

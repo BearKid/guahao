@@ -49,8 +49,12 @@
             </div>
             <div class="form-group">
                 <label for="inputIdCard">身份证号码</label>
-                <input name="idCard" type="mobile" id="inputIdCard" class="form-control" placeholder="必填" required=""/>
+                <input name="idCard" type="text" id="inputIdCard" class="form-control" placeholder="必填" required=""/>
             </div>
+                <div class="form-group">
+                    <label for="inputBankCard">银行卡卡号</label>
+                    <input name="bankCard" type="text" id="inputBankCard" class="form-control" placeholder="">
+                </div>
             <input id="perRegisterFormSubmit" class="btn btn-lg btn-primary btn-block" type="button" value="提交"/>
         </form>
     </div>

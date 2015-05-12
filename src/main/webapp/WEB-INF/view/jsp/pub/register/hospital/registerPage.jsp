@@ -113,6 +113,10 @@
                 <label for="inputBrief">医院简介</label>
                 <textarea name="brief" id="inputBrief" class="form-control" placeholder="必填" required=""></textarea>
             </div>
+            <div class="form-group">
+                <label for="inputBankCard">银行卡卡号</label>
+                <input name="bankCard" type="tel" id="inputBankCard" class="form-control" placeholder=""/>
+            </div>
             <input class="btn btn-lg btn-primary btn-block" type="submit" value="提交"/>
         </form>
     </div>

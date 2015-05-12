@@ -39,22 +39,33 @@ public class PerUser implements Serializable {
     @Column(length = 255)
     private String email;  //联系邮箱
 
-    @Column
+    @Column(nullable = false)
     private Boolean isEmailBound; //标识邮箱是否已绑定
 
     @Column(length = 11)
     private String mobilePhone;  //联系手机
 
-    @Column
+    @Column(nullable = false)
     private Boolean isMobileBound; //标识手机是否已绑定
 
     @Column(length = 1000)
     private String avatarPath; //头像物理存储路径
 
+    @Column(length = 16)
+    private String bankCard; //进行收支的银行卡卡号
 
     //根据身份证号码可以得出
     //private Integer age; //年龄
     //private String sex; //性别
+
+
+    public String getBankCard() {
+        return bankCard;
+    }
+
+    public void setBankCard(String bankCard) {
+        this.bankCard = bankCard;
+    }
 
     public Integer getId() {
         return id;

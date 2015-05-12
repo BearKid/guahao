@@ -67,7 +67,11 @@ function loadHtmlByForm(targetId,formId){
     $(formId).ajaxSubmit({
         dataType:"html",
         success:function(data){
-            $(targetId).html(data);
+            if(data.ret && data.ret == API_RET_FAIL && data.msg){
+                $ModalBox.open(data.msg);
+            } else{
+                $(targetId).html(data);
+            }
             $loadingGif.hide();
             console.log("loading end");
         },

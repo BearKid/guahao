@@ -5,6 +5,7 @@ import com.lwb.guahao.common.Constants;
 import com.lwb.guahao.common.Paging;
 import com.lwb.guahao.common.model.*;
 import com.lwb.guahao.common.qo.ReservationQo;
+import com.lwb.guahao.common.qo.util.PerUserBanQo;
 import com.lwb.guahao.common.util.lang.DateUtils;
 import com.lwb.guahao.webapp.dao.*;
 import com.lwb.guahao.webapp.vo.DoctorPerTimeScheduleVo;
@@ -39,6 +40,8 @@ public class ReservationService {
     @Resource
     private DoctorPerTimeScheduleDao doctorPerTimeScheduleDao;
     @Resource
+    private PerUserBanDao perUserBanDao;
+    @Resource
     private DoctorPerTimeScheduleService doctorPerTimeScheduleService;
     @Resource
     private PerUserService perUserService;
@@ -69,15 +72,14 @@ public class ReservationService {
         reservationQo.setOrderStatusCodeIn(new Integer[]{Constants.OrderStatus.UN_PAYED,Constants.OrderStatus.PAYED, Constants.OrderStatus.PRESENT, Constants.OrderStatus.ABSENCE});
         reservationQo.setPn(1);
         reservationQo.setPageSize(1);
-        apiRet = existsReservation(reservationQo);
-        if (apiRet.getRet() == ApiRet.RET_FAIL || apiRet.getData().equals(Boolean.TRUE)) {
+        if (reservationDao.existsBy(reservationQo)) {
             apiRet.setRet(ApiRet.RET_FAIL);
             apiRet.setMsg("已预约，不能重复预约");
             return apiRet;
         }
         //预约限制黑名单用户检查
         apiRet = perUserService.isForbiddenToReserve(perUserId);
-        if (apiRet.getRet() == ApiRet.RET_FAIL || apiRet.getData().equals(Boolean.FALSE)) {
+        if (apiRet.getRet() == ApiRet.RET_FAIL || apiRet.getData().equals(Boolean.TRUE)) {
             apiRet.setRet(ApiRet.RET_FAIL);
             return apiRet;
         }
@@ -104,7 +106,7 @@ public class ReservationService {
         reservationDao.save(reservation);
 
         apiRet.setRet(ApiRet.RET_SUCCESS);
-        apiRet.setMsg("预约成功");
+        apiRet.setMsg("已创建预约订单，请尽快支付挂号费");
         apiRet.setData(reservation);
 
         return apiRet;
@@ -117,8 +119,7 @@ public class ReservationService {
      */
     private ApiRet<Boolean> existsReservation(final ReservationQo reservationQo) {
         ApiRet apiRet = new ApiRet();
-        Paging<Reservation> reservationPaging = reservationDao.getReservationPagingBy(reservationQo);
-        if ((reservationPaging == null) || (reservationPaging.getTotalSize() < 1)) {
+        if (reservationDao.countBy(reservationQo) < 1) {
             apiRet.setRet(ApiRet.RET_SUCCESS);
             apiRet.setData(Boolean.FALSE);
             apiRet.setMsg("挂号预约订单不存在");
@@ -169,27 +170,69 @@ public class ReservationService {
             apiRet.setRet(ApiRet.RET_FAIL);
             return apiRet;
         }
-        //更新预约订单状态
-        reservation.setOrderStatusCode(Constants.OrderStatus.CANCEL);
-        reservationDao.update(reservation);
-        //已支付情况下取消订单需将对应排班剩余号源加1
+        //已支付情况下取消订单需将对应排班剩余号源加1并且将订单标记为待退款
         if(orderStatusCode.equals(Constants.OrderStatus.PAYED)){
             DoctorPerTimeSchedule doctorPerTimeSchedule = doctorPerTimeScheduleDao.get(reservation.getDoctorPerTimeScheduleId());
             doctorPerTimeSchedule.setOddSource(doctorPerTimeSchedule.getOddSource() + 1);
+            doctorPerTimeScheduleDao.update(doctorPerTimeSchedule);
+            reservation.setOrderStatusCode(Constants.OrderStatus.CANCEL_REFUNDING);
+        } else {
+            reservation.setOrderStatusCode(Constants.OrderStatus.CANCEL);
         }
-        //TODO 退款
+        //更新预约订单状态
+        reservationDao.update(reservation);
 
+        //校验取消预约的频度是否达到上限
+        apiRet = reachToMaxCancelFrequency(perUserId);
+        if(apiRet.getData().equals(Boolean.TRUE)){
+            PerUserBan perUserBan = new PerUserBan();
+            perUserBan.setPerUserId(perUserId);
+            perUserBan.setReasonCode(Constants.PerUserBanReason.TOO_MUCH_CANCEL);
+            DateTime now = DateTime.now();
+            DateTime aMonthLater = now.plusMonths(1);
+            perUserBan.setExpireDateTime(aMonthLater.toDate());
+            perUserBan.setCreateDateTime(now.toDate());
+            perUserBanDao.save(perUserBan);
+
+            apiRet.setRet(ApiRet.RET_SUCCESS);
+            apiRet.setMsg("取消挂号预约订单成功,但取消预约频度已达到上限，未来一个月内将无法预约");
+            return apiRet;
+        } else {
+            apiRet.setRet(ApiRet.RET_SUCCESS);
+            apiRet.setMsg("取消挂号预约订单成功");
+            return apiRet;
+        }
+    }
+
+    /**
+     * 判断指定用户是否取消预约的频度达到了上限
+     * @param perUserId
+     * @return
+     */
+    private ApiRet<Boolean> reachToMaxCancelFrequency(Integer perUserId) {
+        ApiRet<Boolean> apiRet = new ApiRet<Boolean>();
+        //构造查询条件
+        ReservationQo reservationQo = new ReservationQo();
+        reservationQo.setPerUserId(perUserId);
+        reservationQo.setOrderStatusCodeIn(new Integer[]{Constants.OrderStatus.CANCEL_REFUNDING, Constants.OrderStatus.CANCEL});
+        DateTime now = DateTime.now();
+        DateTime curMonthStartDay = now.withTimeAtStartOfDay().withDayOfMonth(1);
+        reservationQo.setModifyDateTimeStart(curMonthStartDay.toDate());
+        reservationQo.setModifyDateTimeEnd(now.toDate());
+
+        int totalSize = reservationDao.countBy(reservationQo);
         apiRet.setRet(ApiRet.RET_SUCCESS);
-        apiRet.setMsg("取消挂号预约订单成功");
+        apiRet.setData(totalSize >= 2);
         return apiRet;
     }
 
     /**
      * 支付挂号预约订单
      * - 验证预约订单存在
-     * - 验证指定预约订单属于指定用户
      * - 验证指定预约订单处于待支付状态
      * - 验证对应排班是否处于可被预约状态
+     * - 验证指定预约订单属于指定用户
+     * - 验证用户是否被禁
      * @param perUserId
      * @param reservationId
      * @return
@@ -204,12 +247,7 @@ public class ReservationService {
             apiRet.setMsg("订单不存在");
             return apiRet;
         }
-        //验证指定预约订单属于指定用户
-        apiRet = isBelongToPerUser(perUserId, reservationId);
-        if (apiRet.getRet() == ApiRet.RET_FAIL || apiRet.getData().equals(Boolean.FALSE)) {
-            apiRet.setRet(ApiRet.RET_FAIL);
-            return apiRet;
-        }
+
         //验证指定预约订单处于待支付状态
         if(!reservation.getOrderStatusCode().equals(Constants.OrderStatus.UN_PAYED)){
             apiRet.setRet(ApiRet.RET_FAIL);
@@ -217,6 +255,20 @@ public class ReservationService {
         }
         //验证对应排班是否处于可被预约状态
         apiRet = doctorPerTimeScheduleService.isReservable(reservation.getDoctorPerTimeScheduleId());
+        if (apiRet.getRet() == ApiRet.RET_FAIL || apiRet.getData().equals(Boolean.FALSE)) {
+            apiRet.setRet(ApiRet.RET_FAIL);
+            return apiRet;
+        }
+
+        //验证指定预约订单属于指定用户
+        apiRet = isBelongToPerUser(perUserId, reservationId);
+        if (apiRet.getRet() == ApiRet.RET_FAIL || apiRet.getData().equals(Boolean.FALSE)) {
+            apiRet.setRet(ApiRet.RET_FAIL);
+            return apiRet;
+        }
+
+        //预约限制黑名单用户检查
+        apiRet = perUserService.isForbiddenToReserve(perUserId);
         if (apiRet.getRet() == ApiRet.RET_FAIL || apiRet.getData().equals(Boolean.FALSE)) {
             apiRet.setRet(ApiRet.RET_FAIL);
             return apiRet;

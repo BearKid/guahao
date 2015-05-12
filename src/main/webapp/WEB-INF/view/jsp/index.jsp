@@ -49,7 +49,6 @@
         }
         .hotSearch .item{
             margin-right: 10px;
-            width:200px;
             text-align: left;
             color: #333;
         }

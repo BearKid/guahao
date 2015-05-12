@@ -149,7 +149,6 @@
                                 <tr class="doctorPerTimeScheduleInput"
                                     id="doctorPerTimeScheduleInput-${doctorPerTimeSchedule.id}"
                                     data-id="${doctorPerTimeSchedule.id}">
-                                        <%--<form action="${applicationScope.contextPath}/myHospital/doctor/${doctorPerTimeSchedule.doctorId}/dailySchedule/${doctorPerTimeSchedule.id}/saveOrUpdate" method="post">--%>
                                     <input name="doctorPerTimeScheduleId" type="hidden"
                                            value="${doctorPerTimeSchedule.id}"/>
                                     <td width="40%">
@@ -304,7 +303,7 @@ ${applicationScope.contextPath}/myHospital/doctor/${doctorDailyScheduleQo.doctor
         var doctorDailyScheduleId = $this.data("doctorDailyScheduleId");
         Hospital.getJsonByForm("#doctorDailyScheduleSaveForm-" + doctorDailyScheduleId, function (data) {
             $ModalBox.open(data.msg);
-            if (data.ret == API_RET_SUCCESS) {
+            if (data.ret === API_RET_SUCCESS) {
                 setTimeout(function () {
                     $ModalBox.close();
                     var url = $("#doctorDailyScheduleCurUrl").text();

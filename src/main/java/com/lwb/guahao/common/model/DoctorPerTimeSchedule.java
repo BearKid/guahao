@@ -23,7 +23,7 @@ public class DoctorPerTimeSchedule implements Serializable {
     @Column(nullable = false)
     private Date endDateTime; //结束时间
 
-    @Column
+    @Column(nullable = false)
     private Double price; //挂号费
 
     @Column(nullable = false)

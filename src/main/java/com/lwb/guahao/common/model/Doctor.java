@@ -43,7 +43,7 @@ public class Doctor implements Serializable{
     @Column(length = 50)
     private String title; //医生头衔/级别：医师、主治医生、教授等等。
 
-    @Column
+    @Column(nullable = false)
     private Double price; //默认挂号费
 
     @Column(length = 30)
@@ -59,7 +59,7 @@ public class Doctor implements Serializable{
     private Integer deptClassCode; //科室类目编号 参见：OptionMap.deptClassMap
 
     @Column
-    private Date latestLoginDate; //最近一次登录的日期时间
+    private Date latestLoginDateTime; //最近一次登录的日期时间
 
     @Column
     private Date modifyDateTime; //被修改的日期时间
@@ -162,12 +162,12 @@ public class Doctor implements Serializable{
         this.id = id;
     }
 
-    public Date getLatestLoginDate() {
-        return latestLoginDate;
+    public Date getLatestLoginDateTime() {
+        return latestLoginDateTime;
     }
 
-    public void setLatestLoginDate(Date latestLoginDate) {
-        this.latestLoginDate = latestLoginDate;
+    public void setLatestLoginDateTime(Date latestLoginDateTime) {
+        this.latestLoginDateTime = latestLoginDateTime;
     }
 
     public Date getModifyDateTime() {

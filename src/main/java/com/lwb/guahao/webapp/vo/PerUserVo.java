@@ -35,6 +35,8 @@ public class PerUserVo {
 
     private String avatarPath; //头像物理存储路径
 
+    private String bankCard;//银行卡卡号
+
     /* ---------相对于 PerUser 新增的字段 -----------*/
     private String accountStatusName; //账户状态 参见：Constants.AccountStatus
 
@@ -79,6 +81,14 @@ public class PerUserVo {
         perUserVo.setLatestLoginDateTime(perUser.getLatestLoginDate() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(perUser.getLatestLoginDate()));
 
         return perUserVo;
+    }
+
+    public String getBankCard() {
+        return bankCard;
+    }
+
+    public void setBankCard(String bankCard) {
+        this.bankCard = bankCard;
     }
 
     public String getAreaCode() {

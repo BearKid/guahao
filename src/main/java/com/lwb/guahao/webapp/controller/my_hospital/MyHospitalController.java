@@ -60,7 +60,7 @@ public class MyHospitalController {
     public String baseInfo(HttpServletRequest request, Model model) {
         HospitalVo loginedHospital = loginService.getLoginedHospital(request);
         model.addAttribute("hospital", loginedHospital);
-        return "/../jsp-inc/my_hospital/baseInfo";
+        return "/inc/my_hospital/baseInfo";
     }
 
     @RequestMapping(value = "doctors")
@@ -79,7 +79,7 @@ public class MyHospitalController {
         model.addAttribute("deptClassCode", deptClassCode);
         model.addAttribute("deptClassName", OptionMap.deptClassMap.get(deptClassCode));
         model.addAttribute("accountName", accountName);
-        return "/../jsp-inc/my_hospital/doctors";
+        return "/inc/my_hospital/doctors";
     }
 
     /**
@@ -91,7 +91,7 @@ public class MyHospitalController {
      */
     @RequestMapping(value = "doctor/empty")
     public String emptyDoctor(HttpServletRequest request, Model model) {
-        return "/../jsp-inc/my_hospital/emptyDoctor";
+        return "/inc/my_hospital/emptyDoctor";
     }
 
     /**
@@ -160,12 +160,12 @@ public class MyHospitalController {
             model.addAttribute("doctorDailyScheduleQo", qoVo);
             model.addAttribute("doctorDailySchedulePaging", (Paging<DoctorDailyScheduleVo>) apiRet.getData());
             model.addAttribute("queryStringWithoutPn", pagingComponent.getQueryStringWithoutPn(request));
-            view = "/../jsp-inc/my_hospital/doctor/dailySchedules";
+            view = "/inc/my_hospital/doctor/dailySchedules";
         }
         model.addAttribute("ret", apiRet.getRet());
         model.addAttribute("msg", apiRet.getMsg());
-//        return view; TODO
-        return "/../jsp-inc/my_hospital/doctor/dailySchedules";
+        return view;
+//        return "/inc/my_hospital/doctor/dailySchedules";
     }
 
     /**

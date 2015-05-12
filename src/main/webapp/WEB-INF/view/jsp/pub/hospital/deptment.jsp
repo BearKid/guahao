@@ -8,8 +8,8 @@
 <!-- 医生列表 -->
 <div id="docotorBySearchPaging">
     <c:forEach items="${doctorList}" var="doctor">
-        <div class="doctor">
-            <%--<div class="avatar"><img src="${applicationScope.contextPath}${doctor.avatarPath}"/></div>--%>
+        <div class="clearfix doctor">
+            <div class="pull-left avatar"><img src="http://www.easyicon.net/api/resize_png_new.php?id=1096629&size=128"/></div>
             <div>
                 <div class="row1">
                     <a class="name" href="${applicationScope.contextPath}/doctor/${doctor.id}/detail" target="_blank">${doctor.name}</a>&nbsp;&nbsp;${doctor.deptClassName}&nbsp;&nbsp;

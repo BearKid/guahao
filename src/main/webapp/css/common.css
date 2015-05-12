@@ -10,6 +10,11 @@ body {
 a {
     outline: none;
 }
+a, span {
+    display: inline-block;
+    vertical-align: middle;
+
+}
 .sidebar {
     position: fixed;
     top: 51px;

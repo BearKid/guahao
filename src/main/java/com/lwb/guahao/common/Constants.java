@@ -40,5 +40,11 @@ public class Constants {
         public static final int ABSENCE = -1; //爽约未就诊
         public static final int CANCEL = -2; //取消预约
         public static final int EXPIRED = -3; //超过1小时未支付，订单过期。
+        public static final int CANCEL_REFUNDING = -2; //已取消预约，待退款
+    }
+
+    //患者用户黑名单-被禁原因
+    public class PerUserBanReason {
+        public static final int TOO_MUCH_CANCEL = 1;
     }
 }

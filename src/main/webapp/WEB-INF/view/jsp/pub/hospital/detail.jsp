@@ -10,6 +10,7 @@
 <html>
 <head>
     <jsp:include page="${applicationScope.jspIncPath}/headTagBody.jsp"/>
+    <link rel="stylesheet" href="${applicationScope.contextPath}/css/pub.css">
     <style>
         /*医院基本信息板块*/
         #hospitalSection {
@@ -113,8 +114,8 @@
 </jsp:include>
 <div class="container">
     <!-- 医院基本信息板块 -->
-    <div id="hospitalSection">
-        <%--<div class="doctorAvatar"><img src="${applicationScope.contextPath}${hospital.avatarPath}"/></div>--%>
+    <div id="hospitalSection" class="clearfix hospital">
+        <div class="pull-left avatar"><img src="http://www.easyicon.net/api/resize_png_new.php?id=500229&size=100"/></div>
         <div>
             <div class="row1">
                 <a class="name"

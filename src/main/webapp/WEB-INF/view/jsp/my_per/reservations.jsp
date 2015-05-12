@@ -1,5 +1,6 @@
 <%@ page import="com.lwb.guahao.common.model.Reservation" %>
 <%@ page import="com.lwb.guahao.common.Constants" %>
+<%@ page import="com.lwb.guahao.webapp.vo.ReservationVo" %>
 <%--
   User: Lu Weibiao
   Date: 2015/5/7 15:53
@@ -50,10 +51,11 @@
             <td>${reservation.doctorPerTimeSchedule.price}</td>
             <td id="orderStatusName-${reservation.id}" class="orderStatusName">${reservation.orderStatusName}</td>
             <td>${reservation.createDateTime}</td>
-            <td>
-                <c:set var="orderStatusCode" value="${reservation.orderStatusCode}" scope="request"/>
+            <td id="reservationOperations-${reservation.id}">
+                <c:set var="reservationTemp" value="${reservation}" scope="request"/>
                 <%
-                    Integer orderStatusCode = Integer.valueOf((String) request.getAttribute("orderStatusCode"));
+                    ReservationVo reservation = (ReservationVo)request.getAttribute("reservationTemp");
+                    Integer orderStatusCode = Integer.valueOf((String) reservation.getOrderStatusCode());
                 %>
 
                 <% if (orderStatusCode.equals(Constants.OrderStatus.UN_PAYED) || orderStatusCode.equals(Constants.OrderStatus.PAYED)){ %>
@@ -94,11 +96,11 @@
         var url = "${applicationScope.contextPath}/myPer/reservation/" + reservationId + "/cancel.json";
         getJsonByUrl(url,function(data){
             $ModalBox.open(data.msg);
-            if(data.ret = API_RET_SUCCESS){
+            if(data.ret === API_RET_SUCCESS){
                 setTimeout(function(){
                     $ModalBox.close();
                     $("#orderStatusName-" + reservationId).html("预约已取消");
-                    $this.hide();
+                    $("#reservationOperations-" + reservationId).html("-");
                 },1000);
             }
         });
@@ -110,12 +112,12 @@
         var url = "${applicationScope.contextPath}/myPer/reservation/" + reservationId + "/pay.json";
         getJsonByUrl(url,function(data){
             $ModalBox.open(data.msg);
-            if(data.ret = API_RET_SUCCESS){
+            if(data.ret === API_RET_SUCCESS){
                 setTimeout(function(){
                     $ModalBox.close();
                     $("#orderStatusName-" + reservationId).html("预约成功");
                     $this.hide();
-                },1000);
+                },2000);
             }
         });
     });

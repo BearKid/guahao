@@ -20,11 +20,11 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-2 col-sm-2 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li class="active"><a href="${applicationScope.contextPath}/myPer/index">基本信息</a></li>
-                <li><a id="jsShowReservations" href="#">预约管理</a></li>
-                <li><a href="#">账号安全</a></li>
+        <div class="col-xs-2 col-sm-2 col-md-2 sidebar" id="">
+            <ul class="nav nav-sidebar" id="nav-sidebar">
+                <li class="active item"><a href="${applicationScope.contextPath}/myPer/index">基本信息</a></li>
+                <li class="item"><a id="jsShowReservations" href="#">预约管理</a></li>
+                <li class="item"><a href="#">账号安全</a></li>
             </ul>
         </div>
         <div id="main" class="col-xs-10 col-xs-offset-2 col-sm-10 col-sm-offset-2 col-md-10 col-md-offset-2 main">
@@ -58,7 +58,10 @@
                 <dt>绑定邮箱</dt>
                 <dd>${perUser.email}</dd>
             </dl>
-
+            <dl class="dl-horizontal">
+                <dt>银行卡号</dt>
+                <dd>${perUser.bankCard}</dd>
+            </dl>
             <h1 class="page-header">账号信息</h1>
             <dl class="dl-horizontal">
                 <dt>账号状态</dt>
@@ -82,6 +85,10 @@
        var url = "${applicationScope.contextPath}/myPer/reservations";
         MyPerUser.loadHtmlByUrl(url);
     });
-
+    $("#nav-sidebar .item").click(function(){
+        $this = $(this);
+        $this.addClass("active");
+        $this.siblings().removeClass("active");
+    });
 </script>
 </html>

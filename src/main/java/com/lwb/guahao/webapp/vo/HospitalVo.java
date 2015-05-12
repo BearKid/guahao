@@ -42,6 +42,8 @@ public class HospitalVo {
 
     private String modifyDateTime; //Hospital被修改的日期时间
 
+    private String bankCard;//银行卡卡号
+
     /*----------相较于Hospital 新增的字段-----------*/
     private String accountStatusName; //账户状态-名称 参见：Constants.AccountStatus
 
@@ -66,6 +68,14 @@ public class HospitalVo {
         hospitalVo.setModifyDateTime(hospital.getModifyDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(hospital.getModifyDateTime()));
         hospitalVo.setLatestLoginDateTime(hospital.getLatestLoginDateTime() == null ? "未知" : DateUtils.yearMonthDayTimeFormatter.format(hospital.getLatestLoginDateTime()));
         return hospitalVo;
+    }
+
+    public String getBankCard() {
+        return bankCard;
+    }
+
+    public void setBankCard(String bankCard) {
+        this.bankCard = bankCard;
     }
 
     public String getAccountStatusCode() {

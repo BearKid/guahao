@@ -17,6 +17,10 @@
             <mvc:mapping path="/myHospital/**"/>
             <ref bean="myHospitalInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/myPer/**"/>
+            <ref bean="myPerUserInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
     <!-- 文件上传处理 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

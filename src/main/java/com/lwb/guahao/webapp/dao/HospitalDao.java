@@ -44,6 +44,11 @@ public class HospitalDao extends BaseHibernateDao<Hospital>{
         return (Hospital)unique(hql, params);
     }
 
+    /**
+     * 公共搜索页的搜索条件查询医院分页
+     * @param searchQo
+     * @return
+     */
     public Paging<Hospital> getHospitalPagingBy(SearchQo searchQo) {
         Integer pn = searchQo.getPn();
         if(pn == null){
