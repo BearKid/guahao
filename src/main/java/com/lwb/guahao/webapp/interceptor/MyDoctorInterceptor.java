@@ -2,6 +2,7 @@ package com.lwb.guahao.webapp.interceptor;
 
 import com.lwb.guahao.webapp.service.LoginService;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * User: Lu Weibiao
  * Date: 2015/5/12 13:30
  */
+@Component
 public class MyDoctorInterceptor implements HandlerInterceptor {
     private final static Logger logger = Logger.getLogger(MyDoctorInterceptor.class);
     @Resource
@@ -20,7 +22,7 @@ public class MyDoctorInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         boolean isLogined = loginService.isDoctorLogined(request);
-        logger.debug("hospital account is logined:" + isLogined);
+        logger.debug("doctor account is logined:" + isLogined);
         if(!isLogined){
             response.sendRedirect("/");
             return false;

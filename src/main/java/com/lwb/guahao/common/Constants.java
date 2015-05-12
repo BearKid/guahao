@@ -37,7 +37,7 @@ public class Constants {
         public static final int UN_PAYED  = 0; //已下单，等待支付
         public static final int PAYED = 1; //已支付，待应约
         public static final int PRESENT = 2; //应约完成就诊
-        public static final int ABSENCE = -1; //爽约未就诊
+        public static final int ABSENT = -1; //爽约未就诊
         public static final int CANCEL = -2; //取消预约
         public static final int EXPIRED = -3; //超过1小时未支付，订单过期。
         public static final int CANCEL_REFUNDING = -2; //已取消预约，待退款

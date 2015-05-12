@@ -2,6 +2,7 @@ package com.lwb.guahao.webapp.vo;
 
 import com.lwb.guahao.common.model.Doctor;
 import com.lwb.guahao.common.option.OptionMap;
+import com.lwb.guahao.common.option.util.SexUtil;
 import com.lwb.guahao.common.util.lang.DateUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -60,6 +61,7 @@ public class DoctorVo {
         doctorVo.setId(doctor.getId() == null ? null : doctor.getId().toString());
         doctorVo.setAccountStatusCode(doctor.getAccountStatusCode() == null ? null : doctor.getAccountStatusCode().toString());
         doctorVo.setPrice(doctor.getPrice() == null ? null : doctor.getPrice().toString());
+        doctorVo.setSex(doctor.getSex() == null ? "未知" : SexUtil.getSexName(doctor.getSex()));
         doctorVo.setAge(doctor.getAge() == null ? null : doctor.getAge().toString());
         doctorVo.setDeptClassCode(doctor.getDeptClassCode() == null ? null : doctor.getDeptClassCode().toString());
         doctorVo.setHospitalId(doctor.getHospitalId() == null ? null : doctor.getHospitalId().toString());

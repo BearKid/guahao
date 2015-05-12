@@ -4,6 +4,8 @@ import com.lwb.guahao.common.util.lang.DateUtils;
 import com.lwb.guahao.common.model.DoctorPerTimeSchedule;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
+
 /**
  * @autor: Lu Weibiao
  * Date: 2015/3/23 21:34
@@ -15,12 +17,13 @@ public class DoctorPerTimeScheduleVo {
 
     private Integer totalSource; //号源总数
 
-    Integer oddSource; //剩余号源数
+    private Integer oddSource; //剩余号源数
 
     private Integer doctorId;
     /*****相较于DoctorPerTimeSchedule 有差异的字段*****/
     private String startTime; //开始时间*
     private String endTime; //结束时间*
+    private List<ReservationVo> reservationList;
 
     public static DoctorPerTimeScheduleVo parse(DoctorPerTimeSchedule doctorPerTimeSchedule){
         DoctorPerTimeScheduleVo vo = new DoctorPerTimeScheduleVo();
@@ -85,5 +88,13 @@ public class DoctorPerTimeScheduleVo {
 
     public void setDoctorId(Integer doctorId) {
         this.doctorId = doctorId;
+    }
+
+    public List<ReservationVo> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<ReservationVo> reservationList) {
+        this.reservationList = reservationList;
     }
 }

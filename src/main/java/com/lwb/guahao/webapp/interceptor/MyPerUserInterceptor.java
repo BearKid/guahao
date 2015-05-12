@@ -22,7 +22,7 @@ public class MyPerUserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         boolean isLogined = loginService.isPerUserLogined(request);
-        logger.debug("hospital account is logined:" + isLogined);
+        logger.debug("perUser account is logined:" + isLogined);
         if(!isLogined){
             response.sendRedirect("/");
             return false;

@@ -5,7 +5,6 @@ import com.lwb.guahao.common.Constants;
 import com.lwb.guahao.common.Paging;
 import com.lwb.guahao.common.model.*;
 import com.lwb.guahao.common.qo.ReservationQo;
-import com.lwb.guahao.common.qo.util.PerUserBanQo;
 import com.lwb.guahao.common.util.lang.DateUtils;
 import com.lwb.guahao.webapp.dao.*;
 import com.lwb.guahao.webapp.vo.DoctorPerTimeScheduleVo;
@@ -69,7 +68,7 @@ public class ReservationService {
         ReservationQo reservationQo = new ReservationQo();
         reservationQo.setPerUserId(perUserId);
         reservationQo.setDoctorPerTimeScheduleId(doctorPerTimeScheduleId);
-        reservationQo.setOrderStatusCodeIn(new Integer[]{Constants.OrderStatus.UN_PAYED,Constants.OrderStatus.PAYED, Constants.OrderStatus.PRESENT, Constants.OrderStatus.ABSENCE});
+        reservationQo.setOrderStatusCodeIn(new Integer[]{Constants.OrderStatus.UN_PAYED, Constants.OrderStatus.PAYED, Constants.OrderStatus.PRESENT, Constants.OrderStatus.ABSENT});
         reservationQo.setPn(1);
         reservationQo.setPageSize(1);
         if (reservationDao.existsBy(reservationQo)) {
@@ -347,6 +346,22 @@ public class ReservationService {
         Paging<ReservationVo> reservationVoPaging = new Paging<ReservationVo>(reservationVoList, reservationPaging.getPn(), reservationPaging.getPageSize(), reservationPaging.getTotalSize());
         apiRet.setRet(ApiRet.RET_SUCCESS);
         apiRet.setData(reservationVoPaging);
+        return apiRet;
+    }
+
+    /**
+     * 更新指定预约记录为指定的状态
+     * @param reservationId
+     * @return
+     */
+    public ApiRet updateReservationOrderStatus(Integer reservationId, Integer orderStatus) {
+        ApiRet apiRet = new ApiRet();
+        Reservation reservation = reservationDao.get(reservationId);
+        reservation.setOrderStatusCode(orderStatus);
+        reservationDao.update(reservation);
+
+        apiRet.setRet(ApiRet.RET_SUCCESS);
+        apiRet.setMsg("成功更新预约记录的状态");
         return apiRet;
     }
 }
